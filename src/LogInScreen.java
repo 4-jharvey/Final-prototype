@@ -57,7 +57,7 @@ public class LogInScreen extends javax.swing.JFrame {
         getContentPane().add(NumPadText, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 90));
 
         Delete.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        Delete.setText("Del");
+        Delete.setText("DEL");
         Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteActionPerformed(evt);
@@ -75,7 +75,7 @@ public class LogInScreen extends javax.swing.JFrame {
         getContentPane().add(Btn0, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 90, 90));
 
         Enter.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        Enter.setText("Enter");
+        Enter.setText("OK");
         Enter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EnterActionPerformed(evt);
@@ -181,11 +181,16 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_EnterActionPerformed
 
     private void Btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn0ActionPerformed
-        // TODO add your handling code here:
+        EnterNumbers("0");
     }//GEN-LAST:event_Btn0ActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        // TODO add your handling code here:
+        
+        String Delete = null;
+        
+        if(NumPadText.getText().length() > 0){
+            StringBuilder sb = new StringBuilder(NumPadText.getText());
+        }
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void Btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn3ActionPerformed
