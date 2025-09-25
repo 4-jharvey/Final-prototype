@@ -55,6 +55,7 @@ public class LogInScreen extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         NumPadText.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        NumPadText.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         NumPadText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NumPadTextActionPerformed(evt);
