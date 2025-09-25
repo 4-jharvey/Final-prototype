@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -41,6 +44,7 @@ public class LogInScreen extends javax.swing.JFrame {
         Btn7 = new javax.swing.JButton();
         Btn8 = new javax.swing.JButton();
         Btn9 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -165,8 +169,9 @@ public class LogInScreen extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Btn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 90, 90));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 500));
 
-        pack();
+        setBounds(0, 0, 347, 541);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -182,7 +187,12 @@ public class LogInScreen extends javax.swing.JFrame {
         String Ans = NumPadText.getText();
         
         if(Ans.equals(Password)){
-            
+            HomePage Home = new HomePage();
+            this.dispose();
+            Home.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Incorrect, please try again");
         }
     }//GEN-LAST:event_EnterActionPerformed
 
@@ -291,5 +301,6 @@ public class LogInScreen extends javax.swing.JFrame {
     private javax.swing.JButton Delete;
     private javax.swing.JButton Enter;
     private javax.swing.JTextField NumPadText;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
