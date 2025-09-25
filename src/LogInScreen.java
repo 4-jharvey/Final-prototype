@@ -13,6 +13,8 @@ public class LogInScreen extends javax.swing.JFrame {
     /**
      * Creates new form LogInScreen
      */
+    
+    String Password = "4572";
     public LogInScreen() {
         initComponents();
     }
@@ -177,7 +179,11 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentAdded
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
-        // TODO add your handling code here:
+        String Ans = NumPadText.getText();
+        
+        if(Ans.equals(Password)){
+            
+        }
     }//GEN-LAST:event_EnterActionPerformed
 
     private void Btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn0ActionPerformed
@@ -190,6 +196,9 @@ public class LogInScreen extends javax.swing.JFrame {
         
         if(NumPadText.getText().length() > 0){
             StringBuilder sb = new StringBuilder(NumPadText.getText());
+            sb.deleteCharAt(NumPadText.getText().length() - 1);
+            Delete = sb.toString();
+            NumPadText.setText(Delete);
         }
     }//GEN-LAST:event_DeleteActionPerformed
 
