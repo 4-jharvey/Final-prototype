@@ -45,6 +45,7 @@ public class LogInScreen extends javax.swing.JFrame {
         Btn8 = new javax.swing.JButton();
         Btn9 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        Registration = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -172,7 +173,16 @@ public class LogInScreen extends javax.swing.JFrame {
         getContentPane().add(Btn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 90, 90));
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 500));
 
-        setBounds(0, 0, 347, 541);
+        Registration.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Registration.setText("Register as a player or Team");
+        Registration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrationActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Registration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 320, 70));
+
+        setBounds(0, 0, 347, 599);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -253,6 +263,12 @@ public class LogInScreen extends javax.swing.JFrame {
         
     }//GEN-LAST:event_NumPadTextActionPerformed
 
+    private void RegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrationActionPerformed
+        Registration Register = new Registration();
+        this.dispose();
+        Registration.setVisible(true);
+    }//GEN-LAST:event_RegistrationActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -302,6 +318,7 @@ public class LogInScreen extends javax.swing.JFrame {
     private javax.swing.JButton Delete;
     private javax.swing.JButton Enter;
     private javax.swing.JTextField NumPadText;
+    private javax.swing.JButton Registration;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
