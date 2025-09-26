@@ -26,17 +26,47 @@ public class HomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        SignOut = new javax.swing.JButton();
+        CreateTournament = new javax.swing.JButton();
+        LoadTournament = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Homepage");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 70));
+        SignOut.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        SignOut.setText("Sign out");
+        SignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignOutActionPerformed(evt);
+            }
+        });
+        getContentPane().add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 200, 70));
 
-        setBounds(0, 0, 804, 619);
+        CreateTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        CreateTournament.setText("Create Tournament");
+        getContentPane().add(CreateTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 490, 90));
+
+        LoadTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        LoadTournament.setText("Load Tournament");
+        LoadTournament.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoadTournamentActionPerformed(evt);
+            }
+        });
+        getContentPane().add(LoadTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 490, 90));
+
+        setBounds(0, 0, 618, 372);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void LoadTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadTournamentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LoadTournamentActionPerformed
+
+    private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
+        LogInScreen LogIn = new LogInScreen();
+        this.dispose();
+        LogIn.setVisible(true);
+    }//GEN-LAST:event_SignOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -74,6 +104,8 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton CreateTournament;
+    private javax.swing.JButton LoadTournament;
+    private javax.swing.JButton SignOut;
     // End of variables declaration//GEN-END:variables
 }
