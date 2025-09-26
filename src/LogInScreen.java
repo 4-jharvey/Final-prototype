@@ -44,8 +44,8 @@ public class LogInScreen extends javax.swing.JFrame {
         Btn7 = new javax.swing.JButton();
         Btn8 = new javax.swing.JButton();
         Btn9 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         Registration = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addContainerListener(new java.awt.event.ContainerAdapter() {
@@ -171,7 +171,6 @@ public class LogInScreen extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Btn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 90, 90));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 500));
 
         Registration.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Registration.setText("Register as a player or Team");
@@ -181,6 +180,7 @@ public class LogInScreen extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Registration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 320, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 560));
 
         setBounds(0, 0, 347, 599);
     }// </editor-fold>//GEN-END:initComponents
