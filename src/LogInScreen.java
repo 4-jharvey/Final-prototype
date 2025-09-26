@@ -266,7 +266,7 @@ public class LogInScreen extends javax.swing.JFrame {
     private void RegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrationActionPerformed
         Registration Register = new Registration();
         this.dispose();
-        Registration.setVisible(true);
+        Register.setVisible(true);
     }//GEN-LAST:event_RegistrationActionPerformed
 
     /**
