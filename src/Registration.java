@@ -26,17 +26,77 @@ public class Registration extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        SchoolName = new javax.swing.JTextField();
+        Username = new javax.swing.JTextField();
+        NumOfPlayers = new javax.swing.JTextField();
+        Email = new javax.swing.JTextField();
+        Register = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Registration Form");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 50));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("School name (optional)");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 210, 50));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("Team name/Username");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 50));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setText("Number of players");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 170, 50));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setText("Contact Email");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 150, 50));
+
+        SchoolName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SchoolNameActionPerformed(evt);
+            }
+        });
+        getContentPane().add(SchoolName, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 410, 70));
+
+        Username.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                UsernameAncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        Username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsernameActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 340, 70));
+        getContentPane().add(NumOfPlayers, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 340, 70));
+        getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 430, 70));
+
+        Register.setText("Register");
+        getContentPane().add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 310, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SchoolNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SchoolNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SchoolNameActionPerformed
+
+    private void UsernameAncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_UsernameAncestorMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsernameAncestorMoved
+
+    private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -74,6 +134,14 @@ public class Registration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField Email;
+    private javax.swing.JTextField NumOfPlayers;
+    private javax.swing.JButton Register;
+    private javax.swing.JTextField SchoolName;
+    private javax.swing.JTextField Username;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }
