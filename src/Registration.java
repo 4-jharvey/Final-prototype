@@ -35,6 +35,7 @@ public class Registration extends javax.swing.JFrame {
         NumOfPlayers = new javax.swing.JTextField();
         Email = new javax.swing.JTextField();
         Register = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -81,7 +82,13 @@ public class Registration extends javax.swing.JFrame {
         getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 430, 70));
 
         Register.setText("Register");
+        Register.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegisterActionPerformed(evt);
+            }
+        });
         getContentPane().add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 310, 50));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -97,6 +104,17 @@ public class Registration extends javax.swing.JFrame {
     private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UsernameActionPerformed
+
+    private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+        String Name = Username.getText();
+        String PlayerAmount = NumOfPlayers.getText();
+        String Mail = Email.getText();
+        
+        if(Name.equals(" ") && PlayerAmount.equals(" ") && Mail.equals(" ")){
+            
+            
+        }
+    }//GEN-LAST:event_RegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,5 +161,6 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
