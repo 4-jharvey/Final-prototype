@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -26,6 +29,9 @@ public class Registration extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -35,7 +41,9 @@ public class Registration extends javax.swing.JFrame {
         NumOfPlayers = new javax.swing.JTextField();
         Email = new javax.swing.JTextField();
         Register = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+
+        jPanel1.add(jPanel3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -81,6 +89,7 @@ public class Registration extends javax.swing.JFrame {
         getContentPane().add(NumOfPlayers, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 340, 70));
         getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 430, 70));
 
+        Register.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Register.setText("Register");
         Register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,7 +97,7 @@ public class Registration extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 310, 50));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 380));
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -112,7 +121,12 @@ public class Registration extends javax.swing.JFrame {
         
         if(Name.equals(" ") && PlayerAmount.equals(" ") && Mail.equals(" ")){
             
-            
+            JOptionPane.showMessageDialog(null,"Please fill in the required parts of the form");
+        }
+        else{
+            CompletionScreen Completion = new CompletionScreen();
+            this.dispose();
+            Completion.setVisible(true);
         }
     }//GEN-LAST:event_RegisterActionPerformed
 
@@ -162,5 +176,8 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }
