@@ -26,19 +26,37 @@ public class CompletionScreen extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jLabel1 = new javax.swing.JLabel();
+        Ok = new javax.swing.JButton();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Thank you for registering for this tournament.");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 150));
+
+        Ok.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        Ok.setText("Ok");
+        Ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OkActionPerformed(evt);
+            }
+        });
+        add(Ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 340, 60));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OkActionPerformed
+        
+        HomePage Home = new HomePage();
+        
+        Home.setVisible(true);
+    }//GEN-LAST:event_OkActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Ok;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
 }
