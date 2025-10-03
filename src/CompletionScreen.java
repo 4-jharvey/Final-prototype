@@ -49,9 +49,9 @@ public class CompletionScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        HomePage Home = new HomePage();
+        LogInScreen LogIn = new LogInScreen();
         this.dispose();
-        Home.setVisible(true);
+        LogIn.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
