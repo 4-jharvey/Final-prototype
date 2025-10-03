@@ -34,7 +34,7 @@ public class CompletionScreen extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Thank you for completeing this registration form, You are now fully registered");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 400, 80));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 70));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("OK");
@@ -43,13 +43,15 @@ public class CompletionScreen extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 290, 60));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 70, 290, 60));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        HomePage Home = new HomePage();
+        this.dispose();
+        Home.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
