@@ -44,6 +44,11 @@ public class HomePage extends javax.swing.JFrame {
 
         CreateTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         CreateTournament.setText("Create Tournament");
+        CreateTournament.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateTournamentActionPerformed(evt);
+            }
+        });
         getContentPane().add(CreateTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 490, 90));
 
         LoadTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -59,7 +64,9 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadTournamentActionPerformed
-        // TODO add your handling code here:
+        LoadTournament History = new LoadTournament();
+        this.dispose();
+        History.setVisible(true);
     }//GEN-LAST:event_LoadTournamentActionPerformed
 
     private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
@@ -67,6 +74,12 @@ public class HomePage extends javax.swing.JFrame {
         this.dispose();
         LogIn.setVisible(true);
     }//GEN-LAST:event_SignOutActionPerformed
+
+    private void CreateTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateTournamentActionPerformed
+        CreateTournament Tournament = new CreateTournament();
+        this.dispose();
+        Tournament.setVisible(true);
+    }//GEN-LAST:event_CreateTournamentActionPerformed
 
     /**
      * @param args the command line arguments
