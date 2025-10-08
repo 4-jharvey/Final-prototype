@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -191,6 +194,9 @@ public class CreateTournament extends javax.swing.JFrame {
             Tournament Tourny = new Tournament();
             this.dispose();
             Tourny.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Please complete the setting for this tournament.");
         }
         
     }//GEN-LAST:event_CreateTournamentActionPerformed
