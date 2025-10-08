@@ -32,14 +32,15 @@ public class CreateTournament extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        TournamentName = new javax.swing.JTextField();
+        NumOfTeams = new javax.swing.JTextField();
+        GamePlayed = new javax.swing.JComboBox<>();
+        PrizePoolDistribution = new javax.swing.JFormattedTextField();
+        DateOfTournament = new javax.swing.JFormattedTextField();
+        PrizePool = new javax.swing.JFormattedTextField();
+        CreateTournament = new javax.swing.JButton();
+        BackToMenu = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -74,104 +75,125 @@ public class CreateTournament extends javax.swing.JFrame {
         jLabel6.setToolTipText("");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 210, 50));
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jTextField2.setToolTipText("");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        TournamentName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        TournamentName.setToolTipText("");
+        TournamentName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                TournamentNameActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 340, 50));
+        getContentPane().add(TournamentName, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 340, 50));
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jTextField3.setToolTipText("");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        NumOfTeams.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        NumOfTeams.setToolTipText("");
+        NumOfTeams.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                NumOfTeamsActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 360, 50));
+        getContentPane().add(NumOfTeams, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 360, 50));
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setToolTipText("");
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        GamePlayed.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        GamePlayed.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        GamePlayed.setToolTipText("");
+        GamePlayed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                GamePlayedActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 340, 30));
+        getContentPane().add(GamePlayed, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 340, 30));
 
-        jFormattedTextField1.setText("1st: £     2nd: £        3rd: £");
-        jFormattedTextField1.setToolTipText("");
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+        PrizePoolDistribution.setText("1st: £     2nd: £        3rd: £");
+        PrizePoolDistribution.setToolTipText("");
+        PrizePoolDistribution.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
+                PrizePoolDistributionActionPerformed(evt);
             }
         });
-        getContentPane().add(jFormattedTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 360, 50));
+        getContentPane().add(PrizePoolDistribution, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 360, 50));
 
-        jFormattedTextField2.setText("/  /");
-        jFormattedTextField2.setToolTipText("");
-        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
+        DateOfTournament.setText("/  /");
+        DateOfTournament.setToolTipText("");
+        DateOfTournament.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField2ActionPerformed(evt);
+                DateOfTournamentActionPerformed(evt);
             }
         });
-        getContentPane().add(jFormattedTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 360, 50));
+        getContentPane().add(DateOfTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, 360, 50));
 
-        jFormattedTextField3.setText("£");
-        jFormattedTextField3.setToolTipText("");
-        jFormattedTextField3.addActionListener(new java.awt.event.ActionListener() {
+        PrizePool.setText("£");
+        PrizePool.setToolTipText("");
+        PrizePool.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField3ActionPerformed(evt);
+                PrizePoolActionPerformed(evt);
             }
         });
-        getContentPane().add(jFormattedTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 360, 50));
+        getContentPane().add(PrizePool, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 360, 50));
 
-        jButton1.setText("Create tournament");
-        jButton1.setToolTipText("");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 330, 50));
-
-        jButton2.setText("Back to menu");
-        jButton2.setToolTipText("");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        CreateTournament.setText("Create tournament");
+        CreateTournament.setToolTipText("");
+        CreateTournament.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                CreateTournamentActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 290, 50));
+        getContentPane().add(CreateTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, 330, 50));
+
+        BackToMenu.setText("Back to menu");
+        BackToMenu.setToolTipText("");
+        BackToMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackToMenuActionPerformed(evt);
+            }
+        });
+        getContentPane().add(BackToMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 290, 50));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 410));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void TournamentNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TournamentNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_TournamentNameActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void NumOfTeamsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumOfTeamsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_NumOfTeamsActionPerformed
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+    private void PrizePoolDistributionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrizePoolDistributionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+    }//GEN-LAST:event_PrizePoolDistributionActionPerformed
 
-    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
+    private void DateOfTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DateOfTournamentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
+    }//GEN-LAST:event_DateOfTournamentActionPerformed
 
-    private void jFormattedTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField3ActionPerformed
+    private void PrizePoolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrizePoolActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField3ActionPerformed
+    }//GEN-LAST:event_PrizePoolActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void BackToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuActionPerformed
+        HomePage Home = new HomePage();
+        this.dispose();
+        Home.setVisible(true);
+    }//GEN-LAST:event_BackToMenuActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void GamePlayedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GamePlayedActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_GamePlayedActionPerformed
+
+    private void CreateTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateTournamentActionPerformed
+        String Name = TournamentName.getText();
+        String Date = DateOfTournament.getText();
+        String NumOfPlayers = NumOfTeams.getText();
+        
+        if(Name.equals("") && Date.equals("") && NumOfPlayers.equals("")){
+            Tournament Tourny = new Tournament();
+            this.dispose();
+            Tourny.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_CreateTournamentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,19 +231,20 @@ public class CreateTournament extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JButton BackToMenu;
+    private javax.swing.JButton CreateTournament;
+    private javax.swing.JFormattedTextField DateOfTournament;
+    private javax.swing.JComboBox<String> GamePlayed;
+    private javax.swing.JTextField NumOfTeams;
+    private javax.swing.JFormattedTextField PrizePool;
+    private javax.swing.JFormattedTextField PrizePoolDistribution;
+    private javax.swing.JTextField TournamentName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
