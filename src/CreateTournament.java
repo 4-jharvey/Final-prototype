@@ -191,12 +191,15 @@ public class CreateTournament extends javax.swing.JFrame {
         String NumOfPlayers = NumOfTeams.getText();
         
         if(Name.equals("") && Date.equals("") && NumOfPlayers.equals("")){
+            
+            JOptionPane.showMessageDialog(null,"Please complete the setting for this tournament.");
+            
+        }
+        else{
+            
             Tournament Tourny = new Tournament();
             this.dispose();
             Tourny.setVisible(true);
-        }
-        else{
-            JOptionPane.showMessageDialog(null,"Please complete the setting for this tournament.");
         }
         
     }//GEN-LAST:event_CreateTournamentActionPerformed
