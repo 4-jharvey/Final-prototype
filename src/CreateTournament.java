@@ -186,11 +186,11 @@ public class CreateTournament extends javax.swing.JFrame {
     }//GEN-LAST:event_GamePlayedActionPerformed
 
     private void CreateTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateTournamentActionPerformed
-        String Name = TournamentName.getText();
+        String TournyName = TournamentName.getText();
         String Date = DateOfTournament.getText();
         String NumOfPlayers = NumOfTeams.getText();
         
-        if(Name.equals("") && Date.equals("") && NumOfPlayers.equals("")){
+        if(TournyName.equals("") && Date.equals("") && NumOfPlayers.equals("")){
             
             JOptionPane.showMessageDialog(null,"Please complete the setting for this tournament.");
             
