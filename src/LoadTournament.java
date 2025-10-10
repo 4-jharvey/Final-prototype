@@ -29,8 +29,8 @@ public class LoadTournament extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        LoadData = new javax.swing.JButton();
+        BackToMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -44,32 +44,34 @@ public class LoadTournament extends javax.swing.JFrame {
         jLabel3.setText("Tournament Name");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 140, 40));
 
-        jButton1.setText("Load Data");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        LoadData.setText("Load Data");
+        LoadData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                LoadDataActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 120, 50));
+        getContentPane().add(LoadData, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 360, 120, 50));
 
-        jButton2.setText("Back to menu");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BackToMenu.setText("Back to menu");
+        BackToMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BackToMenuActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 300, 120, 50));
+        getContentPane().add(BackToMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 300, 120, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void LoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_LoadDataActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void BackToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuActionPerformed
+        HomePage Home = new HomePage();
+        this.dispose();
+        Home.setVisible(true);
+    }//GEN-LAST:event_BackToMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,8 +109,8 @@ public class LoadTournament extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton BackToMenu;
+    private javax.swing.JButton LoadData;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
