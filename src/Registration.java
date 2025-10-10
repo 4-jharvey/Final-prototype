@@ -86,6 +86,12 @@ public class Registration extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 340, 70));
+
+        NumOfPlayers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NumOfPlayersActionPerformed(evt);
+            }
+        });
         getContentPane().add(NumOfPlayers, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 340, 70));
         getContentPane().add(Email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, 430, 70));
 
@@ -129,6 +135,10 @@ public class Registration extends javax.swing.JFrame {
             Completion.setVisible(true);
         }
     }//GEN-LAST:event_RegisterActionPerformed
+
+    private void NumOfPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumOfPlayersActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NumOfPlayersActionPerformed
 
     /**
      * @param args the command line arguments

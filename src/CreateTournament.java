@@ -189,9 +189,9 @@ public class CreateTournament extends javax.swing.JFrame {
         
         String TournyName = TournamentName.getText();
         String Date = DateOfTournament.getText();
-        String NumOfPlayers = NumOfTeams.getText();
+        String NumberOfPlayers = NumOfTeams.getText();
         
-        if(TournyName.equals("") && Date.equals("") && NumOfPlayers.equals("")){
+        if(TournyName.equals("") || Date.equals("") || NumberOfPlayers.equals("")){
             
             JOptionPane.showMessageDialog(null,"Please complete the settings for this tournament.");
             
