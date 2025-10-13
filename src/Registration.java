@@ -125,7 +125,7 @@ public class Registration extends javax.swing.JFrame {
         String PlayerAmount = NumOfPlayers.getText();
         String Mail = Email.getText();
         
-        if(Name.equals("") && PlayerAmount.equals("") && Mail.equals("")){
+        if(Name.equals("") || PlayerAmount.equals("") || Mail.equals("")){
             
                JOptionPane.showMessageDialog(null,"Please fill in the required parts of the form");
         }

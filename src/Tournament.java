@@ -57,7 +57,7 @@ public class Tournament extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        String Name = ;
+        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**

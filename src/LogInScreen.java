@@ -179,10 +179,10 @@ public class LogInScreen extends javax.swing.JFrame {
                 RegistrationActionPerformed(evt);
             }
         });
-        getContentPane().add(Registration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 320, 70));
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 560));
+        getContentPane().add(Registration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 320, 70));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 600));
 
-        setBounds(0, 0, 347, 599);
+        setBounds(0, 0, 347, 607);
     }// </editor-fold>//GEN-END:initComponents
 
     
