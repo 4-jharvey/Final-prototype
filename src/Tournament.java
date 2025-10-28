@@ -1,14 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
 /**
  *
- * @author 4-JHarvey
+ * @author jwhar
  */
 public class Tournament extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Tournament.class.getName());
 
     /**
      * Creates new form Tournament
@@ -26,39 +27,57 @@ public class Tournament extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        GoToSchedule = new javax.swing.JButton();
+        GoToLeadboard = new javax.swing.JButton();
+        GoToMatch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        GoToSchedule.setText("To Schedule");
+        GoToSchedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                GoToScheduleActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 350, 40));
+        getContentPane().add(GoToSchedule, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 460, 270, 60));
+
+        GoToLeadboard.setText("To Leaderboard");
+        GoToLeadboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GoToLeadboardActionPerformed(evt);
+            }
+        });
+        getContentPane().add(GoToLeadboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 270, 60));
+
+        GoToMatch.setText("To Match");
+        GoToMatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GoToMatchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(GoToMatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, 270, 60));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void GoToLeadboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToLeadboardActionPerformed
+        Leaderboard Board = new Leaderboard();
+        this.dispose();
+        Board.setVisible(true);
+    }//GEN-LAST:event_GoToLeadboardActionPerformed
+
+    private void GoToMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToMatchActionPerformed
+        Duel Match = new Duel ();
+        this.dispose();
+        Match.setVisible(true);
+    }//GEN-LAST:event_GoToMatchActionPerformed
+
+    private void GoToScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToScheduleActionPerformed
+        Schedule Timings = new Schedule();
+        this.dispose();
+        Timings.setVisible(true);
+    }//GEN-LAST:event_GoToScheduleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -76,29 +95,18 @@ public class Tournament extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DatabaseConnection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DatabaseConnection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DatabaseConnection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DatabaseConnection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Tournament().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Tournament().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton GoToLeadboard;
+    private javax.swing.JButton GoToMatch;
+    private javax.swing.JButton GoToSchedule;
     // End of variables declaration//GEN-END:variables
 }
