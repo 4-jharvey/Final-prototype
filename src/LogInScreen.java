@@ -1,6 +1,5 @@
 
 import javax.swing.JOptionPane;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -185,7 +184,6 @@ public class LogInScreen extends javax.swing.JFrame {
         setBounds(0, 0, 347, 607);
     }// </editor-fold>//GEN-END:initComponents
 
-    
     private void EnterNumbers(String Num){
         String Nums = NumPadText.getText() + Num;
         NumPadText.setText(Nums);
