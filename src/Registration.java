@@ -1,5 +1,6 @@
-
+import java.sql.*;
 import javax.swing.JOptionPane;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -134,6 +135,32 @@ public class Registration extends javax.swing.JFrame {
             this.dispose();
             Completion.setVisible(true);
         }
+        
+        
+        int randNum = (int)(Math.random()* 1000000001);
+        String teamID = Integer.toString(randNum);
+        
+        try(Connection conn = DatabaseConnection.getConnection()){
+            String sql = "INSERT INTO Team(TeamID, TeamName, email) VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, teamID);
+            ps.setString(2, Name);
+            ps.setString(3, Mail);
+            
+            
+            int rowsInserted = ps.executeUpdate();
+            
+            if (rowsInserted > 0){
+                JOptionPane.showMessageDialog(null,"Tournament created Successfully");
+            }
+
+    }   catch (SQLException ex) {       
+            System.getLogger(Registration.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error in creation of tournament" + ex.getMessage());
+        }
+                  
     }//GEN-LAST:event_RegisterActionPerformed
 
     private void NumOfPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumOfPlayersActionPerformed
