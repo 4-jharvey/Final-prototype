@@ -1,6 +1,6 @@
 
-import javax.swing.JOptionPane;
-
+import javax.swing.*;
+import java.sql.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -204,6 +204,30 @@ public class CreateTournament extends javax.swing.JFrame {
             
         }
         
+        int randNum = (int)(Math.random()* 1000000001);
+        String tournamentID = Integer.toString(randNum);
+        
+        try(Connection conn = DatabaseConnection.getConnection()){
+            String sql = "INSERT INTO Tournament(TournnamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, tournamentID);
+            ps.setString(2, TournyName);
+            ps.setString(3, Date);
+            ps.setString(4, NumberOfPlayers);
+            
+            int rowsInserted = ps.executeUpdate();
+            
+            if (rowsInserted > 0){
+                JOptionPane.showMessageDialog(null,"Tournament created Successfully");
+            }
+            
+        } catch (SQLException ex) {
+            System.getLogger(CreateTournament.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error in creation of tournament" + ex.getMessage());
+        }
+            
     }//GEN-LAST:event_CreateTournamentActionPerformed
 
     /**

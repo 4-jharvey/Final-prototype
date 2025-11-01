@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class DatabaseConnection{
     
-    public static void main(String[] args){
-        Connection connect;
+    public static Connection getConnection() throws SQLException{
+        Connection connect = null;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             connect = DriverManager.getConnection(
@@ -22,5 +22,6 @@ public class DatabaseConnection{
         } catch (SQLException ex) {
             System.getLogger(DatabaseConnection.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
+        return connect;
     }
 }
