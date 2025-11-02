@@ -23,5 +23,6 @@ public class DatabaseConnection{
             System.getLogger(DatabaseConnection.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
         return connect;
+        
     }
 }
