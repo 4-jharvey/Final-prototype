@@ -59,7 +59,7 @@ public class BracketPanel extends JPanel{
     }
     
     @Override
-    protected void paintComponents(Graphics graphics){
+    public void paintComponents(Graphics graphics){
         super.paintComponents(graphics);
         drawBracket((Graphics2D) graphics);
     }
