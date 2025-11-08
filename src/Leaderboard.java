@@ -44,7 +44,7 @@ public class Leaderboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToBracketActionPerformed
-        Tournament Tourny = new Tournament();
+        Tournament Tourny = new Tournament(1);
         this.dispose();
         Tourny.setVisible(true);
     }//GEN-LAST:event_BackToBracketActionPerformed
