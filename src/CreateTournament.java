@@ -208,9 +208,9 @@ public class CreateTournament extends javax.swing.JFrame {
         int randNum = (int)(Math.random()* 1000000001);
         String tournamentID = Integer.toString(randNum);
         
-        try(Connection conn = DatabaseConnection.getConnection()){
+        try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO Tournament(TournnamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = connect.prepareStatement(sql);
             ps.setString(1, tournamentID);
             ps.setString(2, TournyName);
             ps.setString(3, Date);

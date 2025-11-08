@@ -140,9 +140,9 @@ public class Registration extends javax.swing.JFrame {
         int randNum = (int)(Math.random()* 1000000001);
         String teamID = Integer.toString(randNum);
         
-        try(Connection conn = DatabaseConnection.getConnection()){
+        try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO Team(TeamID, TeamName, email) VALUES (?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = connect.prepareStatement(sql);
             ps.setString(1, teamID);
             ps.setString(2, Name);
             ps.setString(3, Mail);

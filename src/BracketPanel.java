@@ -5,7 +5,7 @@ import java.util.*;
 
 public class BracketPanel extends JPanel{
     private int tournamentID;
-    private Map<Integer, List<Duel>> rounds = new HashMap <>();
+    private Map<Integer, java.util.List<Duel>> rounds = new HashMap <>();
     
     public BracketPanel(int tournamentID){
         this.tournamentID = tournamentID;
@@ -43,7 +43,7 @@ public class BracketPanel extends JPanel{
                 boolean winner = rs.getBoolean("Winner");
                 int round = rs.getInt("Round");
 
-                List<Duel> listOfMatches = rounds.get(round);
+                java.util.List<Duel> listOfMatches = rounds.get(round);
                 if(listOfMatches == null){
                     listOfMatches = new ArrayList<>();
                     rounds.put(round, listOfMatches);
@@ -95,7 +95,7 @@ public class BracketPanel extends JPanel{
         int NumOfRounds = rounds.size();
         
         for(int round = 1; round <= NumOfRounds; round++){
-            List<Duel> Duels = rounds.get(round);
+            java.util.List<Duel> Duels = rounds.get(round);
             if(Duels == null)continue;
             
             int spacingBetweenDuels = (int)(panelHeight / (Duels.size() + 1));
