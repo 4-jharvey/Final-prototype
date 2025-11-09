@@ -204,7 +204,7 @@ public class CreateTournament extends javax.swing.JFrame {
         String tournamentID = Integer.toString(TournamentID);
                 
         try(Connection connect = DatabaseConnection.getConnection()){
-            String sql = "INSERT INTO Tournament(TournnamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Tournament(TournamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql);
             ps.setString(1, tournamentID);
             ps.setString(2, TournyName);
