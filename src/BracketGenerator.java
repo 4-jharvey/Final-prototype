@@ -1,5 +1,6 @@
 import java.util.*;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 
 public class BracketGenerator {
@@ -21,6 +22,11 @@ public class BracketGenerator {
                 
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
         }
         

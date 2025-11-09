@@ -223,12 +223,14 @@ public class CreateTournament extends javax.swing.JFrame {
             
             
             
-        } catch (SQLException ex) {
-            System.getLogger(CreateTournament.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (Exception ex){
+        }catch(SQLException ex){
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error in creation of tournament" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.getMessage());
+        }catch(Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
+            
             
     }//GEN-LAST:event_CreateTournamentActionPerformed
 

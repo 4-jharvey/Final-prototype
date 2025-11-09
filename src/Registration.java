@@ -150,15 +150,12 @@ public class Registration extends javax.swing.JFrame {
             
             int rowsInserted = ps.executeUpdate();
             
-            if (rowsInserted > 0){
-                JOptionPane.showMessageDialog(null,"Tournament created Successfully");
-            }
-
-    }   catch (SQLException ex) {       
-            System.getLogger(Registration.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }   catch (SQLException ex) {       
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.getMessage());
         }  catch (Exception ex){
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error in creation of tournament" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
                   
     }//GEN-LAST:event_RegisterActionPerformed
