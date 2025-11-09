@@ -17,6 +17,8 @@ public class Schedule extends javax.swing.JFrame {
     public Schedule() {
         initComponents();
     }
+    
+    private int tournamentID;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +46,7 @@ public class Schedule extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToBracketActionPerformed
-        Tournament Tourny = new Tournament(1);
+        Tournament Tourny = new Tournament(tournamentID);
         this.dispose();
         Tourny.setVisible(true);
     }//GEN-LAST:event_BackToBracketActionPerformed

@@ -19,6 +19,8 @@ public class CreateTournament extends javax.swing.JFrame {
     public CreateTournament() {
         initComponents();
     }
+    
+        int TournamentID = (int)(Math.random()* 1000000001);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,19 +197,12 @@ public class CreateTournament extends javax.swing.JFrame {
         if(TournyName.equals("") || Date.equals("") || NumberOfPlayers.equals("")){
             
             JOptionPane.showMessageDialog(null,"Please complete the settings for this tournament.");
-            
+            return;
         }
-        else{
-            
-            Tournament Tourny = new Tournament();
-            this.dispose();
-            Tourny.setVisible(true);
-            
-        }
+
         
-        int randNum = (int)(Math.random()* 1000000001);
-        String tournamentID = Integer.toString(randNum);
-        
+        String tournamentID = Integer.toString(TournamentID);
+                
         try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO Tournament(TournnamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql);
@@ -220,7 +215,13 @@ public class CreateTournament extends javax.swing.JFrame {
             
             if (rowsInserted > 0){
                 JOptionPane.showMessageDialog(null,"Tournament created Successfully");
+                
+                Tournament tournament = new Tournament(TournamentID);
+                this.dispose();
+                tournament.setVisible(true);
             }
+            
+            
             
         } catch (SQLException ex) {
             System.getLogger(CreateTournament.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

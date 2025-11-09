@@ -76,11 +76,6 @@ public class Tournament extends javax.swing.JFrame {
         this.dispose();
         Timings.setVisible(true);
     }//GEN-LAST:event_GoToScheduleActionPerformed
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new Tournament(1).setVisible(true));
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GoToLeadboard;
     private javax.swing.JButton GoToMatch;
