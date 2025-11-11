@@ -20,8 +20,6 @@ public class CreateTournament extends javax.swing.JFrame {
         initComponents();
     }
     
-        int TournamentID = (int)(Math.random()* 1000000001);
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -199,24 +197,23 @@ public class CreateTournament extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Please complete the settings for this tournament.");
             return;
         }
-
-        
-        String tournamentID = Integer.toString(TournamentID);
                 
         try(Connection connect = DatabaseConnection.getConnection()){
-            String sql = "INSERT INTO Tournament(TournamentID, Name, Date, NumOfTeams) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO Tournament(Name, Date, NumOfTeams) VALUES (?, ?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql);
-            ps.setString(1, tournamentID);
-            ps.setString(2, TournyName);
-            ps.setString(3, Date);
-            ps.setString(4, NumberOfPlayers);
+            ps.setString(1, TournyName);
+            ps.setString(2, Date);
+            ps.setString(3, NumberOfPlayers);
+            ps.executeUpdate();
             
-            int rowsInserted = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
             
-            if (rowsInserted > 0){
+            if (rs.next()){
                 JOptionPane.showMessageDialog(null,"Tournament created Successfully");
                 
-                Tournament tournament = new Tournament(TournamentID);
+                int tournamentID = rs.getInt(1);
+                
+                Tournament tournament = new Tournament(tournamentID);
                 this.dispose();
                 tournament.setVisible(true);
             }

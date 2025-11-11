@@ -14,12 +14,20 @@ public class Tournament extends javax.swing.JFrame {
         this.tournamentID = tournamentID;
         initComponents();
         
-        BracketGenerator.generateBracket(tournamentID);
+        try{
+            BracketGenerator.generateBracket(tournamentID);
         
-        bracketPanel = new BracketPanel(tournamentID);
-        bracketPanel.setBounds(50, 30, 850, 400);
-        add(bracketPanel);
+            bracketPanel = new BracketPanel(tournamentID);
+            bracketPanel.setBounds(50, 30, 850, 400);
+            getContentPane().add(bracketPanel);
+            
+            System.out.print("Tournament created for " + tournamentID);
+        } catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
+        }
     }
+        
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
