@@ -15,7 +15,6 @@ public class DatabaseConnection{
                     "4-jharvey",
                     "Forget6-Building-Full"
             );
-            System.out.print(connect);
             
         } catch(ClassNotFoundException ex){
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE,null,ex);

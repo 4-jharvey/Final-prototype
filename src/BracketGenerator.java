@@ -39,10 +39,8 @@ public class BracketGenerator {
             
             Random Rand = new Random();
             
-              int randNum = (int)(Math.random()* 1000000001);
-              String MatchID = Integer.toString(randNum);
             
-            String insertDuel = "INSERT INTO Duel(MatchID, TournamentID, TeamA, TeamB, Round, Winner) VALUES (?, ?, ?, ?, ?, ?)";
+            String insertDuel = "INSERT INTO Duel(TournamentID, TeamA, TeamB, Round, Winner) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement psDuel = connect.prepareStatement(insertDuel);
             
             for(int i = 0; i <= teamIDs.size(); i += 2){
@@ -53,12 +51,11 @@ public class BracketGenerator {
                     int winner = Rand.nextBoolean() ? teamA : teamB;
                     Winners.add(winner);
                     
-                    psDuel.setString(1, MatchID);
-                    psDuel.setInt(2, tournamentID);
-                    psDuel.setInt(3, teamA);
-                    psDuel.setInt(4, teamB);
-                    psDuel.setInt(5, round);
-                    psDuel.setInt(6, winner);
+                    psDuel.setInt(1, tournamentID);
+                    psDuel.setInt(2, teamA);
+                    psDuel.setInt(3, teamB);
+                    psDuel.setInt(4, round);
+                    psDuel.setInt(5, winner);
                     
                     psDuel.addBatch();
                 } 

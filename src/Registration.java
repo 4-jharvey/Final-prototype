@@ -136,19 +136,16 @@ public class Registration extends javax.swing.JFrame {
             Completion.setVisible(true);
         }
         
-        
-        int randNum = (int)(Math.random()* 1000000001);
-        String teamID = Integer.toString(randNum);
+       
         
         try(Connection connect = DatabaseConnection.getConnection()){
-            String sql = "INSERT INTO Team(TeamID, TeamName, email) VALUES (?, ?, ?)";
-            PreparedStatement ps = connect.prepareStatement(sql);
-            ps.setString(1, teamID);
-            ps.setString(2, Name);
-            ps.setString(3, Mail);
+            String sql = "INSERT INTO Team(TeamName, email) VALUES (?, ?)";
+            PreparedStatement ps = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, Name);
+            ps.setString(2, Mail);
+            ps.executeUpdate();
             
-            
-            int rowsInserted = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
             
         }   catch (SQLException ex) {       
             ex.printStackTrace();
