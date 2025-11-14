@@ -29,9 +29,10 @@ public class BracketPanel extends JPanel{
     
     private void loadDuels(){
         try(Connection connect = DatabaseConnection.getConnection()){
-            String query = "SELECT Duel.MatchID, Duel.Round, Team.TeamName, Duel.Winner "
+            String query = "SELECT Duel.MatchID, Duel.Round, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
                            + "FROM Duel "
-                           + "JOIN Team ON Duel.TeamA = Team.TeamID OR Duel.TeamB = Team.TeamID "
+                           + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID"
+                           +" JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
                            + "WHERE Duel.TournamentID = ? "
                            + "ORDER BY Duel.Round ASC";
             PreparedStatement ps = connect.prepareStatement(query);
@@ -39,16 +40,19 @@ public class BracketPanel extends JPanel{
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()){
-                String teamName = rs.getString("TeamName");
-                boolean winner = rs.getBoolean("Winner");
+                String teamAName = rs.getString("TeamAName");
+                String teamBName = rs.getString("TeamBName");
+                int winnerID = rs.getInt("Winner");
                 int round = rs.getInt("Round");
+                
+                boolean isAWinner = teamAName != null && winnerID == rs.getInt("Winner");
 
                 java.util.List<Duel> listOfMatches = rounds.get(round);
                 if(listOfMatches == null){
                     listOfMatches = new ArrayList<>();
                     rounds.put(round, listOfMatches);
                 }
-                listOfMatches.add(new Duel(teamName, winner, round));
+                listOfMatches.add(new Duel(teamAName + "vs" + teamBName, isAWinner, round));
                 
             }
                 
