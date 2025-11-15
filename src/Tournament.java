@@ -18,8 +18,10 @@ public class Tournament extends javax.swing.JFrame {
             BracketGenerator.generateBracket(tournamentID);
         
             bracketPanel = new BracketPanel(tournamentID);
-            bracketPanel.setBounds(50, 30, 850, 400);
-            getContentPane().add(bracketPanel);
+            getContentPane().add(
+                    bracketPanel,
+                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
+            );
             
             System.out.print("Tournament created for " + tournamentID);
         } catch(Exception e){

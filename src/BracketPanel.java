@@ -29,7 +29,7 @@ public class BracketPanel extends JPanel{
     
     private void loadDuels(){
         try(Connection connect = DatabaseConnection.getConnection()){
-            String query = "SELECT Duel.MatchID, Duel.Round, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
+            String query = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeanAID, Duel.TeamB AS TeamBID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
                            + "FROM Duel "
                            + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID"
                            +" JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
@@ -42,17 +42,22 @@ public class BracketPanel extends JPanel{
             while(rs.next()){
                 String teamAName = rs.getString("TeamAName");
                 String teamBName = rs.getString("TeamBName");
-                int winnerID = rs.getInt("Winner");
+                int TeamAID = rs.getInt("TeamAID");
+                int TeamBID = rs.getInt("TeamBID");               
                 int round = rs.getInt("Round");
+                int winnerID = rs.getInt("Winner");
                 
-                boolean isAWinner = teamAName != null && winnerID == rs.getInt("Winner");
+                
+                boolean aWins = (winnerID == TeamAID);
+                boolean bWins = (winnerID == TeamAID);
 
                 java.util.List<Duel> listOfMatches = rounds.get(round);
                 if(listOfMatches == null){
                     listOfMatches = new ArrayList<>();
                     rounds.put(round, listOfMatches);
                 }
-                listOfMatches.add(new Duel(teamAName + "vs" + teamBName, isAWinner, round));
+                listOfMatches.add(new Duel(teamAName, aWins, round));
+                listOfMatches.add(new Duel(teamBName, bWins, round));
                 
             }
                 
@@ -63,7 +68,7 @@ public class BracketPanel extends JPanel{
             JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
         }  catch (Exception ex){
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
+            JOptionPane.showMessageDialog(null, "Unexpected error " + "Type: " + ex.getClass().getName() + "\n"+ "Message: " + ex.getMessage());
         }
     }
     
