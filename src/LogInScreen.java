@@ -15,7 +15,7 @@ public class LogInScreen extends javax.swing.JFrame {
     /**
      * Creates new form LogInScreen
      */
-    
+    private int tournamentID;
     String Password = "4572";
     public LogInScreen() {
         initComponents();
@@ -262,7 +262,7 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_NumPadTextActionPerformed
 
     private void RegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrationActionPerformed
-        Registration Register = new Registration();
+        Registration Register = new Registration(this.tournamentID);
         this.dispose();
         Register.setVisible(true);
     }//GEN-LAST:event_RegistrationActionPerformed
