@@ -13,6 +13,7 @@ public class CompletionScreen extends javax.swing.JFrame {
     /**
      * Creates new form CompletionScreen
      */
+    private int tournamentID;
     public CompletionScreen() {
         initComponents();
     }
@@ -49,9 +50,9 @@ public class CompletionScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        LogInScreen LogIn = new LogInScreen();
-        this.dispose();
-        LogIn.setVisible(true);
+               Tournament Tourny = new Tournament(this.tournamentID);
+               this.dispose();
+               Tourny.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -13,21 +13,6 @@ public class Tournament extends javax.swing.JFrame {
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
-        
-        try{
-            BracketGenerator.generateBracket(tournamentID);
-        
-            bracketPanel = new BracketPanel(tournamentID);
-            getContentPane().add(
-                    bracketPanel,
-                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
-            );
-            
-            System.out.print("Tournament created for " + tournamentID);
-        } catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
-        }
     }
         
 
@@ -39,6 +24,7 @@ public class Tournament extends javax.swing.JFrame {
         GoToLeadboard = new javax.swing.JButton();
         GoToMatch = new javax.swing.JButton();
         Registrator = new javax.swing.JButton();
+        GenerateBracket = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -75,6 +61,14 @@ public class Tournament extends javax.swing.JFrame {
         });
         getContentPane().add(Registrator, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 210, 40));
 
+        GenerateBracket.setText("Generate Bracket");
+        GenerateBracket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GenerateBracketActionPerformed(evt);
+            }
+        });
+        getContentPane().add(GenerateBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 530, 210, 40));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -102,7 +96,25 @@ public class Tournament extends javax.swing.JFrame {
         register.setVisible(true);
     }//GEN-LAST:event_RegistratorActionPerformed
 
+    private void GenerateBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateBracketActionPerformed
+        try{
+            BracketGenerator.generateBracket(tournamentID);
+        
+            bracketPanel = new BracketPanel(tournamentID);
+            getContentPane().add(
+                    bracketPanel,
+                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
+            );
+            
+            System.out.print("Tournament created for " + tournamentID);
+        } catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
+        }
+    }//GEN-LAST:event_GenerateBracketActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton GenerateBracket;
     private javax.swing.JButton GoToLeadboard;
     private javax.swing.JButton GoToMatch;
     private javax.swing.JButton GoToSchedule;
