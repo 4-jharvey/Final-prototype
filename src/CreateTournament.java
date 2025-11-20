@@ -16,6 +16,7 @@ public class CreateTournament extends javax.swing.JFrame {
     /**
      * Creates new form CreateTournament
      */
+ 
     public CreateTournament() {
         initComponents();
     }
@@ -177,6 +178,7 @@ public class CreateTournament extends javax.swing.JFrame {
     }//GEN-LAST:event_PrizePoolActionPerformed
 
     private void BackToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuActionPerformed
+        //sends users back to the homepage
         HomePage Home = new HomePage();
         this.dispose();
         Home.setVisible(true);

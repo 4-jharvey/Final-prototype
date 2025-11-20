@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection{
-    
+    //connects the code to the database
     public static Connection getConnection() throws SQLException{
         Connection connect = null;
         try{
@@ -15,7 +15,7 @@ public class DatabaseConnection{
                     "4-jharvey",
                     "Forget6-Building-Full"
             );
-            
+            //catches any errors
         } catch(ClassNotFoundException ex){
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE,null,ex);
         } catch (SQLException ex) {

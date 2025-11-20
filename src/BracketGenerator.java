@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 
 public class BracketGenerator {
     public static void generateBracket(int tournamentID){
+        //connects to the database and gets the team data and puts them in a list
         try(Connection connect = DatabaseConnection.getConnection()){
             List<Integer> teamIDs = new ArrayList<>();
             String getTeams = "Select TeamID FROM Team WHERE TournamentID = ?";
@@ -22,7 +23,7 @@ public class BracketGenerator {
             Collections.shuffle(teamIDs);
             
             createRound(connect, tournamentID, teamIDs, 1);
-                
+                //catches any errors
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
@@ -34,23 +35,24 @@ public class BracketGenerator {
         }
         
     private static void createRound(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
-        
+        //debug statement to make sure teams are being connected
         System.out.println("DEBUG: Starting round " + round + " with " + teamIDs.size() + " teams");
     
-        
+            //stops any activity is happening if there are less than 2 teams in list
             if (teamIDs.size() < 2){
               System.out.println("DEBUG: Stopping — not enough teams to create another round.");
               return;  
             }
-                        
+            //list of all winner of each match            
             List<Integer> Winners = new ArrayList<>();
             
             Random Rand = new Random();
             
-            
+            //inserts match data into database
             String insertDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement psDuel = connect.prepareStatement(insertDuel);
             
+            //recursive method to keep track of who wins and holds data of them
             for(int i = 0; i < teamIDs.size(); i += 2){
                 if(i + 1 < teamIDs.size()){
                     int teamA = teamIDs.get(i);
@@ -73,7 +75,7 @@ public class BracketGenerator {
             }
             
             psDuel.executeBatch();
-            
+            //debugging statments
             System.out.println("DEBUG: Executed duel batch for round " + round);
             System.out.println("DEBUG: Winners advancing: " + Winners);
             

@@ -68,6 +68,7 @@ public class LoadTournament extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadDataActionPerformed
 
     private void BackToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToMenuActionPerformed
+        //takes users back to the homepage
         HomePage Home = new HomePage();
         this.dispose();
         Home.setVisible(true);

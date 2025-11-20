@@ -209,6 +209,7 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_EnterActionPerformed
 
     private void Btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn0ActionPerformed
+        //prints 0 into text field
         EnterNumbers("0");
     }//GEN-LAST:event_Btn0ActionPerformed
 

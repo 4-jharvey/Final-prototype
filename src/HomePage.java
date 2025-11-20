@@ -64,18 +64,21 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadTournamentActionPerformed
+        //sends to load tournament screen
         LoadTournament History = new LoadTournament();
         this.dispose();
         History.setVisible(true);
     }//GEN-LAST:event_LoadTournamentActionPerformed
 
     private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
+        //logs them out to login screen
         LogInScreen LogIn = new LogInScreen();
         this.dispose();
         LogIn.setVisible(true);
     }//GEN-LAST:event_SignOutActionPerformed
 
     private void CreateTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateTournamentActionPerformed
+        //sends them to create tournament screen
         CreateTournament Tournament = new CreateTournament();
         this.dispose();
         Tournament.setVisible(true);

@@ -46,6 +46,7 @@ public class Duel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackToBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToBracketActionPerformed
+        //takes user back to the tournament screen
         Tournament Tourny = new Tournament(tournamentID);
         this.dispose();
         Tourny.setVisible(true);
