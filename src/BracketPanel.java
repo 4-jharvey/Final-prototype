@@ -33,9 +33,9 @@ public class BracketPanel extends JPanel{
     private void loadDuels(){
         //connects to the database and extracts names of all the teams in ascending order
         try(Connection connect = DatabaseConnection.getConnection()){
-            String query = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeanAID, Duel.TeamB AS TeamBID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
+            String query = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
                            + "FROM Duel "
-                           + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID"
+                           + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID "
                            +" JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
                            + "WHERE Duel.TournamentID = ? "
                            + "ORDER BY Duel.Round ASC";
@@ -54,7 +54,7 @@ public class BracketPanel extends JPanel{
                 
                 
                 boolean aWins = (winnerID == TeamAID);
-                boolean bWins = (winnerID == TeamAID);
+                boolean bWins = (winnerID == TeamBID);
 
                 java.util.List<Duel> listOfMatches = rounds.get(round);
                 if(listOfMatches == null){
@@ -79,7 +79,7 @@ public class BracketPanel extends JPanel{
     
     //allows for pogram to customize painting
     @Override
-    public void paintComponents(Graphics graphics){
+    public void paintComponent(Graphics graphics){
         super.paintComponents(graphics);
         drawBracket((Graphics2D) graphics);
     }

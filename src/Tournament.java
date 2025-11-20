@@ -13,6 +13,24 @@ public class Tournament extends javax.swing.JFrame {
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        
+        //generates the image of the bracket created in a specific area
+        // also runs the Bracket Generation and Bracket Panel code
+        try{
+            BracketGenerator.generateBracket(tournamentID);
+        
+            bracketPanel = new BracketPanel(tournamentID);
+            getContentPane().add(
+                    bracketPanel,
+                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
+            );
+            
+            System.out.print("Tournament created for " + tournamentID);
+            // catches any errors
+        } catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
+        }
     }
         
 
@@ -101,23 +119,9 @@ public class Tournament extends javax.swing.JFrame {
     }//GEN-LAST:event_RegistratorActionPerformed
 
     private void GenerateBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateBracketActionPerformed
-        //generates the image of the bracket created in a specific area
-        // also runs the Bracket Generation and Bracket Panel code
-        try{
-            BracketGenerator.generateBracket(tournamentID);
-        
-            bracketPanel = new BracketPanel(tournamentID);
-            getContentPane().add(
-                    bracketPanel,
-                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
-            );
-            
-            System.out.print("Tournament created for " + tournamentID);
-            // catches any errors
-        } catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
-        }
+        //updates the bracket
+        BracketGenerator.generateBracket(tournamentID);
+        bracketPanel.repaint();
     }//GEN-LAST:event_GenerateBracketActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

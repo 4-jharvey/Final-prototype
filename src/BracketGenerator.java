@@ -14,7 +14,7 @@ public class BracketGenerator {
             ResultSet rs = psTeams.executeQuery();
             
             while (rs.next()){
-                teamIDs.add(rs.getInt("teamID"));
+                teamIDs.add(rs.getInt("TeamID"));
             }
             
             System.out.println("DEBUG: Loaded " + teamIDs.size() + " teams.");
