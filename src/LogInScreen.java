@@ -16,6 +16,7 @@ public class LogInScreen extends javax.swing.JFrame {
      * Creates new form LogInScreen
      */
     private int tournamentID;
+    //password for admin use
     String Password = "4572";
     public LogInScreen() {
         initComponents();
@@ -185,6 +186,7 @@ public class LogInScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EnterNumbers(String Num){
+        //this prints the number into the text field
         String Nums = NumPadText.getText() + Num;
         NumPadText.setText(Nums);
     }
@@ -193,6 +195,7 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentAdded
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
+        // this makes sure the password in the text field is the correct one so they will inputted into admin screen
         String Ans = NumPadText.getText();
         
         if(Ans.equals(Password)){
@@ -210,7 +213,7 @@ public class LogInScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_Btn0ActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        
+        // this will delete any text within the text field
         String Delete = null;
         
         if(NumPadText.getText().length() > 0){
@@ -220,7 +223,7 @@ public class LogInScreen extends javax.swing.JFrame {
             NumPadText.setText(Delete);
         }
     }//GEN-LAST:event_DeleteActionPerformed
-
+    //buttons that print data into the text field
     private void Btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn3ActionPerformed
         EnterNumbers("3");
     }//GEN-LAST:event_Btn3ActionPerformed
@@ -260,7 +263,7 @@ public class LogInScreen extends javax.swing.JFrame {
     private void NumPadTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumPadTextActionPerformed
         
     }//GEN-LAST:event_NumPadTextActionPerformed
-
+    // takes the user to the tournament screen for registration
     private void TeamEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamEntryActionPerformed
         Tournament Tourny = new Tournament(this.tournamentID);
         this.dispose();

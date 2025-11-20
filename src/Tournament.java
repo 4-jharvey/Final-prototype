@@ -73,30 +73,36 @@ public class Tournament extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GoToLeadboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToLeadboardActionPerformed
+        // takes user to leaderboard
         Leaderboard Board = new Leaderboard();
         this.dispose();
         Board.setVisible(true);
     }//GEN-LAST:event_GoToLeadboardActionPerformed
 
     private void GoToMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToMatchActionPerformed
+        //takes user to match screen
         Duel Match = new Duel ();
         this.dispose();
         Match.setVisible(true);
     }//GEN-LAST:event_GoToMatchActionPerformed
 
     private void GoToScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToScheduleActionPerformed
+        //takes user to schedule
         Schedule Timings = new Schedule();
         this.dispose();
         Timings.setVisible(true);
     }//GEN-LAST:event_GoToScheduleActionPerformed
 
     private void RegistratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistratorActionPerformed
+        //takes user to registration
         Registration register = new Registration(this.tournamentID);
         this.dispose();
         register.setVisible(true);
     }//GEN-LAST:event_RegistratorActionPerformed
 
     private void GenerateBracketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerateBracketActionPerformed
+        //generates the image of the bracket created in a specific area
+        // also runs the Bracket Generation and Bracket Panel code
         try{
             BracketGenerator.generateBracket(tournamentID);
         
@@ -107,6 +113,7 @@ public class Tournament extends javax.swing.JFrame {
             );
             
             System.out.print("Tournament created for " + tournamentID);
+            // catches any errors
         } catch(Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());

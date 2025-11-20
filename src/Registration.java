@@ -126,10 +126,13 @@ public class Registration extends javax.swing.JFrame {
     }//GEN-LAST:event_UsernameActionPerformed
 
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
+        //Gets the Team Data from the registration form
         String Name = Username.getText();
         String PlayerAmount = NumOfPlayers.getText();
         String Mail = Email.getText();
         
+        
+        //makes sure that all required data is entered before continueing to next screen
         if(Name.equals("") || PlayerAmount.equals("") || Mail.equals("")){
             
                JOptionPane.showMessageDialog(null,"Please fill in the required parts of the form");
@@ -141,7 +144,7 @@ public class Registration extends javax.swing.JFrame {
         }
         
        
-        
+        // inserts the Team Data into the database
         try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO Team(TeamName, email, TournamentID) VALUES (?, ?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -152,7 +155,7 @@ public class Registration extends javax.swing.JFrame {
             
             ResultSet rs = ps.getGeneratedKeys();
             
-            
+            // prints any errors that occur either SQL or Java side
         }   catch (SQLException ex) {       
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.getMessage());

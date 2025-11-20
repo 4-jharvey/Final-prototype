@@ -187,17 +187,19 @@ public class CreateTournament extends javax.swing.JFrame {
     }//GEN-LAST:event_GamePlayedActionPerformed
 
     private void CreateTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateTournamentActionPerformed
-        
+        //gets required data from the form
         String TournyName = TournamentName.getText();
         String Date = DateOfTournament.getText();
         String NumberOfPlayers = NumOfTeams.getText();
         
+        //makes sure all required data is present before moving to tournament
         if(TournyName.equals("") || Date.equals("") || NumberOfPlayers.equals("")){
             
             JOptionPane.showMessageDialog(null,"Please complete the settings for this tournament.");
             return;
         }
-                
+        
+        //inputs all data gathered about tournament into the database
         try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "INSERT INTO Tournament(Name, Date, NumOfTeams) VALUES (?, ?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -208,6 +210,8 @@ public class CreateTournament extends javax.swing.JFrame {
             
             ResultSet rs = ps.getGeneratedKeys();
             
+            
+            // This shows the data has been entered corectly and directs the user to the next screen
             if (rs.next()){
                 JOptionPane.showMessageDialog(null,"Tournament created Successfully");
                 
@@ -219,7 +223,7 @@ public class CreateTournament extends javax.swing.JFrame {
             }
             
             
-            
+            // catches any errors that occur
         }catch(SQLException ex){
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.getMessage());

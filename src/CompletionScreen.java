@@ -50,6 +50,7 @@ public class CompletionScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+               //sends user to tournament Screen
                Tournament Tourny = new Tournament(this.tournamentID);
                this.dispose();
                Tourny.setVisible(true);
