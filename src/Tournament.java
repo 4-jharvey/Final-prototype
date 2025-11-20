@@ -38,6 +38,7 @@ public class Tournament extends javax.swing.JFrame {
         GoToSchedule = new javax.swing.JButton();
         GoToLeadboard = new javax.swing.JButton();
         GoToMatch = new javax.swing.JButton();
+        Registrator = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -66,6 +67,14 @@ public class Tournament extends javax.swing.JFrame {
         });
         getContentPane().add(GoToMatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, 270, 60));
 
+        Registrator.setText("Register Here");
+        Registrator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistratorActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Registrator, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 210, 40));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -86,9 +95,17 @@ public class Tournament extends javax.swing.JFrame {
         this.dispose();
         Timings.setVisible(true);
     }//GEN-LAST:event_GoToScheduleActionPerformed
+
+    private void RegistratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistratorActionPerformed
+        Registration register = new Registration(this.tournamentID);
+        this.dispose();
+        register.setVisible(true);
+    }//GEN-LAST:event_RegistratorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GoToLeadboard;
     private javax.swing.JButton GoToMatch;
     private javax.swing.JButton GoToSchedule;
+    private javax.swing.JButton Registrator;
     // End of variables declaration//GEN-END:variables
 }

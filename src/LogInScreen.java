@@ -43,7 +43,7 @@ public class LogInScreen extends javax.swing.JFrame {
         Btn7 = new javax.swing.JButton();
         Btn8 = new javax.swing.JButton();
         Btn9 = new javax.swing.JButton();
-        Registration = new javax.swing.JButton();
+        TeamEntry = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -171,14 +171,14 @@ public class LogInScreen extends javax.swing.JFrame {
         });
         getContentPane().add(Btn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 90, 90));
 
-        Registration.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        Registration.setText("Register as a player or Team");
-        Registration.addActionListener(new java.awt.event.ActionListener() {
+        TeamEntry.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        TeamEntry.setText("Click here for Team View");
+        TeamEntry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegistrationActionPerformed(evt);
+                TeamEntryActionPerformed(evt);
             }
         });
-        getContentPane().add(Registration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 320, 70));
+        getContentPane().add(TeamEntry, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 310, 70));
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 600));
 
         setBounds(0, 0, 347, 607);
@@ -261,11 +261,11 @@ public class LogInScreen extends javax.swing.JFrame {
         
     }//GEN-LAST:event_NumPadTextActionPerformed
 
-    private void RegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrationActionPerformed
-        Registration Register = new Registration(this.tournamentID);
+    private void TeamEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamEntryActionPerformed
+        Tournament Tourny = new Tournament(this.tournamentID);
         this.dispose();
-        Register.setVisible(true);
-    }//GEN-LAST:event_RegistrationActionPerformed
+        Tourny.setVisible(true);
+    }//GEN-LAST:event_TeamEntryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,7 +316,7 @@ public class LogInScreen extends javax.swing.JFrame {
     private javax.swing.JButton Delete;
     private javax.swing.JButton Enter;
     private javax.swing.JTextField NumPadText;
-    private javax.swing.JButton Registration;
+    private javax.swing.JButton TeamEntry;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
