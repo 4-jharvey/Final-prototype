@@ -80,7 +80,7 @@ public class BracketPanel extends JPanel{
     //allows for pogram to customize painting
     @Override
     public void paintComponent(Graphics graphics){
-        super.paintComponents(graphics);
+        super.paintComponent(graphics);
         drawBracket((Graphics2D) graphics);
     }
     

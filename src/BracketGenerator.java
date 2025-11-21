@@ -19,6 +19,7 @@ public class BracketGenerator {
             
             System.out.println("DEBUG: Loaded " + teamIDs.size() + " teams.");
             System.out.println("DEBUG: Team IDs = " + teamIDs);
+            System.out.println("DEBUG Generator called with tournamentID = " + tournamentID);
             
             Collections.shuffle(teamIDs);
             
