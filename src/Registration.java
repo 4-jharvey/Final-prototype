@@ -146,11 +146,10 @@ public class Registration extends javax.swing.JFrame {
        
         // inserts the Team Data into the database
         try(Connection connect = DatabaseConnection.getConnection()){
-            String sql = "INSERT INTO Team(TeamName, email, TournamentID) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO Team(TeamName, email) VALUES (?, ?)";
             PreparedStatement ps = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, Name);
             ps.setString(2, Mail);
-            ps.setInt(3, tournamentID);
             ps.executeUpdate();
             
             ResultSet rs = ps.getGeneratedKeys();

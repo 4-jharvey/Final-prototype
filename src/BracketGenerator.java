@@ -52,7 +52,7 @@ public class BracketGenerator {
             String insertDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement psDuel = connect.prepareStatement(insertDuel);
             
-            //recursive method to keep track of who wins and holds data of them
+            //recursive method to keep track of who wins and inserts them into winner
             for(int i = 0; i < teamIDs.size(); i += 2){
                 if(i + 1 < teamIDs.size()){
                     int teamA = teamIDs.get(i);
