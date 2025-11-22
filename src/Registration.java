@@ -138,7 +138,7 @@ public class Registration extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null,"Please fill in the required parts of the form");
         }
         else{
-            CompletionScreen Completion = new CompletionScreen();
+            CompletionScreen Completion = new CompletionScreen(tournamentID);
             this.dispose();
             Completion.setVisible(true);
         }
@@ -153,10 +153,15 @@ public class Registration extends javax.swing.JFrame {
             ps.setInt(3, tournamentID);
             ps.executeUpdate();
             
-            System.out.println("DEBUG Insert: tournamentID = " + tournamentID);
+            System.out.println("Inserting team with tournamentID = " + tournamentID);
             
             ResultSet rs = ps.getGeneratedKeys();
             
+            if(rs.next()){
+                 int tournamentID = rs.getInt(1);
+                 System.out.println("Tournament printed for " + tournamentID);
+            }
+                        
             // prints any errors that occur either SQL or Java side
         }   catch (SQLException ex) {       
             ex.printStackTrace();

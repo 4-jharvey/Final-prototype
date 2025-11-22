@@ -13,6 +13,7 @@ public class Tournament extends javax.swing.JFrame {
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        System.out.println("TournamentID = " + this.tournamentID);
         
         //generates the image of the bracket created in a specific area
         // also runs the Bracket Generation and Bracket Panel code
@@ -113,7 +114,7 @@ public class Tournament extends javax.swing.JFrame {
 
     private void RegistratorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistratorActionPerformed
         //takes user to registration
-        Registration register = new Registration(this.tournamentID);
+        Registration register = new Registration(tournamentID);
         this.dispose();
         register.setVisible(true);
     }//GEN-LAST:event_RegistratorActionPerformed
