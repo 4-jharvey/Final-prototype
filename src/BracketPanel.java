@@ -124,7 +124,7 @@ public class BracketPanel extends JPanel{
             //where to start painting from
             int spacingBetweenDuels = (int)(panelHeight / (Duels.size() + 1));
             int startX = sideStart + (round - 1) * horizontalSpacing;
-            //draws the each box and connector line
+            //draws the each box
             for(int i = 0; i < Duels.size(); i++){
                 int y = spacingBetweenDuels * (i + 1);
                 Duel duel = Duels.get(i);
