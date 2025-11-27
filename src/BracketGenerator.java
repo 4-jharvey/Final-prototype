@@ -7,8 +7,10 @@ public class BracketGenerator {
     public static void generateBracket(int tournamentID){
         //connects to the database and gets the team data and puts them in a list
         try(Connection connect = DatabaseConnection.getConnection()){
+            
+            // grabs Team ID from the right tournament
             List<Integer> teamIDs = new ArrayList<>();
-            String getTeams = "Select TeamID FROM Team WHERE TournamentID = ?";
+            String getTeams = "SELECT TeamID FROM Team WHERE TournamentID = ?";
             PreparedStatement psTeams = connect.prepareStatement(getTeams);
             psTeams.setInt(1, tournamentID);
             ResultSet rs = psTeams.executeQuery();
@@ -17,6 +19,7 @@ public class BracketGenerator {
                 teamIDs.add(rs.getInt("TeamID"));
             }
             
+            //debug statements
             System.out.println("DEBUG: Loaded " + teamIDs.size() + " teams.");
             System.out.println("DEBUG: Team IDs = " + teamIDs);
             System.out.println("DEBUG Generator called with tournamentID = " + tournamentID);

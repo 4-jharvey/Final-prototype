@@ -18,13 +18,17 @@ public class BracketPanel extends JPanel{
     
     //holds the data for each duel
     private static class Duel{
-        String teamName;
-        boolean winner;
+        String teamAName;
+        String teamBName;
+        boolean aWins;
+        boolean bWins;
         int round;
         
-        Duel(String teamName, boolean winner, int round){
-            this.teamName = teamName;
-            this.winner = winner;
+        Duel(String teamAName, String teamBName, boolean aWins, boolean bWins, int round){
+            this.teamAName = teamAName;
+            this.teamBName = teamBName;
+            this.aWins = aWins;
+            this.bWins = bWins;
             this.round = round;
         }
     }
@@ -61,8 +65,7 @@ public class BracketPanel extends JPanel{
                     listOfMatches = new ArrayList<>();
                     rounds.put(round, listOfMatches);
                 }
-                listOfMatches.add(new Duel(teamAName, aWins, round));
-                listOfMatches.add(new Duel(teamBName, bWins, round));
+                listOfMatches.add(new Duel(teamAName, teamBName, bWins, aWins, round));
                 
             }
                 
@@ -93,23 +96,22 @@ public class BracketPanel extends JPanel{
         int NumOfRounds = rounds.size();
         int boxWidth = 140;
         int boxHeight = 40;
-        int horizontalSpacing = 140;
-        int verticalSpacing = 30;
+        int horizontalSpacing = 160;
         
         //the final duel box and spacing for each side of the bracket
-        int finalDuel = panelWidth / 2;
-        int leftSide = finalDuel - (NumOfRounds * horizontalSpacing);
-        int rightSide = finalDuel + horizontalSpacing;
+        int centre = panelWidth / 2;
+        int leftSide = centre - (NumOfRounds * horizontalSpacing);
+        int rightSide = centre + horizontalSpacing;
         
         //each side of the bracket
-        drawSide(graphics, leftSide, panelHeight, boxWidth, boxHeight, horizontalSpacing, verticalSpacing, true);
-        drawSide(graphics, rightSide, panelHeight, boxWidth, boxHeight, horizontalSpacing, verticalSpacing, false);
+        drawSide(graphics, leftSide, panelHeight, boxWidth, boxHeight, horizontalSpacing, true);
+        drawSide(graphics, rightSide, panelHeight, boxWidth, boxHeight, horizontalSpacing, false);
         
-        //each box
-        graphics.drawRect(finalDuel - boxWidth / 2, panelHeight / 2 - boxHeight / 2, boxWidth, boxHeight);   
+        //draws final box
+        graphics.drawRect(centre - boxWidth / 2, panelHeight / 2 - boxHeight / 2, boxWidth, boxHeight);   
     }
     // the class that draws each side
-    private void drawSide(Graphics2D graphics, int sideStart, int panelHeight, int boxWidth, int boxHeight, int horizontalSpacing, int verticalSpacing, boolean isLeft){
+    private void drawSide(Graphics2D graphics, int sideStart, int panelHeight, int boxWidth, int boxHeight, int horizontalSpacing, boolean isLeft){
         
         //customizable colour scheme
         Color boxBorder = new Color(0, 0, 0);
@@ -121,25 +123,34 @@ public class BracketPanel extends JPanel{
         for(int round = 1; round <= NumOfRounds; round++){
             java.util.List<Duel> Duels = rounds.get(round);
             if(Duels == null)continue;
+            
             //where to start painting from
-            int spacingBetweenDuels = (int)(panelHeight / (Duels.size() + 1));
+            int spacingBetweenDuels = panelHeight / (Duels.size() + 1);
             int startX = sideStart + (round - 1) * horizontalSpacing;
+            
             //draws each box
             for(int i = 0; i < Duels.size(); i++){
                 int y = spacingBetweenDuels * (i + 1);
                 Duel duel = Duels.get(i);
                 
                 graphics.setColor(boxBorder);
-                graphics.drawRect(startX, y, boxWidth, boxHeight);
                 
-                graphics.setColor(textColour);
-                graphics.drawString(duel.teamName, startX + 10, y + 25);
+                //Team A box
+                graphics.drawRect(startX, y, boxWidth, boxHeight);
+                graphics.drawString(duel.teamAName, startX + 10, y + 25);
+                
+                //Team B box
+                int boxBy = y + boxHeight;
+                graphics.drawRect(startX, boxBy, boxWidth, boxHeight);
+                graphics.drawString(duel.teamBName, startX + 10, boxBy + 25);
+                
                 //this makes sure all connector lines are connected to each box and there are no extras
                 if(round < NumOfRounds){
                     int nextX = isLeft ? startX + horizontalSpacing : startX - horizontalSpacing;
-                    int nextY = (int)(y + boxHeight / 2);
+                    int midY = y + boxHeight; // midpoint between Box A and Box B
+                    
                     graphics.setColor(connector);
-                    graphics.drawLine(startX + (isLeft ? boxWidth : 0), nextY, nextX, nextY);
+                    graphics.drawLine(startX + (isLeft ? boxWidth : 0), midY, nextX, midY);
                 }
             }
         }

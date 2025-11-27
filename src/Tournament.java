@@ -84,21 +84,21 @@ public class Tournament extends javax.swing.JFrame {
 
     private void GoToLeadboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToLeadboardActionPerformed
         // takes user to leaderboard
-        Leaderboard Board = new Leaderboard();
+        Leaderboard Board = new Leaderboard(tournamentID);
         this.dispose();
         Board.setVisible(true);
     }//GEN-LAST:event_GoToLeadboardActionPerformed
 
     private void GoToMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToMatchActionPerformed
         //takes user to match screen
-        Duel Match = new Duel ();
+        Duel Match = new Duel (tournamentID);
         this.dispose();
         Match.setVisible(true);
     }//GEN-LAST:event_GoToMatchActionPerformed
 
     private void GoToScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GoToScheduleActionPerformed
         //takes user to schedule
-        Schedule Timings = new Schedule();
+        Schedule Timings = new Schedule(tournamentID);
         this.dispose();
         Timings.setVisible(true);
     }//GEN-LAST:event_GoToScheduleActionPerformed
