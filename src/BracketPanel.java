@@ -3,74 +3,52 @@ import java.awt.*;
 import java.sql.*;
 import java.util.*;
 
+
 public class BracketPanel extends JPanel{
-    private int tournamentID;
-    //creates hashmap for all rounds/ duels that will happen
-    private Map<Integer, java.util.List<Duel>> rounds = new HashMap <>();
-   
-    //creates a background for the panel
-    public BracketPanel(int tournamentID){
-        this.tournamentID = tournamentID;
-        Color Background = new Color(255,255,255);
-        setBackground(Background);
-        loadDuels();
-    }
-    
-    //holds the data for each duel
-    private static class Duel{
-        String teamAName;
-        String teamBName;
-        boolean aWins;
-        boolean bWins;
-        int round;
+
+   public class Match{
+       public String teamA;
+       public String teamB;
+       public String winner;
+       public int round;
+       
+       public Match(String teamA, String teamB, String winner, int round){
+           this.teamA = teamA;
+           this.teamB = teamB;
+           this.winner = winner;
+           this.round = round;
+       }
+   }
+
+
+    public java.util.List<Match> loadMatches(int tournamentID){
+        java.util.List<Match> matchList = new java.util.ArrayList<>();
         
-        Duel(String teamAName, String teamBName, boolean aWins, boolean bWins, int round){
-            this.teamAName = teamAName;
-            this.teamBName = teamBName;
-            this.aWins = aWins;
-            this.bWins = bWins;
-            this.round = round;
-        }
-    }
-    
-    
-    private void loadDuels(){
-        //connects to the database and extracts names of all the teams in ascending order
         try(Connection connect = DatabaseConnection.getConnection()){
-            String query = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner "
+            String sql = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner, Duel.Round "
                            + "FROM Duel "
                            + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID "
                            +" JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
                            + "WHERE Duel.TournamentID = ? "
                            + "ORDER BY Duel.Round ASC";
-            PreparedStatement ps = connect.prepareStatement(query);
+            PreparedStatement ps = connect.prepareStatement(sql);
             ps.setInt(1, tournamentID);
             ResultSet rs = ps.executeQuery();
             
-            //this will grab the data from the query and willl but them in a list of all the matches and its results
-            while(rs.next()){
-                String teamAName = rs.getString("TeamAName");
-                String teamBName = rs.getString("TeamBName");
-                int TeamAID = rs.getInt("TeamAID");
-                int TeamBID = rs.getInt("TeamBID");               
-                int round = rs.getInt("Round");
-                int winnerID = rs.getInt("Winner");
-                
-                
-                boolean aWins = (winnerID == TeamAID);
-                boolean bWins = (winnerID == TeamBID);
-
-                java.util.List<Duel> listOfMatches = rounds.get(round);
-                if(listOfMatches == null){
-                    listOfMatches = new ArrayList<>();
-                    rounds.put(round, listOfMatches);
-                }
-                listOfMatches.add(new Duel(teamAName, teamBName, bWins, aWins, round));
-                
+            if(rs.next()){
+                 String teamA = rs.getString("TeamAName");
+                 String teamB = rs.getString("TeamBName");
+                 String winnerID = rs.getString("Winner");
+                 String teamAID = rs.getString("TeamAID");
+                 
+                 String winner = (winnerID == teamAID) ? teamA : teamB;
+                 
+                 matchList.add(new Match(teamA, teamB, winner, rs.getInt("Round")));
+                     
             }
-                
-            // catches any errors
-        } catch (SQLException ex) {
+            
+            
+        }catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
@@ -78,82 +56,86 @@ public class BracketPanel extends JPanel{
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unexpected error " + ex.getMessage());
         }
+        
+        return matchList;
     }
     
-    //allows for pogram to customize painting
-    @Override
-    public void paintComponent(Graphics graphics){
-        super.paintComponent(graphics);
-        drawBracket((Graphics2D) graphics);
-    }
-    
-    // creates the boxes and connector lines for the bracket
-    private void drawBracket(Graphics2D graphics){
+    public class BracketPane extends JPanel{
+        private final java.util.Map<Integer, java.util.List<Match>> rounds = new java.util.HashMap<>();
         
-        //panel measurements
-        int panelWidth = getWidth();
-        int panelHeight = getHeight();
-        
-        //box measurements and number of rounds
-        int numOfRounds = rounds.size();
-        int boxWidth = 150;
-        int boxHeight = 50;
-        int horizontalSpacing = 180;
-        int verticalSpacing = 40;
-        
-        //the final duel box and spacing for each side of the bracket
-        int centre = panelWidth / 2;
-        
-        //each side of the bracket
-        drawSide(graphics, centre, numOfRounds, panelHeight, boxWidth, boxHeight, horizontalSpacing, verticalSpacing, true);
-        drawSide(graphics, centre, numOfRounds, panelHeight, boxWidth, boxHeight, horizontalSpacing, verticalSpacing, false);
-        
-        //draws final box
-        graphics.drawRect(centre - boxWidth / 2, panelHeight / 2 - boxHeight / 2, boxWidth, boxHeight);   
-    }
-    // the class that draws each side
-    private void drawSide(Graphics2D graphics, int centre, int numOfRounds, int panelHeight, int boxWidth, int boxHeight, int horizontalSpacing, int verticalSpacing, boolean isLeft){
-        
-        //customizable colour scheme
-        Color boxBorder = new Color(0, 0, 0);
-        Color textColour = new Color(0, 0, 0);
-        Color connector = new Color(0, 0, 0);
-        
-        int side = isLeft ? -1:1;
-        
-        for(int round = 1; round <= numOfRounds; round++){
-            
-            java.util.List<Duel> duels = rounds.get(round);
-            if (duels == null) continue;
-            
-            int boxX = centre + side * round * horizontalSpacing;
-            
-            int tournyHeight = duels.size() * (boxHeight + verticalSpacing);
-            int startY = (getHeight() - tournyHeight / 2);
-            
-            for(int i = 0; i < duels.size(); i++){
-                
-                int y = startY + i * (boxHeight - verticalSpacing);
-                
-                Duel match = duels.get(i);
-                
-                graphics.drawRect(boxX, y, boxWidth, boxHeight);
-                
-                graphics.drawString(match.teamAName, boxX + 10, y + 20);
-                graphics.drawString(match.teamBName, boxX + 10, y + 40);
-                
-                if (round < numOfRounds){
-                    
-                    int midY = y + boxHeight / 2;
-                    int nextBox = centre + side * (round + 1) * horizontalSpacing;
-                    
-                    graphics.drawLine(boxX + (isLeft ? 0 : boxWidth), midY, nextBox + (isLeft ? boxWidth : 0), midY);
-                    
+        public BracketPane(java.util.List<Match> matches){
+            for(Match match : matches){
+                java.util.List<Match> roundList = rounds.getInt(match.round);
+                if(roundList == null){
+                   roundList = new ArrayList<>();
+                   rounds.put(match.round, roundList);
+                   
+                   
                 }
+                
+                roundList.add(match);
             }
         }
-           
-            
-    }
         
+        
+        @Override
+        protected void paintComponent(Graphics graphic){
+            super.paintComponent(graphic);
+            
+            Graphics2D graphic2 = (Graphics2D) graphic;
+            
+            int roundCount = 0;
+            int boxWidth = 140;
+            int boxHeight = 30;
+            int spacingHorizontal = 150;
+            int spacingVertical = 40;
+            
+            for (int round : new java.util.TreeSet<>(rounds.keySet())){
+                java.util.List<Match> matchRound = rounds.get(round);
+                
+                int xStartPoint = 40 + roundCount * spacingHorizontal;
+                int yStartPoint = 40;
+                
+                for(int i = 0; i < matchRound.size(); i++){
+                    Match match = matchRound.get(i);
+                    int startY = yStartPoint + i * (boxHeight * 2 + spacingVertical);
+                    
+                    graphic2.drawRect(xStartPoint, startY, boxWidth, boxHeight);
+                    graphic2.drawString(match.teamA, xStartPoint + 5, startY + 10);
+                    
+                    graphic2.drawRect(xStartPoint, startY + boxHeight, boxWidth, boxHeight);
+                    graphic2.drawString(match.teamB, xStartPoint + 5, startY + 10);
+                    
+                    drawConnector(graphic2, round, i, xStartPoint, startY, boxWidth, boxHeight, spacingVertical, spacingHorizontal);
+                    
+                }
+                
+                roundCount++;
+               
+            }
+                  
+        }
+    }
+    
+        private void drawConnector(Graphics2D graphic2, int round, int index, int xStartPoint, int startY, int boxWidth, int boxHeight, int spacingVertical, int spacingHorizontal){
+            if(!rounds.containsKey(round + 1))
+                    return;
+                
+                int nextX = xStartPoint + spacingHorizontal;
+                int midY = startY + boxHeight;
+                int nextIndex = index / 2;
+                int nextY = 40 + nextIndex * (boxHeight * 2 + spacingVertical) + boxHeight;
+               
+                graphic2.drawLine(nextX + boxWidth, midY, nextX, nextY);
+            }
+            
+        
+            public Dimension getPreferedSize(){
+                return new Dimension(1300, 800);
+            } 
+    
+    public static JPanel getBracketPanel(int tournamentID){
+        java.util.List<Match> matches = loadMatches(tournamentID);
+        return new BracketPanel(matches);
+    }
 }

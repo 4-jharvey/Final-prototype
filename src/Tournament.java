@@ -1,36 +1,32 @@
 import java.awt.*;
+import java.sql.SQLException;
 import javax.swing.*;
 
 
 public class Tournament extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Tournament.class.getName());
-    
-    
     private int tournamentID;
-    private BracketPanel bracketPanel;
+    private JPanel bracketPanel;
 
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
         System.out.println("TournamentID = " + this.tournamentID);
         
-        //generates the image of the bracket created in a specific area
-        // also runs the Bracket Generation and Bracket Panel code
         try{
             BracketGenerator.generateBracket(tournamentID);
-        
-            bracketPanel = new BracketPanel(tournamentID);
-            getContentPane().add(
-                    bracketPanel,
-                    new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 850, 400)
-            );
+            getContentPane().setLayout(new BorderLayout());
+            bracketPanel = BracketPanel.getBracketPanel(tournamentID);
             
-            System.out.print("Tournament created for " + tournamentID);
-            // catches any errors
-        } catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error ocurred " + e.getMessage());
+            JScrollPane scrollPane = new JScrollPane(bracketPanel);
+            scrollPane.setBorder(null);
+            
+            getContentPane().add(scrollPane, BorderLayout.CENTER);
+            
+            System.out.println("Tournament Bracket printed for " + tournamentID);
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.getMessage());
         }
     }
         
