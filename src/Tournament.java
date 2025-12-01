@@ -11,11 +11,22 @@ public class Tournament extends javax.swing.JFrame {
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        
         System.out.println("TournamentID = " + this.tournamentID);
         
         try{
             BracketGenerator.generateBracket(tournamentID);
+            
             getContentPane().setLayout(new BorderLayout());
+            
+            JPanel buttons = new JPanel(new GridLayout(1,4));
+            buttons.add(GoToSchedule);
+            buttons.add(GoToLeadboard);
+            buttons.add(GoToMatch);
+            buttons.add(Registrator);
+            
+            getContentPane().add(buttons, BorderLayout.NORTH);
+            
             bracketPanel = BracketPanel.getBracketPanel(tournamentID);
             
             JScrollPane scrollPane = new JScrollPane(bracketPanel);
@@ -24,6 +35,7 @@ public class Tournament extends javax.swing.JFrame {
             getContentPane().add(scrollPane, BorderLayout.CENTER);
             
             System.out.println("Tournament Bracket printed for " + tournamentID);
+            
         }  catch (Exception ex){
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unexpected error " + ex.getMessage());
@@ -41,7 +53,6 @@ public class Tournament extends javax.swing.JFrame {
         Registrator = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         GoToSchedule.setText("To Schedule");
         GoToSchedule.addActionListener(new java.awt.event.ActionListener() {
@@ -49,7 +60,7 @@ public class Tournament extends javax.swing.JFrame {
                 GoToScheduleActionPerformed(evt);
             }
         });
-        getContentPane().add(GoToSchedule, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 460, 270, 60));
+        getContentPane().add(GoToSchedule, java.awt.BorderLayout.CENTER);
 
         GoToLeadboard.setText("To Leaderboard");
         GoToLeadboard.addActionListener(new java.awt.event.ActionListener() {
@@ -57,7 +68,7 @@ public class Tournament extends javax.swing.JFrame {
                 GoToLeadboardActionPerformed(evt);
             }
         });
-        getContentPane().add(GoToLeadboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 270, 60));
+        getContentPane().add(GoToLeadboard, java.awt.BorderLayout.PAGE_START);
 
         GoToMatch.setText("To Match");
         GoToMatch.addActionListener(new java.awt.event.ActionListener() {
@@ -65,7 +76,7 @@ public class Tournament extends javax.swing.JFrame {
                 GoToMatchActionPerformed(evt);
             }
         });
-        getContentPane().add(GoToMatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 460, 270, 60));
+        getContentPane().add(GoToMatch, java.awt.BorderLayout.PAGE_END);
 
         Registrator.setText("Register Here");
         Registrator.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +84,7 @@ public class Tournament extends javax.swing.JFrame {
                 RegistratorActionPerformed(evt);
             }
         });
-        getContentPane().add(Registrator, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 530, 210, 40));
+        getContentPane().add(Registrator, java.awt.BorderLayout.LINE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
