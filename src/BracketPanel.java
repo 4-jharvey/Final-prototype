@@ -133,12 +133,23 @@ public class BracketPanel extends JPanel {
             int startX = 40;
             int startY = 80;
             
+            int maxMatches = 1;
+            
+            for(List<Match> roundList : winnerRounds.values()){
+                int size = roundList.size();
+                if(size > maxMatches){
+                    maxMatches = size;
+                }
+            
+            }
+            
             int winnerStartX = startX;
             drawBracket(graphic2, winnerRounds, winnerStartX, startY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
             int winnerColumns = Math.max(1, winnerRounds.keySet().size());
-            int loserStartX = startX + winnerColumns * horizontalSpacing + 700;
-            drawBracket(graphic2, loserRounds, loserStartX, startY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
+            int winnerHeight = (boxHeight * 2 + verticalSpacing) * maxMatches;
+            int loserStartY = startY + winnerHeight + 100;
+            drawBracket(graphic2, loserRounds, startX, loserStartY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
             drawFinale(graphic2, finale, startX, boxWidth, boxHeight, verticalSpacing, horizontalSpacing);
         }
@@ -240,22 +251,16 @@ public class BracketPanel extends JPanel {
             
             int screenWidth = getWidth();
             int centreX = screenWidth / 2 - boxWidth / 2;
-            int centreY = getHeight() - 220;
+            int centreY = getHeight() - 675;
             
             for (Match finals : finale){
                 
-                if(finals.teamA == null && finals.teamB == null)
-                    continue;
-                
-                graphic2.drawRect(centreX, centreY, boxWidth, boxHeight);
-                graphic2.drawString(finals.teamA, centreX + 5, centreY + 18);
+                if(finals.winner == null || finals.winner.isEmpty())
+                    continue;                
                 
                 graphic2.drawRect(centreX, centreY + boxHeight, boxWidth, boxHeight);
-                graphic2.drawString(finals.teamB, centreX + 5, centreY + boxHeight + 18);
+                graphic2.drawString("Winner: " + finals.winner, centreX + 5, centreY + boxHeight + 18);
                 
-                if(finals.winner != null && !finals.winner.isEmpty()){
-                    graphic2.drawString("Winner " + finals.winner, centreX + 5, centreY + boxHeight * 2 + 18);
-                }
             }
             
         }

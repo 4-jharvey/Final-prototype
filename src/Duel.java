@@ -1,3 +1,6 @@
+
+import javax.swing.JFrame;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -15,6 +18,7 @@ public class Duel extends javax.swing.JFrame {
     public Duel(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
 

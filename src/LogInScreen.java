@@ -1,4 +1,5 @@
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,6 +21,7 @@ public class LogInScreen extends javax.swing.JFrame {
     String Password = "4572";
     public LogInScreen() {
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**

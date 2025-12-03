@@ -8,9 +8,11 @@ public class Tournament extends javax.swing.JFrame {
     private int tournamentID;
     private JPanel bracketPanel;
 
+
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         System.out.println("TournamentID = " + this.tournamentID);
         

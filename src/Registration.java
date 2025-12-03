@@ -1,6 +1,7 @@
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +24,7 @@ public class Registration extends javax.swing.JFrame {
     public Registration(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
