@@ -8,52 +8,61 @@ public class BracketGenerator {
         //connects to the database and gets the team data and puts them in a list
         try(Connection connect = DatabaseConnection.getConnection()){
             
-        // grabs Team ID from the right tournament
-        List<Integer> teamIDs = new ArrayList<>();
-        String getTeams = "SELECT TeamID FROM Team WHERE TournamentID = ?";
-        PreparedStatement psTeams = connect.prepareStatement(getTeams);
-        psTeams.setInt(1, tournamentID);
-        ResultSet rs = psTeams.executeQuery();
-        
-        while (rs.next()){
-            teamIDs.add(rs.getInt("TeamID"));
-        }
-        
-        Integer finalWinner = createWinnerRound(connect, tournamentID, teamIDs, 1);
-        Integer finalLoser = lChampion;
-        
-        if(finalWinner != null  &&  finalLoser != null){
-            String finale = "INSERT INTO Duel (TeamA, TeamB, Round, TournamentID, whichBracket) VALUES (?, ?, ?, ?, 'F')";
-            PreparedStatement psFinal = connect.prepareStatement(finale);
+            PreparedStatement delete = connect.prepareStatement("DELETE FROM Duel WHERE TournamentID = ?");
+            delete.setInt(1, tournamentID);
+            delete.executeUpdate();
             
-            psFinal.setInt(1, finalWinner);
-            psFinal.setInt(2, finalLoser);
-            psFinal.setInt(3, 100);
-            psFinal.setInt(4, tournamentID);
-            psFinal.executeUpdate();
-        }    
-        
-        //debug statements
-        System.out.println("Loaded " + teamIDs.size() + " teams.");
-        System.out.println("Team IDs = " + teamIDs);
-        System.out.println("TournamentID = " + tournamentID);
-                
-        
-            //catches any errors
-        } catch (SQLException ex) {
-            System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
-        }  catch (Exception ex){
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
-    }
+            System.out.println("Cleared duels from tournament " + tournamentID);
+            
+            // grabs Team ID from the right tournament
+            List<Integer> teamIDs = new ArrayList<>();
+            String getTeams = "SELECT TeamID FROM Team WHERE TournamentID = ?";
+            PreparedStatement psTeams = connect.prepareStatement(getTeams);
+            psTeams.setInt(1, tournamentID);
+            ResultSet rs = psTeams.executeQuery();
+
+            while (rs.next()){
+                teamIDs.add(rs.getInt("TeamID"));
+            }
+
+            Integer finalWinner = createWinnerBracket(connect, tournamentID, teamIDs, 1);
+            Integer finalLoser = lChampion;
+
+            if(finalWinner != null  &&  finalLoser != null){
+                String finale = "INSERT INTO Duel (TeamA, TeamB, Round, TournamentID, whichBracket) VALUES (?, ?, ?, ?, 'F')";
+                PreparedStatement psFinal = connect.prepareStatement(finale);
+
+                psFinal.setInt(1, finalWinner);
+                psFinal.setInt(2, finalLoser);
+                psFinal.setInt(3, 100);
+                psFinal.setInt(4, tournamentID);
+                psFinal.executeUpdate();
+            }    
+
+            //debug statements
+            System.out.println("Loaded " + teamIDs.size() + " teams.");
+            System.out.println("Team IDs = " + teamIDs);
+            System.out.println("TournamentID = " + tournamentID);
+            System.out.println("Winner: " + finalWinner);
+            System.out.println("3rd place: " + finalLoser);
+
+
+
+                //catches any errors
+            } catch (SQLException ex) {
+                System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+            }  catch (Exception ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
+        }
     }
 
 
     private static Integer lChampion = null;
 
-    private static Integer createWinnerRound(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
+    private static Integer createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
     
     if(teamIDs.size() == 1){
         return teamIDs.get(0);
@@ -103,15 +112,15 @@ public class BracketGenerator {
         System.out.println("Executed duel for round " + round);
         System.out.println("Winner advancing: " + winners);
         
-        Integer finalLoser = createLoserRound(connect, tournamentID, losers, 2 * round - 1);
+        Integer finalLoser = createLoserBracket(connect, tournamentID, losers, 2 * round - 1);
         if(finalLoser != null){
             lChampion = finalLoser;
         }
         
-        return createWinnerRound(connect, tournamentID, winners, round + 1);
+        return createWinnerBracket(connect, tournamentID, winners, round + 1);
     }        
         
-    private static Integer createLoserRound(Connection connect, int tournamentID, List<Integer> losers, int round) throws SQLException{
+    private static Integer createLoserBracket(Connection connect, int tournamentID, List<Integer> losers, int round) throws SQLException{
     
     if(losers.size() == 1){
         return losers.get(0);
@@ -154,7 +163,7 @@ public class BracketGenerator {
         System.out.println("Executed duel for round " + round);
         System.out.println("Winner advancing: " + winners);
         
-        return createLoserRound(connect, tournamentID, winners, round + 1);
+        return createLoserBracket(connect, tournamentID, winners, round + 1);
 
     }
 }
