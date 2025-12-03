@@ -24,6 +24,8 @@ public class BracketGenerator {
             while (rs.next()){
                 teamIDs.add(rs.getInt("TeamID"));
             }
+            
+            Collections.shuffle(teamIDs);
 
             Integer finalWinner = createWinnerBracket(connect, tournamentID, teamIDs, 1);
             Integer finalLoser = lChampion;
@@ -103,7 +105,17 @@ public class BracketGenerator {
                 psWinnerDuel.addBatch();
             } 
             else{
-                winners.add(teamIDs.get(i));
+                int oddTeam = teamIDs.get(i);
+                
+                String odd = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, NULL, ?, ?, ?, 'W')";
+                PreparedStatement psOdd = connect.prepareStatement(odd);
+                
+                psOdd.setInt(1, oddTeam);
+                psOdd.setInt(2, round);
+                psOdd.setInt(3, oddTeam);
+                psOdd.setInt(4, tournamentID);
+                psOdd.executeUpdate();
+                
             }
           
         }
@@ -155,7 +167,17 @@ public class BracketGenerator {
                 psLoserDuel.addBatch();
             } 
             else{
-                winners.add(losers.get(i));
+                int oddTeam = losers.get(i);
+                
+                String odd = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, NULL, ?, ?, ?, 'L')";
+                PreparedStatement psOdd = connect.prepareStatement(odd);
+                
+                psOdd.setInt(1, oddTeam);
+                psOdd.setInt(2, round);
+                psOdd.setInt(3, oddTeam);
+                psOdd.setInt(4, tournamentID);
+                psOdd.executeUpdate();
+                
             }
         } 
         

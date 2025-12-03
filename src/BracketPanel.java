@@ -152,6 +152,7 @@ public class BracketPanel extends JPanel {
             drawBracket(graphic2, loserRounds, startX, loserStartY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
             drawFinale(graphic2, finale, startX, boxWidth, boxHeight, verticalSpacing, horizontalSpacing);
+            
         }
         
         private void drawBracket(Graphics2D graphic2, Map<Integer, List<Match>> rounds, int startX, int startY, int boxWidth, int boxHeight, int horizontalSpacing, int verticalSpacing){
@@ -204,13 +205,23 @@ public class BracketPanel extends JPanel {
                             centreY = y + boxHeight;
                         }
                         
+                        if(match.teamB == null || match.teamB.isEmpty()){
+                            graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
+                            graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
+                            
+                            centreY = y + boxHeight / 2;
+                            
+                        }else{
+                            graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
+                            graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
+
+                            graphic2.drawRect(xStartPoint, y + boxHeight, boxWidth, boxHeight);
+                            graphic2.drawString(match.teamB, xStartPoint + 5, y + boxHeight + 18);
+                            
+                            centreY = y + boxHeight;
+                        }
+                                             
                         centres.add(centreY);
-
-                        graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
-                        graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
-
-                        graphic2.drawRect(xStartPoint, y + boxHeight, boxWidth, boxHeight);
-                        graphic2.drawString(match.teamB, xStartPoint + 5, y + boxHeight + 18);
                     }
                     matchCentre.put(roundKey, centres); 
                 }
@@ -251,7 +262,7 @@ public class BracketPanel extends JPanel {
             
             int screenWidth = getWidth();
             int centreX = screenWidth / 2 - boxWidth / 2;
-            int centreY = getHeight() - 700;
+            int centreY = (getPreferredSize().height / 2) - 700;
             
             for (Match finals : finale){
                 
@@ -275,7 +286,7 @@ public class BracketPanel extends JPanel {
             graphic2.drawLine(midX, prevY, midX, nextY);
             graphic2.drawLine(midX, nextY, currentLeft, nextY);
             
-            System.out.printf("Connector prevRightX=%d → midX=%d → currLeftX=%d, prevY=%d → nextY=%d%n", prevRX, midX, currentLeft, prevY, nextY);
+            System.out.printf("Connector prevRightX to midX to currLeftX, prevY to nextY", prevRX, midX, currentLeft, prevY, nextY);
 
 
 
@@ -291,8 +302,11 @@ public class BracketPanel extends JPanel {
             int matchesMax = getmatchesPerRound();
             
             int width = roundsMax * horizontalSpacing + 300;
-            int height = matchesMax + (boxHeight * 2 + verticalSpacing) + 200;
-            return new Dimension(1300, 800);
+            int height = matchesMax * (boxHeight + verticalSpacing) + 200;
+            
+            System.out.println("Height = " + height);
+            
+            return new Dimension(width, 2000);
         }
         
         private int getmatchesPerRound(){

@@ -31,11 +31,21 @@ public class Tournament extends javax.swing.JFrame {
             
             bracketPanel = BracketPanel.getBracketPanel(tournamentID);
             
-            JScrollPane scrollPane = new JScrollPane(bracketPanel);
+            JPanel box = new JPanel(new BorderLayout());
+            box.add(bracketPanel, BorderLayout.CENTER);
+            
+            JScrollPane scrollPane = new JScrollPane(box);
             scrollPane.setBorder(null);
+            
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             
             getContentPane().add(scrollPane, BorderLayout.CENTER);
             
+            bracketPanel.revalidate();
+            bracketPanel.repaint();
+
+            System.out.println("Preferred size is: " + bracketPanel.getPreferredSize());
             System.out.println("Tournament Bracket printed for " + tournamentID);
             
         }  catch (Exception ex){

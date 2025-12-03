@@ -15,10 +15,12 @@ public class Duel extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Duel.class.getName());
 
     private int tournamentID;
+    
     public Duel(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
     }
     
 

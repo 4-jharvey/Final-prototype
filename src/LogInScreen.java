@@ -1,6 +1,9 @@
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,11 +20,13 @@ public class LogInScreen extends javax.swing.JFrame {
      * Creates new form LogInScreen
      */
     private int tournamentID;
+    
     //password for admin use
     String Password = "4572";
     public LogInScreen() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
     }
 
     /**
