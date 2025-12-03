@@ -251,7 +251,7 @@ public class BracketPanel extends JPanel {
             
             int screenWidth = getWidth();
             int centreX = screenWidth / 2 - boxWidth / 2;
-            int centreY = getHeight() - 675;
+            int centreY = getHeight() - 700;
             
             for (Match finals : finale){
                 
