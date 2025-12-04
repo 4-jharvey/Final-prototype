@@ -21,11 +21,12 @@ public class Tournament extends javax.swing.JFrame {
             
             getContentPane().setLayout(new BorderLayout());
             
-            JPanel buttons = new JPanel(new GridLayout(1,4));
+            JPanel buttons = new JPanel(new GridLayout(1,5));
             buttons.add(GoToSchedule);
             buttons.add(GoToLeadboard);
             buttons.add(GoToMatch);
             buttons.add(Registrator);
+            buttons.add(LeaveTournament);
             
             getContentPane().add(buttons, BorderLayout.NORTH);
             
@@ -60,9 +61,10 @@ public class Tournament extends javax.swing.JFrame {
     private void initComponents() {
 
         GoToSchedule = new javax.swing.JButton();
+        LeaveTournament = new javax.swing.JButton();
         GoToLeadboard = new javax.swing.JButton();
-        GoToMatch = new javax.swing.JButton();
         Registrator = new javax.swing.JButton();
+        GoToMatch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +76,14 @@ public class Tournament extends javax.swing.JFrame {
         });
         getContentPane().add(GoToSchedule, java.awt.BorderLayout.CENTER);
 
+        LeaveTournament.setText("Leave Tournament");
+        LeaveTournament.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaveTournamentActionPerformed(evt);
+            }
+        });
+        getContentPane().add(LeaveTournament, java.awt.BorderLayout.LINE_START);
+
         GoToLeadboard.setText("To Leaderboard");
         GoToLeadboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,14 +92,6 @@ public class Tournament extends javax.swing.JFrame {
         });
         getContentPane().add(GoToLeadboard, java.awt.BorderLayout.PAGE_START);
 
-        GoToMatch.setText("To Match");
-        GoToMatch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GoToMatchActionPerformed(evt);
-            }
-        });
-        getContentPane().add(GoToMatch, java.awt.BorderLayout.PAGE_END);
-
         Registrator.setText("Register Here");
         Registrator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,6 +99,14 @@ public class Tournament extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Registrator, java.awt.BorderLayout.LINE_END);
+
+        GoToMatch.setText("To Match");
+        GoToMatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GoToMatchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(GoToMatch, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -129,10 +139,18 @@ public class Tournament extends javax.swing.JFrame {
         register.setVisible(true);
     }//GEN-LAST:event_RegistratorActionPerformed
 
+    private void LeaveTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveTournamentActionPerformed
+        
+        HomePage home = new HomePage();
+        this.dispose();
+        home.setVisible(true);
+    }//GEN-LAST:event_LeaveTournamentActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GoToLeadboard;
     private javax.swing.JButton GoToMatch;
     private javax.swing.JButton GoToSchedule;
+    private javax.swing.JButton LeaveTournament;
     private javax.swing.JButton Registrator;
     // End of variables declaration//GEN-END:variables
 }

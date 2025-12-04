@@ -44,7 +44,7 @@ public class Leaderboard extends javax.swing.JFrame {
                 BackToBracketActionPerformed(evt);
             }
         });
-        getContentPane().add(BackToBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 463, 140, 110));
+        getContentPane().add(BackToBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, 190, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

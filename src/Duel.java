@@ -1,4 +1,5 @@
-
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.JFrame;
 
 /*
@@ -45,7 +46,7 @@ public class Duel extends javax.swing.JFrame {
                 BackToBracketActionPerformed(evt);
             }
         });
-        getContentPane().add(BackToBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 520, 280, 40));
+        getContentPane().add(BackToBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 280, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
