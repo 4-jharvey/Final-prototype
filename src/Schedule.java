@@ -15,7 +15,7 @@ public class Schedule extends javax.swing.JFrame {
         
         getContentPane().setLayout(new BorderLayout());
         
-        JPanel button =;
+        
         
         JScrollPane scheduel = new JScrollPane(schedule);
         scheduel.setBorder(null);

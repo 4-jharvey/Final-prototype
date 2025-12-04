@@ -13,15 +13,15 @@ public class BracketPanel extends JPanel {
         public String teamB;
         public String winner;
         public int round;
-        public String whichBracket;
+        
 
-        public Match(String teamA, String teamB, String winner, int round, String whichBracket, int matchID) {
+        public Match(String teamA, String teamB, String winner, int round, int matchID) {
             this.matchID = matchID;
             this.teamA = teamA;
             this.teamB = teamB;
             this.winner = winner;
             this.round = round;
-            this.whichBracket = whichBracket;
+            
             
             
         }
@@ -35,12 +35,12 @@ public class BracketPanel extends JPanel {
         try (Connection connect = DatabaseConnection.getConnection()) {
             String sql =
                     "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, "
-                    + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner, Duel.whichBracket " 
+                    + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner " 
                     + "FROM Duel " 
                     + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID " 
-                    + "JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID " 
+                    + "LEFT JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID " 
                     + "WHERE Duel.TournamentID = ? "
-                    + "ORDER BY Duel.whichBracket ASC, Duel.Round ASC, Duel.MatchID ASC";
+                    + "ORDER BY Duel.Round ASC, Duel.MatchID ASC";
 
             PreparedStatement ps = connect.prepareStatement(sql);
             ps.setInt(1, tournamentID);
@@ -60,10 +60,9 @@ public class BracketPanel extends JPanel {
 
                 String winner = (winnerID != null && winnerID.equals(teamAID)) ? teamA : teamB;
                 
-                String whichBracket = rs.getString("whichBracket");
                 int round = rs.getInt("Round");
 
-                matchList.add(new Match(teamA, teamB, winner, round, whichBracket, matchID));
+                matchList.add(new Match(teamA, teamB, winner, round, matchID));
             }
 
         } catch (SQLException ex) {
@@ -78,46 +77,24 @@ public class BracketPanel extends JPanel {
     public static class BracketPane extends JPanel {
 
         private final Map<Integer, List<Match>> winnerRounds = new HashMap<>();
-        private final Map<Integer, List<Match>> loserRounds = new HashMap<>();
         private final List<Match> finale = new ArrayList<>();
 
         public BracketPane(List<Match> matches) {
 
             for (Match match : matches) {
-                switch(match.whichBracket){
-                    case "W": {
-                        List<Match> matchesPerRound = winnerRounds.get(match.round);
-                        if(matchesPerRound == null){
-                            matchesPerRound = new ArrayList<>();
-                            winnerRounds.put(match.round, matchesPerRound);
-                        }
-                        
-                        matchesPerRound.add(match);
-                        break;
-                    }
-                    
-                    case "L": {
-                        List<Match> matchesPerRound = loserRounds.get(match.round);
-                        if(matchesPerRound == null){
-                            matchesPerRound = new ArrayList<>();
-                            loserRounds.put(match.round, matchesPerRound);
-                            
-                        }
-                        
-                        matchesPerRound.add(match);
-                        break;
-                            
-                    }
-                    case "F": {
+                if(match.round == 0 || match.round == 100){                      
                         finale.add(match);
-                        break;
-                    }
-                    default: {
-                        System.out.println("Unknown bracket appeared " + match.whichBracket);
+                        
+                }
+                else{
+                    List<Match> matchesPerRound = winnerRounds.get(match.round);
+                    if(matchesPerRound == null){
+                        matchesPerRound = new ArrayList<>();
+                        winnerRounds.put(match.round, matchesPerRound);
                     }
                         
-                        
-                    
+                        matchesPerRound.add(match);
+ 
                 }
                 
             }
@@ -147,13 +124,8 @@ public class BracketPanel extends JPanel {
             
             }
             
-            int winnerStartX = startX;
-            drawBracket(graphic2, winnerRounds, winnerStartX, startY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
+            drawBracket(graphic2, winnerRounds, startX, startY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
-            int winnerColumns = Math.max(1, winnerRounds.keySet().size());
-            int winnerHeight = (boxHeight * 2 + verticalSpacing) * maxMatches;
-            int loserStartY = startY + winnerHeight + 100;
-            drawBracket(graphic2, loserRounds, startX, loserStartY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
             drawFinale(graphic2, finale, startX, boxWidth, boxHeight, verticalSpacing, horizontalSpacing);
             
@@ -255,7 +227,7 @@ public class BracketPanel extends JPanel {
                         }
                     }
                     
-                }                 
+                }                  
         }
 
         private void drawFinale(Graphics2D graphic2, List<Match> finale, int startX, int boxWidth, int boxHeight, int verticalSpacing, int horizontalSpacing){
@@ -302,7 +274,7 @@ public class BracketPanel extends JPanel {
             int verticalSpacing = 60;
             int horizontalSpacing = 150;
             
-            int roundsMax = winnerRounds.keySet().size() + loserRounds.keySet().size() + (finale.isEmpty() ? 0 : 1);
+            int roundsMax = winnerRounds.keySet().size() + (finale.isEmpty() ? 0 : 1);
             int matchesMax = getmatchesPerRound();
             
             int width = roundsMax * horizontalSpacing + 300;
@@ -317,9 +289,6 @@ public class BracketPanel extends JPanel {
             int maximum = 0;
             
             for(List<Match> matches : winnerRounds.values()){
-                maximum = Math.max(maximum, matches.size());
-            }
-            for(List<Match> matches : loserRounds.values()){
                 maximum = Math.max(maximum, matches.size());
             }
             if(finale.isEmpty()){
