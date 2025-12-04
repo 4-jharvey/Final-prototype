@@ -1,6 +1,7 @@
 
 import javax.swing.*;
 import java.sql.*;
+import javax.swing.DefaultComboBoxModel;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,6 +21,14 @@ public class CreateTournament extends javax.swing.JFrame {
     public CreateTournament() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        String[] gameName = {
+            "Valorant",
+            "Rainbow Six Siege",
+            "Rocket League",
+            "CSGO"
+        };
+        
+        GamePlayed.setModel(new DefaultComboBoxModel<>(gameName));
     }
     
     /**

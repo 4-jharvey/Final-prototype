@@ -25,11 +25,15 @@ public class BracketGenerator {
                 teamIDs.add(rs.getInt("TeamID"));
             }
             
+            //shuffles the teams so the matches are randomised
             Collections.shuffle(teamIDs);
-
+            
+            //creates the variables for the final
             Integer finalWinner = createWinnerBracket(connect, tournamentID, teamIDs, 1);
             Integer finalLoser = lChampion;
-
+            
+            
+            //holds the data for the finale box
             if(finalWinner != null  &&  finalLoser != null){
                 String finale = "INSERT INTO Duel (TeamA, TeamB, Round, TournamentID, whichBracket) VALUES (?, ?, ?, ?, 'F')";
                 PreparedStatement psFinal = connect.prepareStatement(finale);
@@ -61,7 +65,7 @@ public class BracketGenerator {
         }
     }
 
-
+    //sets the losers list 
     private static Integer lChampion = null;
     private static List<Integer> allLosers = new ArrayList<>();
 
@@ -82,6 +86,7 @@ public class BracketGenerator {
         String insertWinnerDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, ?, ?, ?, ?, 'W')";
         PreparedStatement psWinnerDuel = connect.prepareStatement(insertWinnerDuel);
         
+        //creates winner and loser list
         List<Integer> winners = new ArrayList<>();
         List<Integer> losers = new ArrayList<>();
         
@@ -105,6 +110,7 @@ public class BracketGenerator {
                 
                 psWinnerDuel.addBatch();
             } 
+            //this is in case there is an odd number of teams
             else if(round == 1){
                 int oddTeam = teamIDs.get(i);
                 
@@ -170,7 +176,7 @@ public class BracketGenerator {
                 
                 psLoserDuel.addBatch();
             } 
-            else if (round == 1){
+            else{
                 int oddTeam = losers.get(i);
                 nextRound.add(oddTeam);
                 
