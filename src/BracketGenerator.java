@@ -63,12 +63,13 @@ public class BracketGenerator {
 
 
     private static Integer lChampion = null;
+    private static List<Integer> allLosers = new ArrayList<>();
 
     private static Integer createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
     
-    if(teamIDs.size() == 1){
-        return teamIDs.get(0);
-    }
+        if(teamIDs.size() == 1){
+            return teamIDs.get(0);
+        }
 
         //stops any activity is happening if there are less than 2 teams in list
         if (teamIDs.size() < 2){
@@ -104,21 +105,22 @@ public class BracketGenerator {
                 
                 psWinnerDuel.addBatch();
             } 
-            else{
+            else if(round == 1){
                 int oddTeam = teamIDs.get(i);
                 
-                String odd = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, NULL, ?, ?, ?, 'W')";
-                PreparedStatement psOdd = connect.prepareStatement(odd);
+                psWinnerDuel.setInt(1, oddTeam);
+                psWinnerDuel.setNull(2, java.sql.Types.INTEGER);
+                psWinnerDuel.setInt(3, round);
+                psWinnerDuel.setInt(4, oddTeam);
+                psWinnerDuel.setInt(5, tournamentID);
+                psWinnerDuel.addBatch();
                 
-                psOdd.setInt(1, oddTeam);
-                psOdd.setInt(2, round);
-                psOdd.setInt(3, oddTeam);
-                psOdd.setInt(4, tournamentID);
-                psOdd.executeUpdate();
-                
+                winners.add(oddTeam);
             }
           
         }
+        allLosers.addAll(losers);
+        
                 psWinnerDuel.executeBatch();
         //debugging statments
         System.out.println("Executed duel for round " + round);
@@ -144,11 +146,12 @@ public class BracketGenerator {
         }
         
         Random Rand = new Random();
-        List<Integer> winners = new ArrayList<>();
+        List<Integer> nextRound = new ArrayList<>();
+
         
         //inserts match data into database
-        String insertLoserDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, ?, ?, ?, ?, 'L')";
-        PreparedStatement psLoserDuel = connect.prepareStatement(insertLoserDuel);           
+        String loserDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, ?, ?, ?, ?, 'L')";
+        PreparedStatement psLoserDuel = connect.prepareStatement(loserDuel);           
         
         //recursive method to keep track of who wins and inserts them into winner
         for(int i = 0; i < losers.size(); i += 2){
@@ -157,6 +160,7 @@ public class BracketGenerator {
                 int teamB = losers.get(i + 1);
                 
                 int winner = Rand.nextBoolean() ? teamA : teamB;
+                nextRound.add(winner);
                 
                 psLoserDuel.setInt(1, teamA);
                 psLoserDuel.setInt(2, teamB);
@@ -166,26 +170,27 @@ public class BracketGenerator {
                 
                 psLoserDuel.addBatch();
             } 
-            else{
+            else if (round == 1){
                 int oddTeam = losers.get(i);
+                nextRound.add(oddTeam);
                 
-                String odd = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID, whichBracket) VALUES (?, NULL, ?, ?, ?, 'L')";
-                PreparedStatement psOdd = connect.prepareStatement(odd);
-                
-                psOdd.setInt(1, oddTeam);
-                psOdd.setInt(2, round);
-                psOdd.setInt(3, oddTeam);
-                psOdd.setInt(4, tournamentID);
-                psOdd.executeUpdate();
+                psLoserDuel.setInt(1, oddTeam);
+                psLoserDuel.setNull(2, java.sql.Types.INTEGER);
+                psLoserDuel.setInt(3, round);
+                psLoserDuel.setInt(4, oddTeam);
+                psLoserDuel.setInt(5, tournamentID);
+                psLoserDuel.addBatch();
                 
             }
         } 
         
+        
         psLoserDuel.executeBatch();
         System.out.println("Executed duel for round " + round);
-        System.out.println("Winner advancing: " + winners);
+        System.out.println("Winner advancing: " + nextRound);
         
-        return createLoserBracket(connect, tournamentID, winners, round + 1);
+        allLosers = new ArrayList<>(nextRound);
+        return createLoserBracket(connect, tournamentID, nextRound, round + 1);
 
     }
 }
