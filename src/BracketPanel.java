@@ -183,7 +183,7 @@ public class BracketPanel extends JPanel {
                         
                         if(match.teamB == null || match.teamB.isEmpty()){
                             graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
-                            graphic2.drawString(match.teamA + "Odd", xStartPoint + 5, y + 18);
+                            graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
                             
                             centreY = y + boxHeight / 2;
                             
