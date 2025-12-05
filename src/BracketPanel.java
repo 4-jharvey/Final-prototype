@@ -33,14 +33,13 @@ public class BracketPanel extends JPanel {
         List<Match> matchList = new ArrayList<>();
 
         try (Connection connect = DatabaseConnection.getConnection()) {
-            String sql =
-                    "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, "
-                    + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner " 
-                    + "FROM Duel " 
-                    + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID " 
-                    + "LEFT JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID " 
-                    + "WHERE Duel.TournamentID = ? "
-                    + "ORDER BY Duel.Round ASC, Duel.MatchID ASC";
+            String sql = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, "
+                        + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner " 
+                        + "FROM Duel " 
+                        + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID " 
+                        + "LEFT JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID " 
+                        + "WHERE Duel.TournamentID = ? "
+                        + "ORDER BY Duel.Round ASC, Duel.MatchID ASC";
 
             PreparedStatement ps = connect.prepareStatement(sql);
             ps.setInt(1, tournamentID);
@@ -67,7 +66,7 @@ public class BracketPanel extends JPanel {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "SQL Error: " + ex);
+            JOptionPane.showMessageDialog(null, "SQL Error: " + ex.toString());
         }
 
         return matchList;

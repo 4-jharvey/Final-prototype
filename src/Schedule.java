@@ -1,27 +1,36 @@
 import java.awt.*;
 import javax.swing.*;
+import java.util.List;
 
 public class Schedule extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Schedule.class.getName());
-    private JPanel schedule;
 
     private int tournamentID;
+    private JScrollPane SchedulePane;
     
     public Schedule(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        showSchedule();
+        
+        JPanel button = new JPanel(new GridLayout(1, 1));
+        button.add(BackToBracket);
+        
+        getContentPane().add(button, BorderLayout.SOUTH);
+    }
+    
+    private void showSchedule(){
+        List<ScheduleGenerator.matchInfo> matches = ScheduleGenerator.getMatchInfo(tournamentID);
+        SchedulePane = ScheduleGenerator.createSchedule(matches);
+        
         getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(SchedulePane, BorderLayout.CENTER);
         
-        
-        
-        JScrollPane scheduel = new JScrollPane(schedule);
-        scheduel.setBorder(null);
-        
-        scheduel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scheduel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        revalidate();
+        repaint();
     }
     
     
