@@ -23,9 +23,9 @@ public class Duel extends javax.swing.JFrame {
             
             String sql = "SELECT Duel.MatchID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Schedule.Time FROM Duel "
                         + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID "
-                        + "JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
+                        + "LEFT JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
                         + "JOIN Schedule ON Duel.MatchID = Schedule.matchID "
-                        + "WHERE Duel.TournamentID = ? AND Schedule.Time <= NOW() "
+                        + "WHERE Duel.TournamentID = ? "
                         + "ORDER BY Schedule.Time ASC LIMIT 1";
             PreparedStatement match = connect.prepareStatement(sql);
             match.setInt(1, tournamentID);
@@ -38,10 +38,13 @@ public class Duel extends javax.swing.JFrame {
                 
                 String teamAName = rsMatch.getString("TeamAName");
                 String teamBName = rsMatch.getString("TeamBName");
-
-
                 
-                System.out.println("Loaded match " + matchID + ": " + teamAName + " vs " + teamBName);
+                TeamA.setEditable(false);
+                TeamB.setEditable(false);
+
+                AddPointA.setText("Add point to " + TeamA);
+                AddPointB.setText("Add point to " + TeamB);
+                
             }
             
         } catch (SQLException ex) {
@@ -138,6 +141,7 @@ public class Duel extends javax.swing.JFrame {
             PreparedStatement psScoreB = connect.prepareStatement(sql);
             psScoreB.setInt(1, tournamentID);
             psScoreB.setInt(2, matchID);
+            psScoreB.executeUpdate();
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
@@ -157,7 +161,7 @@ public class Duel extends javax.swing.JFrame {
             PreparedStatement psScore = connect.prepareStatement(sql);
             psScore.setInt(1, tournamentID);
             psScore.setInt(2, matchID);
-           
+            psScore.executeUpdate();
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();

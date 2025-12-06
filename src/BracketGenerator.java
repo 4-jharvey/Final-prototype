@@ -1,7 +1,7 @@
 import java.util.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
-
+import java.time.*;
 
 public class BracketGenerator {
     public static void generateBracket(int tournamentID){
@@ -36,7 +36,7 @@ public class BracketGenerator {
             //holds the data for the finale box
             if(finalWinner != null){
                 String finale = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
-                PreparedStatement psFinal = connect.prepareStatement(finale);
+                PreparedStatement psFinal = connect.prepareStatement(finale, Statement.RETURN_GENERATED_KEYS);
 
                 psFinal.setInt(1, finalWinner);
                 psFinal.setNull(2, java.sql.Types.INTEGER);
@@ -44,6 +44,13 @@ public class BracketGenerator {
                 psFinal.setInt(4, finalWinner);
                 psFinal.setInt(5, tournamentID);
                 psFinal.executeUpdate();
+                
+                ResultSet rsKeys = psFinal.getGeneratedKeys();
+                if(rsKeys.next()){
+                    int matchID = rsKeys.getInt(1);
+                    LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30);
+                    insertSchedule(connect, tournamentID, matchID, matchTime);
+                }
             }    
 
             //debug statements
@@ -52,7 +59,7 @@ public class BracketGenerator {
             System.out.println("TournamentID = " + tournamentID);
             System.out.println("Winner: " + finalWinner);
 
-
+            
 
                 //catches any errors
             } catch (SQLException ex) {
@@ -80,9 +87,7 @@ public class BracketGenerator {
         
         Random Rand = new Random();
         
-        //inserts match data into database
-        String insertWinnerDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement psWinnerDuel = connect.prepareStatement(insertWinnerDuel);
+        
         
         //creates winner and loser list
         List<Integer> winners = new ArrayList<>();
@@ -98,31 +103,49 @@ public class BracketGenerator {
                 
                 winners.add(winner);
                 
+                //inserts match data into database
+                String insertWinnerDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement psWinnerDuel = connect.prepareStatement(insertWinnerDuel, Statement.RETURN_GENERATED_KEYS);
                 psWinnerDuel.setInt(1, teamA);
                 psWinnerDuel.setInt(2, teamB);
                 psWinnerDuel.setInt(3, round);
                 psWinnerDuel.setInt(4, winner);
                 psWinnerDuel.setInt(5, tournamentID);
                 
-                psWinnerDuel.addBatch();
+                psWinnerDuel.executeUpdate();
+                
+                ResultSet rsKeys = psWinnerDuel.getGeneratedKeys();
+                if(rsKeys.next()){
+                    int matchID = rsKeys.getInt(1);
+                    LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30 * (round + i / 2));
+                    insertSchedule(connect, tournamentID, matchID, matchTime);
+                }
             } 
             //this is in case there is an odd number of teams
             else if(round == 1){
                 int oddTeam = teamIDs.get(i);
                 
+                //inserts match data into database
+                String insertWinnerDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement psWinnerDuel = connect.prepareStatement(insertWinnerDuel, Statement.RETURN_GENERATED_KEYS);
                 psWinnerDuel.setInt(1, oddTeam);
                 psWinnerDuel.setNull(2, java.sql.Types.INTEGER);
                 psWinnerDuel.setInt(3, round);
                 psWinnerDuel.setInt(4, oddTeam);
                 psWinnerDuel.setInt(5, tournamentID);
-                psWinnerDuel.addBatch();
+                psWinnerDuel.executeUpdate();
                 
                 winners.add(oddTeam);
+                
+                ResultSet rsKeys = psWinnerDuel.getGeneratedKeys();
+                if(rsKeys.next()){
+                    int matchID = rsKeys.getInt(1);
+                    LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30 * (round + i / 2));
+                    insertSchedule(connect, tournamentID, matchID, matchTime);
+                }
             }
           
         }
-        
-                psWinnerDuel.executeBatch();
                 
         //debugging statments
         System.out.println("Executed duel for round " + round);
@@ -132,6 +155,15 @@ public class BracketGenerator {
         
         return createWinnerBracket(connect, tournamentID, winners, round + 1);
     }        
+    
+    private static void insertSchedule (Connection connect, int tournamentID, int matchID, LocalDateTime matchTime) throws SQLException {
+        String scheduleQuery = "INSERT INTO Schedule (TournamentID, matchID, Time) VALUES (?, ?, ?)";
+        PreparedStatement psSched = connect.prepareStatement(scheduleQuery);
+        psSched.setInt(1, tournamentID);
+        psSched.setInt(2, matchID);
+        psSched.setTimestamp(3, Timestamp.valueOf(matchTime));
+        psSched.executeUpdate();
+    }
         
 }
 

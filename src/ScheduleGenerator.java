@@ -12,9 +12,9 @@ public class ScheduleGenerator extends JPanel{
         String teamA;
         String teamB;
         String winner;
-        LocalTime time;
+        LocalDateTime time;
         
-        public matchInfo(String teamB, String teamA, String winner, LocalTime time){
+        public matchInfo(String teamB, String teamA, String winner, LocalDateTime time){
             this.teamA = teamA;
             this.teamB = teamB;
             this.winner = winner;
@@ -30,11 +30,12 @@ public class ScheduleGenerator extends JPanel{
         
         try(Connection connect = DatabaseConnection.getConnection()){
             String query = "SELECT Duel.MatchID, Duel.TeamA, Duel.TeamB, Duel.Winner, Duel.Round, "
-                           + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, WinnerTeam.TeamName AS WinnerName " 
+                           + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, WinnerTeam.TeamName AS WinnerName, Schedule.Time " 
                            + "FROM Duel " 
                            + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID " 
                            + "LEFT JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
-                           + "LEFT JOIN Team AS WinnerTeam ON Duel.Winner = WinnerTeam.TeamID " 
+                           + "LEFT JOIN Team AS WinnerTeam ON Duel.Winner = WinnerTeam.TeamID "
+                           + "JOIN Schedule ON Duel.MatchID = Schedule.MatchID " 
                            + "WHERE Duel.TournamentID = ? AND Duel.Round <> '100' "
                            + "ORDER BY  Duel.MatchID ASC";
             PreparedStatement psTeam = connect.prepareStatement(query);
@@ -47,7 +48,9 @@ public class ScheduleGenerator extends JPanel{
                 String teamA = rsTeams.getString("TeamAName");
                 String teamB = rsTeams.getString("TeamBName");
                 String winner = rsTeams.getString("WinnerName");
-                LocalTime matchTime = currentTime.plusMinutes(30 * count);
+                Timestamp time = rsTeams.getTimestamp("Time");
+                
+                LocalDateTime matchTime = time != null ? time.toLocalDateTime(): null;
                 
                 schedule.add(new ScheduleGenerator.matchInfo(teamA, teamB, winner, matchTime));
                 count++;
