@@ -15,9 +15,44 @@ public class Duel extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        currentMatch();
     }
     
+    private void currentMatch(){
+        try(Connection connect = DatabaseConnection.getConnection()){
+            
+            String sql = "SELECT Duel.MatchID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Schedule.Time FROM Duel "
+                        + "JOIN Team AS TeamA ON Duel.TeamA = TeamA.TeamID "
+                        + "JOIN Team AS TeamB ON Duel.TeamB = TeamB.TeamID "
+                        + "JOIN Schedule ON Duel.MatchID = Schedule.matchID "
+                        + "WHERE Duel.TournamentID = ? AND Schedule.Time <= NOW() "
+                        + "ORDER BY Schedule.Time ASC LIMIT 1";
+            PreparedStatement match = connect.prepareStatement(sql);
+            match.setInt(1, tournamentID);
+            ResultSet rsMatch = match.executeQuery();
+            
+            if(rsMatch.next()){
+                matchID = rsMatch.getInt("MatchID");
+                TeamA.setText(rsMatch.getString("TeamAName"));
+                TeamB.setText(rsMatch.getString("TeamBName"));
+                
+                String teamAName = rsMatch.getString("TeamAName");
+                String teamBName = rsMatch.getString("TeamBName");
 
+
+                
+                System.out.println("Loaded match " + matchID + ": " + teamAName + " vs " + teamBName);
+            }
+            
+        } catch (SQLException ex) {
+            System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,16 +130,14 @@ public class Duel extends javax.swing.JFrame {
     }//GEN-LAST:event_BackToBracketActionPerformed
 
     private void AddPointBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPointBActionPerformed
-        int ScoreB = 0;
+
         
         try(Connection connect = DatabaseConnection.getConnection()){
-            ScoreB++;
             
-            String sql = "INSERT INTO Duel(TeamB_Score) VALUES (?) WHERE TournamentID = ? AND MatchID = ?";
+            String sql = "UPDATE Duel SET TeamB_Score = TeamB_Score + 1 WHERE TournamentID = ? AND MatchID = ?";
             PreparedStatement psScoreB = connect.prepareStatement(sql);
-            psScoreB.setInt(1, ScoreB);
-            psScoreB.setInt(2, tournamentID);
-            psScoreB.setInt(3, matchID);
+            psScoreB.setInt(1, tournamentID);
+            psScoreB.setInt(2, matchID);
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
@@ -116,16 +149,14 @@ public class Duel extends javax.swing.JFrame {
     }//GEN-LAST:event_AddPointBActionPerformed
 
     private void AddPointAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPointAActionPerformed
-        int scoreA = 0;
+
         
         try(Connection connect = DatabaseConnection.getConnection()){
-            scoreA++;
             
-            String sql = "INSERT INTO Duel(TeamA_Score) VALUES (?) WHERE TournamentID = ? AND MatchID = ?";
+            String sql = "UPDATE Duel SET TeamA_Score = TeamA_Score + 1  WHERE TournamentID = ? AND MatchID = ?";
             PreparedStatement psScore = connect.prepareStatement(sql);
-            psScore.setInt(1, scoreA);
-            psScore.setInt(2, tournamentID);
-            psScore.setInt(3, matchID);
+            psScore.setInt(1, tournamentID);
+            psScore.setInt(2, matchID);
            
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
