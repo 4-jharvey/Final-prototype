@@ -1,7 +1,8 @@
+import java.awt.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,13 +19,16 @@ public class Registration extends javax.swing.JFrame {
     /**
      * Creates new form Registration
      */
-    
+    private JPanel playerReg = new JPanel();
     private int tournamentID;
     
     public Registration(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        playerReg.setLayout(new BoxLayout(playerReg, BoxLayout.Y_AXIS));
+        getContentPane().add(playerReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 340, 200));
     }
 
     /**
@@ -159,9 +163,23 @@ public class Registration extends javax.swing.JFrame {
             
             ResultSet rs = ps.getGeneratedKeys();
             
+            int teamID = 0;
             if(rs.next()){
-                 int tournamentID = rs.getInt(1);
-                 System.out.println("Tournament printed for " + tournamentID);
+                teamID = rs.getInt(1);
+            }
+            
+            for (Component player : playerReg.getComponents()){
+                if(player instanceof JTextField){
+                    JTextField text = (JTextField) player;
+                    String UserName = text.getText();
+                    if(!UserName.isEmpty()){
+                         String playerQuery = "INSERT INTO Player(Username, TeamID) VALUES (?, ?)";
+                         PreparedStatement psPlayer = connect.prepareStatement(playerQuery);
+                         psPlayer.setString(1, UserName);
+                         psPlayer.setInt(2, teamID);
+                         psPlayer.executeUpdate();
+                    }
+                }
             }
                         
             // prints any errors that occur either SQL or Java side
@@ -176,7 +194,25 @@ public class Registration extends javax.swing.JFrame {
     }//GEN-LAST:event_RegisterActionPerformed
 
     private void NumOfPlayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumOfPlayersActionPerformed
-        // TODO add your handling code here:
+        playerReg.removeAll();
+        
+        int Players = 0;
+        
+        try{
+            Players = Integer.parseInt(NumOfPlayers.getText());
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "please enter valid number");
+        }
+        
+        for(int i = 0; i <= Players; i++){
+            JTextField player = new JTextField ();
+            player.setName("Player" + i);
+            player.setBorder(javax.swing.BorderFactory.createTitledBorder("Player" + i));
+            playerReg.add(player);
+        }
+        
+        playerReg.revalidate();
+        playerReg.repaint();
     }//GEN-LAST:event_NumOfPlayersActionPerformed
 
     /**
