@@ -42,8 +42,11 @@ public class Duel extends javax.swing.JFrame {
                 TeamA.setEditable(false);
                 TeamB.setEditable(false);
 
-                AddPointA.setText("Add point to " + TeamA);
-                AddPointB.setText("Add point to " + TeamB);
+                AddPointA.setText("Add point to " + teamAName);
+                AddPointB.setText("Add point to " + teamBName);
+                
+                teamStats(connect, teamAName, TeamAStats);
+                teamStats(connect, teamBName, TeamBStats);
                 
             }
             
@@ -55,6 +58,59 @@ public class Duel extends javax.swing.JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
+    }
+    
+    private void teamStats(Connection connect, String team, JTextArea statsDisplayer){
+        try{
+            String statsQuery = "SELECT Player.Username, Player_stats.Kills, Player_stats.Deaths, Player_stats.Assists, Player_stats.Wins, Player_stats.Losses "
+                                + "FROM Player_stats "
+                                + "JOIN Player player ON Player_stats.PlayerID = Player.PlayerID "
+                                + "JOIN Team team ON Player.TeamID = Team.TeamID "
+                                + "WHERE Team.TeamName = ?";
+            PreparedStatement psStats = connect.prepareStatement(statsQuery);
+            psStats.setString(1, team);
+            ResultSet rsStats = psStats.executeQuery();
+            
+            int teamKills = 0;
+            int teamDeaths = 0;
+            int teamAssists = 0;
+            int teamWins = 0;
+            int teamLosses = 0;
+            int count = 0;
+            
+            while (rsStats.next()){
+                int kills = rsStats.getInt("Kills");
+                int deaths = rsStats.getInt("Deaths");
+                int assists = rsStats.getInt("Assists");
+                int wins = rsStats.getInt("Wins");
+                int losses = rsStats.getInt("Losses");
+                
+                count++;
+                
+                teamKills = kills + teamKills;
+                teamDeaths = deaths + teamDeaths;
+                teamAssists = assists + teamAssists;
+                teamWins = wins + teamWins;
+                teamLosses = losses + teamLosses;
+                
+            }
+            if(count > 0){
+                statsDisplayer.append("Team Statistics: "
+                                     + "Average Kills: " + teamKills/count
+                                     + "Average Deaths: " + teamDeaths/count
+                                     + "Average Assists: " + teamAssists/count
+                                     + "Average Wins: " + teamWins/count
+                                     + "Average Losse: " + teamLosses/count);
+            }  
+        } catch (SQLException ex) {
+            System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
+        }
+        
     }
 
     @SuppressWarnings("unchecked")
