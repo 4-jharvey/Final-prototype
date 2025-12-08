@@ -104,7 +104,7 @@ public class PlayerStatsCollector {
                 String Username = rsPlayer.getString("Username");
                 
                 String api = API(Username, Game);
-                JSONObject json = apiConnector(api, apiKey);
+                JSONObject json = apiConnector(api, Game, apiKey);
                 
                 int[] stats = readStats(json, Game);
                 int kills = stats[0];
