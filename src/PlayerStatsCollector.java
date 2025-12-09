@@ -23,7 +23,7 @@ public class PlayerStatsCollector {
         }
     }
     
-    private static JSONObject apiConnector(String api, String game, String apiKey) throws Exception {
+    private static JSONObject apiConnector(String api, String game) throws Exception {
         URL apiUrl = new URL(api);
         HttpURLConnection connect = (HttpURLConnection) apiUrl.openConnection();
         connect.setRequestMethod("GET");
@@ -34,7 +34,7 @@ public class PlayerStatsCollector {
         if(game.equals("Rainbow Six Siege")){
             connect.setRequestProperty("Authorisation", apiKey);
         }
-*/
+        */
 
         if(game.equals("Valorant")){
             connect.setRequestProperty("Authorisation", "HDEV-4878df4d-b931-48bc-9e7b-192ca532324e");
@@ -92,7 +92,7 @@ public class PlayerStatsCollector {
         return new int[] {kills, deaths, assists, wins, losses};
     }
     
-    public static void playerStats(Connection connect, int matchID, String Game, int teamID, String apiKey){
+    public static void playerStats(Connection connect, int matchID, String Game, int teamID){
         try{
             String sql = "SELECT PlayerID, Username FROM Player WHERE TeamID = ?";
             PreparedStatement psPlayer = connect.prepareStatement(sql);
@@ -104,7 +104,7 @@ public class PlayerStatsCollector {
                 String Username = rsPlayer.getString("Username");
                 
                 String api = API(Username, Game);
-                JSONObject json = apiConnector(api, Game, apiKey);
+                JSONObject json = apiConnector(api, Game);
                 
                 int[] stats = readStats(json, Game);
                 int kills = stats[0];

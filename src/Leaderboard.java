@@ -1,6 +1,10 @@
-
-import javax.swing.JFrame;
-
+import javax.swing.*;
+import java.sql.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -20,6 +24,11 @@ public class Leaderboard extends javax.swing.JFrame {
         this.tournamentID = tournamentID;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        JPanel button = new JPanel(new GridLayout(1, 1));
+        button.add(BackToBracket);
+        
+        getContentPane().add(button, BorderLayout.SOUTH);
     }
     
 
@@ -55,7 +64,108 @@ public class Leaderboard extends javax.swing.JFrame {
         this.dispose();
         Tourny.setVisible(true);
     }//GEN-LAST:event_BackToBracketActionPerformed
-
+    
+    private void createLeaderboard(){
+        try(Connection connect = DatabaseConnection.getConnection()){
+            String sql = "SELECT MatchID, TeamA, TeamB, Winner, TeamA_Score, TeamB_Score "
+                         + "FROM Duel "
+                         + "WHERE TournamentID = ? ";
+            PreparedStatement psScore = connect.prepareStatement(sql);
+            psScore.setInt(1, tournamentID);
+            ResultSet rsScore = psScore.executeQuery();
+            
+            Map<Integer, Integer> wins = new HashMap<>();
+            Map<Integer, Integer> points = new HashMap<>();
+            Map<Integer, String> teams = new HashMap<>();
+            
+            while(rsScore.next()){
+                int teamA = rsScore.getInt("TeamA");
+                int teamB = rsScore.getInt("TeamB");
+                String winner = rsScore.getString("Winner");
+                int scoreA = rsScore.getInt("TeamA_Score");
+                int scoreB = rsScore.getInt("TeamB_Score");
+                
+                teams.putIfAbsent(teamA, teamNames(connect, teamA));
+                teams.putIfAbsent(teamB, teamNames(connect, teamB));
+                
+                if(winner.equals(teams.get(teamA))){
+                    wins.put(teamA, wins.getOrDefault(teamA, 0) + 1);
+                } else if(winner.equals(teams.get(teamB))){
+                    wins.put(teamB, wins.getOrDefault(teamB, 0) + 1);
+                }    
+                
+                points.put(teamB, points.getOrDefault(teamB, 0) + scoreB);
+                points.put(teamA, points.getOrDefault(teamA, 0) + scoreA);
+            }
+            
+            List<Integer> teamIDs = new ArrayList<>(teams.keySet());
+            teamIDs.sort((teamA, teamB) -> {
+                int winDif = wins.getOrDefault(teamB, 0) - wins.getOrDefault(teamA, 0);
+                if(winDif != 0){
+                    return winDif;
+                } else {
+                    return points.getOrDefault(teamB, 0) - points.getOrDefault(teamA, 0);
+                }
+            });
+            
+            JPanel BoardPanel = new JPanel();
+            BoardPanel.setLayout(new BoxLayout(BoardPanel, BoxLayout.Y_AXIS));
+            
+            int rank = 1;
+            for (int teamID : teamIDs){
+                String name = teams.get(teamID);
+                int totalWins = wins.getOrDefault(teamID, 0);
+                int totalPoints = points.getOrDefault(teamID, 0);
+                
+                JPanel box = new JPanel();
+                box.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+                box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+                box.setBackground(new Color(255, 255, 255));
+                
+                JLabel rankLine = new JLabel(rank + ". " + name);
+                box.add(rankLine);
+                
+                BoardPanel.add(box);
+                BoardPanel.add(Box.createVerticalStrut(10));
+                
+                rank++;
+            }
+            
+            JScrollPane scroll = new JScrollPane(BoardPanel);
+            getContentPane().setLayout(new BorderLayout());
+            getContentPane().add(scroll, BorderLayout.CENTER);
+            
+            revalidate();
+            repaint();
+            
+                
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }  catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
+        }
+            
+    }
+    
+    private String teamNames(Connection connect, int teamID) throws SQLException{
+        try{
+            String names = "SELECT TeamName FROM Team "
+                           + "WHERE TeamID = ?";
+            PreparedStatement psNames = connect.prepareStatement(names);
+            psNames.setInt(1, teamID);
+            ResultSet Names = psNames.executeQuery();
+            
+            if(Names.next()){
+                return Names.getString("TeamName");
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }
+        return " ";
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackToBracket;
