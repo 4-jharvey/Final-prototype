@@ -51,6 +51,14 @@ public class BracketGenerator {
                     LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30);
                     insertSchedule(connect, tournamentID, matchID, matchTime);
                 }
+                
+                String Tourny = "UPDATE Tournament SET Tournament_winner = ? "
+                                + "WHERE TournamentID = ? ";
+                PreparedStatement psUpdate = connect.prepareStatement(Tourny);
+                String winnerName = teamNames(connect, finalWinner);
+                psUpdate.setString(1, winnerName);
+                psUpdate.setInt(2, tournamentID);
+                psUpdate.executeUpdate();
             }    
 
             //debug statements
@@ -163,6 +171,24 @@ public class BracketGenerator {
         psSched.setInt(2, matchID);
         psSched.setTimestamp(3, Timestamp.valueOf(matchTime));
         psSched.executeUpdate();
+    }
+    
+    private static String teamNames(Connection connect, int teamID) throws SQLException{
+        try{
+            String names = "SELECT TeamName FROM Team "
+                           + "WHERE TeamID = ?";
+            PreparedStatement psNames = connect.prepareStatement(names);
+            psNames.setInt(1, teamID);
+            ResultSet Names = psNames.executeQuery();
+            
+            if(Names.next()){
+                return Names.getString("TeamName");
+            }
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
+        }
+        return " ";
     }
         
 }
