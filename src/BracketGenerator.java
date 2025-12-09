@@ -29,7 +29,7 @@ public class BracketGenerator {
             Collections.shuffle(teamIDs);
             
             //creates the variables for the final
-            Integer finalWinner = createWinnerBracket(connect, tournamentID, teamIDs, 1);
+            Integer finalWinner = findWinner(connect, tournamentID, 1);
 
             
             
@@ -82,34 +82,14 @@ public class BracketGenerator {
 
     //sets the losers list 
 
-    private static Integer createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
+    private static void createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
     
-        if(teamIDs.size() == 1){
-            return teamIDs.get(0);
-        }
 
-        //stops any activity is happening if there are less than 2 teams in list
-        if (teamIDs.size() < 2){
-          return null;
-        }
-        
-        Random Rand = new Random();
-        
-        
-        
-        //creates winner and loser list
-        List<Integer> winners = new ArrayList<>();
-
-        
         //recursive method to keep track of who wins and inserts them into winner
         for(int i = 0; i < teamIDs.size(); i += 2){
             if(i + 1 < teamIDs.size()){
                 int teamA = teamIDs.get(i);
                 int teamB = teamIDs.get(i + 1);
-                
-                int winner = Rand.nextBoolean() ? teamA : teamB;
-                
-                winners.add(winner);
                 
                 //inserts match data into database
                 String insertWinnerDuel = "INSERT INTO Duel(TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
@@ -117,7 +97,7 @@ public class BracketGenerator {
                 psWinnerDuel.setInt(1, teamA);
                 psWinnerDuel.setInt(2, teamB);
                 psWinnerDuel.setInt(3, round);
-                psWinnerDuel.setInt(4, winner);
+                psWinnerDuel.setNull(4, java.sql.Types.INTEGER);
                 psWinnerDuel.setInt(5, tournamentID);
                 
                 psWinnerDuel.executeUpdate();
@@ -143,7 +123,6 @@ public class BracketGenerator {
                 psWinnerDuel.setInt(5, tournamentID);
                 psWinnerDuel.executeUpdate();
                 
-                winners.add(oddTeam);
                 
                 ResultSet rsKeys = psWinnerDuel.getGeneratedKeys();
                 if(rsKeys.next()){
@@ -157,12 +136,82 @@ public class BracketGenerator {
                 
         //debugging statments
         System.out.println("Executed duel for round " + round);
-        System.out.println("Winner advancing: " + winners);
         
-
-        
-        return createWinnerBracket(connect, tournamentID, winners, round + 1);
     }        
+    
+    private static Integer findWinner(Connection connect, int tournamentID, int startRound) throws SQLException{
+        int round = startRound;
+        while(true){
+            List<Integer> Winners = new ArrayList<>();
+            
+            String sqlRound = "SELECT TeamA, TeamB, Winner, TeamA_Score, TeamB_Score "
+                              + "FROM Duel "
+                              + "WHERE TournamentID = ? AND Round = ?";
+            PreparedStatement psRound = connect.prepareCall(sqlRound);
+            psRound.setInt(1, tournamentID);
+            psRound.setInt(2, round);
+            ResultSet rsDuel = psRound.executeQuery();
+            
+            boolean unfinishedMatch = false;
+            
+            while(rsDuel.next()){
+                Integer teamA = rsDuel.getInt("TeamA");
+                Integer teamB = rsDuel.getObject("TeamB", Integer.class);
+                Integer winner = rsDuel.getObject("Winner", Integer.class);
+                Integer scoreA = rsDuel.getObject("TeamA_Score", Integer.class);
+                Integer scoreB = rsDuel.getObject("TeamB_Score", Integer.class);
+                
+                if(teamB == null){
+                    Winners.add(teamA);
+                    continue;
+                }
+                if(winner != null){
+                    Winners.add(winner);
+                    continue;
+                }
+                if( scoreA == null || scoreB == null){
+                    unfinishedMatch = true;
+                    continue;
+                }
+                if(scoreA > scoreB){
+                    Winners.add(teamA);
+                    setWinner(connect, tournamentID, round, teamA, teamB, teamA);
+                } else if(scoreB > scoreA){
+                    Winners.add(teamB);
+                    setWinner(connect, tournamentID, round, teamA, teamB, teamB);
+                } else {
+                    unfinishedMatch = true;
+                }
+            }
+            
+            if(unfinishedMatch){
+                System.out.print("Unfinished match during round: " + round);
+                return null;
+            }
+            if(Winners.size() == 1){
+                return Winners.get(0);
+            }
+            if (Winners.size() >= 2){
+                createWinnerBracket(connect, tournamentID, Winners, round + 1);
+                round++;
+                continue;
+            }
+            
+            return null;
+        }
+    }
+    
+    private static void setWinner(Connection connect, int tournamentID, int round, int teamA, Integer teamB, int winner) throws SQLException{
+        String updateDuel = "UPDATE Duel SET Winner = ? "
+                            + "WHERE TournamentID = ? AND Round = ? AND TeamA = ? AND TeamB = ?";
+        PreparedStatement psUpdate = connect.prepareStatement(updateDuel);
+        psUpdate.setInt(1, winner);
+        psUpdate.setInt(2, tournamentID);
+        psUpdate.setInt(3, round);
+        psUpdate.setInt(4, teamA);
+        psUpdate.setInt(5, teamB);
+        psUpdate.executeUpdate();
+    }
     
     private static void insertSchedule (Connection connect, int tournamentID, int matchID, LocalDateTime matchTime) throws SQLException {
         String scheduleQuery = "INSERT INTO Schedule (TournamentID, matchID, Time) VALUES (?, ?, ?)";
