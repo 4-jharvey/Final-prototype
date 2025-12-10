@@ -29,10 +29,10 @@ public class PlayerStatsCollector {
         connect.setRequestMethod("GET");
         /*
         if(game.equals("Rocket League")){
-            connect.setRequestProperty("Authorisation", "Bearer " + apiKey);
+            connect.setRequestProperty("Authorisation", "Bearer " + );
         }
         if(game.equals("Rainbow Six Siege")){
-            connect.setRequestProperty("Authorisation", apiKey);
+            connect.setRequestProperty("Authorisation", );
         }
         */
 
