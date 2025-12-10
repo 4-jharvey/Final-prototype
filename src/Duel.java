@@ -101,7 +101,9 @@ public class Duel extends javax.swing.JFrame {
                                      + "Average Assists: " + teamAssists/count
                                      + "Average Wins: " + teamWins/count
                                      + "Average Losse: " + teamLosses/count);
-            }  
+            }  else {
+                statsDisplayer.append("No Data about " + team + " at this current moment");
+            }
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
