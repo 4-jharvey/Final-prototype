@@ -27,6 +27,9 @@ public class BracketGenerator {
             
             //shuffles the teams so the matches are randomised
             Collections.shuffle(teamIDs);
+            if(teamIDs.size() >= 2){
+                createWinnerBracket(connect, tournamentID, teamIDs, 1);
+            }
             
             //creates the variables for the final
             Integer finalWinner = findWinner(connect, tournamentID, 1);
@@ -79,8 +82,6 @@ public class BracketGenerator {
                 JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
     }
-
-    //sets the losers list 
 
     private static void createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
     
@@ -147,7 +148,7 @@ public class BracketGenerator {
             String sqlRound = "SELECT TeamA, TeamB, Winner, TeamA_Score, TeamB_Score "
                               + "FROM Duel "
                               + "WHERE TournamentID = ? AND Round = ?";
-            PreparedStatement psRound = connect.prepareCall(sqlRound);
+            PreparedStatement psRound = connect.prepareStatement(sqlRound);
             psRound.setInt(1, tournamentID);
             psRound.setInt(2, round);
             ResultSet rsDuel = psRound.executeQuery();

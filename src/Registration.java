@@ -28,7 +28,7 @@ public class Registration extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         playerReg.setLayout(new BoxLayout(playerReg, BoxLayout.Y_AXIS));
-        getContentPane().add(playerReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 340, 200));
+        getContentPane().add(playerReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 340, 300));
     }
 
     /**
@@ -52,7 +52,6 @@ public class Registration extends javax.swing.JFrame {
         NumOfPlayers = new javax.swing.JTextField();
         Email = new javax.swing.JTextField();
         Register = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
 
         jPanel1.add(jPanel3);
 
@@ -114,7 +113,6 @@ public class Registration extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 310, 50));
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -204,7 +202,7 @@ public class Registration extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "please enter valid number");
         }
         
-        for(int i = 0; i <= Players; i++){
+        for(int i = 0; i < Players; i++){
             JTextField player = new JTextField ();
             player.setName("Player" + i);
             player.setBorder(javax.swing.BorderFactory.createTitledBorder("Player" + i));
@@ -232,6 +230,5 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
 }

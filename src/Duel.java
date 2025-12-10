@@ -62,11 +62,11 @@ public class Duel extends javax.swing.JFrame {
     
     private void teamStats(Connection connect, String team, JTextArea statsDisplayer){
         try{
-            String statsQuery = "SELECT Player.Username, Player_stats.Kills, Player_stats.Deaths, Player_stats.Assists, Player_stats.Wins, Player_stats.Losses "
+            String statsQuery = "SELECT player.Username, Player_stats.Kills, Player_stats.Deaths, Player_stats.Assists, Player_stats.Wins, Player_stats.Losses "
                                 + "FROM Player_stats "
-                                + "JOIN Player player ON Player_stats.PlayerID = Player.PlayerID "
-                                + "JOIN Team team ON Player.TeamID = Team.TeamID "
-                                + "WHERE Team.TeamName = ?";
+                                + "JOIN Player player ON Player_stats.PlayerID = player.PlayerID "
+                                + "JOIN Team team ON player.TeamID = team.TeamID "
+                                + "WHERE team.TeamName = ?";
             PreparedStatement psStats = connect.prepareStatement(statsQuery);
             psStats.setString(1, team);
             ResultSet rsStats = psStats.executeQuery();
