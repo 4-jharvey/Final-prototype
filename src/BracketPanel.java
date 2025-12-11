@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BracketPanel extends JPanel {
-
+    
     public static class Match {
         public int matchID;
         public String teamA;
@@ -28,10 +28,11 @@ public class BracketPanel extends JPanel {
     }
 
     
-    
+    //method that loads the matches made in the bracket generator to this java class
     public List<Match> loadMatches(int tournamentID) {
         List<Match> matchList = new ArrayList<>();
-
+        
+        //selects the necessary data
         try (Connection connect = DatabaseConnection.getConnection()) {
             String sql = "SELECT Duel.MatchID, Duel.Round, Duel.TeamA AS TeamAID, Duel.TeamB AS TeamBID, "
                         + "TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Duel.Winner " 
@@ -44,26 +45,30 @@ public class BracketPanel extends JPanel {
             PreparedStatement ps = connect.prepareStatement(sql);
             ps.setInt(1, tournamentID);
             ResultSet rs = ps.executeQuery();
-
+            
+            //turns the data selected into variables in the method
             while (rs.next()) {
                 int matchID = rs.getInt("MatchID");
                 String teamA = rs.getString("TeamAName");
                 String teamB = rs.getString("TeamBName");
                 
+                //in case of odd team
                 if(teamB == null){
                     teamB = "";                    
                 }
-
+                
                 String winnerID = rs.getString("Winner");
                 String teamAID = rs.getString("TeamAID");
 
                 String winner = (winnerID != null && winnerID.equals(teamAID)) ? teamA : teamB;
                 
                 int round = rs.getInt("Round");
-
+                
+                //add data to the array list
                 matchList.add(new Match(teamA, teamB, winner, round, matchID));
             }
-
+            
+            //debugging statement
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL Error: " + ex.toString());
@@ -72,7 +77,7 @@ public class BracketPanel extends JPanel {
         return matchList;
     }
 
-
+    // this is used to draw the bracket
     public static class BracketPane extends JPanel {
 
         private final Map<Integer, List<Match>> winnerRounds = new HashMap<>();

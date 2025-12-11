@@ -8,6 +8,7 @@ public class BracketGenerator {
         //connects to the database and gets the team data and puts them in a list
         try(Connection connect = DatabaseConnection.getConnection()){
             
+            //Deletes any Duels from the database
             PreparedStatement delete = connect.prepareStatement("DELETE FROM Duel WHERE TournamentID = ?");
             delete.setInt(1, tournamentID);
             delete.executeUpdate();
@@ -27,16 +28,17 @@ public class BracketGenerator {
             
             //shuffles the teams so the matches are randomised
             Collections.shuffle(teamIDs);
+            //calls on bracket creation
             if(teamIDs.size() >= 2){
                 createWinnerBracket(connect, tournamentID, teamIDs, 1);
             }
             
-            //creates the variables for the final
+            //calls on the find Winner statement to create the tournament winner box 
             Integer finalWinner = findWinner(connect, tournamentID, 1);
 
             
             
-            //holds the data for the finale box
+            //inserts the data about the finale box
             if(finalWinner != null){
                 String finale = "INSERT INTO Duel (TeamA, TeamB, Round, Winner, TournamentID) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement psFinal = connect.prepareStatement(finale, Statement.RETURN_GENERATED_KEYS);
@@ -49,12 +51,15 @@ public class BracketGenerator {
                 psFinal.executeUpdate();
                 
                 ResultSet rsKeys = psFinal.getGeneratedKeys();
+                
+                //creates some of the variables used to create the schedule
                 if(rsKeys.next()){
                     int matchID = rsKeys.getInt(1);
                     LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30);
                     insertSchedule(connect, tournamentID, matchID, matchTime);
                 }
                 
+                //inserts tournament winner into the database
                 String Tourny = "UPDATE Tournament SET Tournament_winner = ? "
                                 + "WHERE TournamentID = ? ";
                 PreparedStatement psUpdate = connect.prepareStatement(Tourny);
@@ -82,11 +87,12 @@ public class BracketGenerator {
                 JOptionPane.showMessageDialog(null, "Unexpected error " + ex.toString());
         }
     }
-
+    
+    //creates the bracket
     private static void createWinnerBracket(Connection connect, int tournamentID, List<Integer> teamIDs, int round) throws SQLException{
     
 
-        //recursive method to keep track of who wins and inserts them into winner
+        //method to keep track of who wins and inserts them into winner
         for(int i = 0; i < teamIDs.size(); i += 2){
             if(i + 1 < teamIDs.size()){
                 int teamA = teamIDs.get(i);
@@ -104,6 +110,7 @@ public class BracketGenerator {
                 psWinnerDuel.executeUpdate();
                 
                 ResultSet rsKeys = psWinnerDuel.getGeneratedKeys();
+                //creates variables for the schedule generator to use
                 if(rsKeys.next()){
                     int matchID = rsKeys.getInt(1);
                     LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30 * (round + i / 2));
@@ -124,7 +131,7 @@ public class BracketGenerator {
                 psWinnerDuel.setInt(5, tournamentID);
                 psWinnerDuel.executeUpdate();
                 
-                
+                //creates variables for the schedule generator to use
                 ResultSet rsKeys = psWinnerDuel.getGeneratedKeys();
                 if(rsKeys.next()){
                     int matchID = rsKeys.getInt(1);
@@ -140,11 +147,12 @@ public class BracketGenerator {
         
     }        
     
+    //this method selects scores from duel table to find out who was the winner for each match
     private static Integer findWinner(Connection connect, int tournamentID, int startRound) throws SQLException{
         int round = startRound;
         while(true){
             List<Integer> Winners = new ArrayList<>();
-            
+            //selects scores from table + teams
             String sqlRound = "SELECT TeamA, TeamB, Winner, TeamA_Score, TeamB_Score "
                               + "FROM Duel "
                               + "WHERE TournamentID = ? AND Round = ?";
@@ -156,24 +164,29 @@ public class BracketGenerator {
             boolean unfinishedMatch = false;
             
             while(rsDuel.next()){
+                //used object as those variables can be null
                 Integer teamA = rsDuel.getInt("TeamA");
                 Integer teamB = rsDuel.getObject("TeamB", Integer.class);
                 Integer winner = rsDuel.getObject("Winner", Integer.class);
                 Integer scoreA = rsDuel.getObject("TeamA_Score", Integer.class);
                 Integer scoreB = rsDuel.getObject("TeamB_Score", Integer.class);
                 
+                //in case of odd team
                 if(teamB == null){
                     Winners.add(teamA);
                     continue;
                 }
+                //in case winner is already found
                 if(winner != null){
                     Winners.add(winner);
                     continue;
                 }
+                //in case no scores are found
                 if( scoreA == null || scoreB == null){
                     unfinishedMatch = true;
                     continue;
                 }
+                //determines who is the winner
                 if(scoreA > scoreB){
                     Winners.add(teamA);
                     setWinner(connect, tournamentID, round, teamA, teamB, teamA);
@@ -185,23 +198,27 @@ public class BracketGenerator {
                 }
             }
             
+            //if the match is not done
             if(unfinishedMatch){
                 System.out.print("Unfinished match during round: " + round);
                 return null;
             }
+            //if there is only one winner left
             if(Winners.size() == 1){
                 return Winners.get(0);
             }
+            //Will only create a round if there are two or more teams
             if (Winners.size() >= 2){
                 createWinnerBracket(connect, tournamentID, Winners, round + 1);
                 round++;
                 continue;
             }
-            
+  
             return null;
         }
     }
     
+    //Updates the winner of the match
     private static void setWinner(Connection connect, int tournamentID, int round, int teamA, Integer teamB, int winner) throws SQLException{
         String updateDuel = "UPDATE Duel SET Winner = ? "
                             + "WHERE TournamentID = ? AND Round = ? AND TeamA = ? AND TeamB = ?";
@@ -214,6 +231,7 @@ public class BracketGenerator {
         psUpdate.executeUpdate();
     }
     
+    //inserts any data required to create schedule into the schedule database
     private static void insertSchedule (Connection connect, int tournamentID, int matchID, LocalDateTime matchTime) throws SQLException {
         String scheduleQuery = "INSERT INTO Schedule (TournamentID, matchID, Time) VALUES (?, ?, ?)";
         PreparedStatement psSched = connect.prepareStatement(scheduleQuery);
@@ -223,6 +241,7 @@ public class BracketGenerator {
         psSched.executeUpdate();
     }
     
+    // gets the team names by using the teamIDs
     private static String teamNames(Connection connect, int teamID) throws SQLException{
         try{
             String names = "SELECT TeamName FROM Team "
@@ -238,6 +257,7 @@ public class BracketGenerator {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
         }
+        //if no name is found
         return " ";
     }
         

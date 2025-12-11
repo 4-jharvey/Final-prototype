@@ -1,5 +1,5 @@
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +19,9 @@ public class HomePage extends javax.swing.JFrame {
     public HomePage() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        ImageIcon Logo = new ImageIcon("NEA Logo.png");
+        
     }
 
     /**
@@ -33,6 +36,8 @@ public class HomePage extends javax.swing.JFrame {
         SignOut = new javax.swing.JButton();
         CreateTournament = new javax.swing.JButton();
         LoadTournament = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        Logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -44,7 +49,7 @@ public class HomePage extends javax.swing.JFrame {
                 SignOutActionPerformed(evt);
             }
         });
-        getContentPane().add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 200, 70));
+        getContentPane().add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 530, 200, 70));
 
         CreateTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         CreateTournament.setText("Create Tournament");
@@ -53,7 +58,7 @@ public class HomePage extends javax.swing.JFrame {
                 CreateTournamentActionPerformed(evt);
             }
         });
-        getContentPane().add(CreateTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 490, 90));
+        getContentPane().add(CreateTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 350, 490, 90));
 
         LoadTournament.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         LoadTournament.setText("Load Tournament");
@@ -62,9 +67,14 @@ public class HomePage extends javax.swing.JFrame {
                 LoadTournamentActionPerformed(evt);
             }
         });
-        getContentPane().add(LoadTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 490, 90));
+        getContentPane().add(LoadTournament, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 440, 490, 90));
 
-        setBounds(0, 0, 618, 372);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setText("WELCOME TO EMS");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 70, 230, 130));
+        getContentPane().add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 180, 120, 130));
+
+        setBounds(0, 0, 1876, 864);
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoadTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadTournamentActionPerformed
@@ -126,6 +136,8 @@ public class HomePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateTournament;
     private javax.swing.JButton LoadTournament;
+    private javax.swing.JLabel Logo;
     private javax.swing.JButton SignOut;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -10,6 +10,8 @@ public class CreateTournament extends javax.swing.JFrame {
     public CreateTournament() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+       //ALl available games to play
         String[] gameName = {
             "Valorant",
             "Rainbow Six Siege",
