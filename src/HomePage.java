@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 
 /*
@@ -13,15 +12,13 @@ import javax.swing.*;
  */
 public class HomePage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form HomePage
-     */
+    ImageIcon logo = new ImageIcon("NEA Logo.png");
+    
     public HomePage() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        ImageIcon Logo = new ImageIcon("NEA Logo.png");
-        
+        Logo.setIcon(logo);
     }
 
     /**
