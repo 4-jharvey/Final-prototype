@@ -26,9 +26,11 @@ public class Leaderboard extends javax.swing.JFrame {
         //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //Adds button to its own JPanel
         JPanel button = new JPanel(new GridLayout(1, 1));
         button.add(BackToBracket);
         
+        //adds the button JPanel to the JFrame
         getContentPane().add(button, BorderLayout.SOUTH);
     }
     
@@ -66,7 +68,9 @@ public class Leaderboard extends javax.swing.JFrame {
         Tourny.setVisible(true);
     }//GEN-LAST:event_BackToBracketActionPerformed
     
+    // method that creates the Leaderboard
     private void createLeaderboard(){
+        //Gets the Match data from the database
         try(Connection connect = DatabaseConnection.getConnection()){
             String sql = "SELECT MatchID, TeamA, TeamB, Winner, TeamA_Score, TeamB_Score "
                          + "FROM Duel "
@@ -75,63 +79,78 @@ public class Leaderboard extends javax.swing.JFrame {
             psScore.setInt(1, tournamentID);
             ResultSet rsScore = psScore.executeQuery();
             
+            //Creates Hashmaps to store data in
             Map<Integer, Integer> wins = new HashMap<>();
             Map<Integer, Integer> points = new HashMap<>();
             Map<Integer, String> teams = new HashMap<>();
             
             while(rsScore.next()){
+                //sets the match data from sql into variables
                 int teamA = rsScore.getInt("TeamA");
                 int teamB = rsScore.getInt("TeamB");
                 String winner = rsScore.getString("Winner");
                 int scoreA = rsScore.getInt("TeamA_Score");
                 int scoreB = rsScore.getInt("TeamB_Score");
                 
+                //Makes sure that the data is entered into the teams hashmap
                 teams.putIfAbsent(teamA, teamNames(connect, teamA));
                 teams.putIfAbsent(teamB, teamNames(connect, teamB));
                 
+                //Updates the number of wins depending on who won the match
                 if(winner.equals(teams.get(teamA))){
                     wins.put(teamA, wins.getOrDefault(teamA, 0) + 1);
                 } else if(winner.equals(teams.get(teamB))){
                     wins.put(teamB, wins.getOrDefault(teamB, 0) + 1);
                 }    
                 
+                //adds the score of each game in case of a tie in wins
                 points.put(teamB, points.getOrDefault(teamB, 0) + scoreB);
                 points.put(teamA, points.getOrDefault(teamA, 0) + scoreA);
             }
             
+            //Creates a List of teams
             List<Integer> teamIDs = new ArrayList<>(teams.keySet());
             teamIDs.sort((teamA, teamB) -> {
+                //Will sort the data in descending order depending on number of wins
                 int winDif = wins.getOrDefault(teamB, 0) - wins.getOrDefault(teamA, 0);
                 if(winDif != 0){
                     return winDif;
                 } else {
+                    //If tie in wins, it will order by total score
                     return points.getOrDefault(teamB, 0) - points.getOrDefault(teamA, 0);
                 }
             });
             
+            //Create a JPanel to add Leaderboard boxes to
             JPanel BoardPanel = new JPanel();
             BoardPanel.setLayout(new BoxLayout(BoardPanel, BoxLayout.Y_AXIS));
             
+            //starts at 1st place
             int rank = 1;
+            //Goes through all teams
             for (int teamID : teamIDs){
+                //team name to add to box
                 String name = teams.get(teamID);
-                int totalWins = wins.getOrDefault(teamID, 0);
-                int totalPoints = points.getOrDefault(teamID, 0);
                 
+                //creates boxes to add data into
                 JPanel box = new JPanel();
                 box.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
                 box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
                 box.setBackground(new Color(255, 255, 255));
                 
+                //Adding ranks to the boxes
                 JLabel rankLine = new JLabel(rank + ". " + name);
                 box.add(rankLine);
                 
+                //Adds the box to the Leaderboard JPanel + gap between boxes
                 BoardPanel.add(box);
                 BoardPanel.add(Box.createVerticalStrut(10));
                 
+                //increase rank
                 rank++;
             }
             
+            //Adds the JPanel to a Scroll Pane and the scroll pane to the JFrame
             JScrollPane scroll = new JScrollPane(BoardPanel);
             getContentPane().setLayout(new BorderLayout());
             getContentPane().add(scroll, BorderLayout.CENTER);
@@ -139,7 +158,7 @@ public class Leaderboard extends javax.swing.JFrame {
             revalidate();
             repaint();
             
-                
+            //error catching    
         }catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
@@ -150,7 +169,9 @@ public class Leaderboard extends javax.swing.JFrame {
             
     }
     
+    //gets the team names through team IDs
     private String teamNames(Connection connect, int teamID) throws SQLException{
+        //Selects team names that equal the team ID
         try{
             String names = "SELECT TeamName FROM Team "
                            + "WHERE TeamID = ?";
@@ -158,13 +179,16 @@ public class Leaderboard extends javax.swing.JFrame {
             psNames.setInt(1, teamID);
             ResultSet Names = psNames.executeQuery();
             
+            //Makes the data gained into variables
             if(Names.next()){
                 return Names.getString("TeamName");
             }
+            //detects errors
         }catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
         }
+        //returns nothing if no name found
         return " ";
     }
 

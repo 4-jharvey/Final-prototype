@@ -16,10 +16,14 @@ public class Duel extends javax.swing.JFrame {
         //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //gets the method to show current match
         currentMatch();
     }
     
+    // method that creates the match view
     private void currentMatch(){
+        
+        //Selects the data that is going to be needed for the method
         try(Connection connect = DatabaseConnection.getConnection()){
             
             String sql = "SELECT Duel.MatchID, TeamA.TeamName AS TeamAName, TeamB.TeamName AS TeamBName, Schedule.Time FROM Duel "
@@ -33,24 +37,31 @@ public class Duel extends javax.swing.JFrame {
             ResultSet rsMatch = match.executeQuery();
             
             if(rsMatch.next()){
+                //turns the gained data into variables
                 matchID = rsMatch.getInt("MatchID");
-                TeamA.setText(rsMatch.getString("TeamAName"));
-                TeamB.setText(rsMatch.getString("TeamBName"));
-                
                 String teamAName = rsMatch.getString("TeamAName");
                 String teamBName = rsMatch.getString("TeamBName");
+
+                //sets the name boes to the team names in current match
+                TeamA.setText(teamAName);
+                TeamB.setText(teamBName);
                 
+                
+                //Makes the team names section uneditable
                 TeamA.setEditable(false);
                 TeamB.setEditable(false);
-
+                
+                //adds text to the add point button
                 AddPointA.setText("Add point to " + teamAName);
                 AddPointB.setText("Add point to " + teamBName);
                 
+                //variables used to collect Stats
                 teamStats(connect, teamAName, TeamAStats);
                 teamStats(connect, teamBName, TeamBStats);
                 
             }
             
+            //catches errors and prints them
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
@@ -61,7 +72,9 @@ public class Duel extends javax.swing.JFrame {
         }
     }
     
+    //Collects the team stats
     private void teamStats(Connection connect, String team, JTextArea statsDisplayer){
+        //Selects the Player stats
         try{
             String statsQuery = "SELECT player.Username, Player_stats.Kills, Player_stats.Deaths, Player_stats.Assists, Player_stats.Wins, Player_stats.Losses "
                                 + "FROM Player_stats "
@@ -72,6 +85,7 @@ public class Duel extends javax.swing.JFrame {
             psStats.setString(1, team);
             ResultSet rsStats = psStats.executeQuery();
             
+            //variables used to hold total stats for the team
             int teamKills = 0;
             int teamDeaths = 0;
             int teamAssists = 0;
@@ -80,14 +94,17 @@ public class Duel extends javax.swing.JFrame {
             int count = 0;
             
             while (rsStats.next()){
+                //turns data from sql into variables
                 int kills = rsStats.getInt("Kills");
                 int deaths = rsStats.getInt("Deaths");
                 int assists = rsStats.getInt("Assists");
                 int wins = rsStats.getInt("Wins");
                 int losses = rsStats.getInt("Losses");
                 
+                //adds 1 to count
                 count++;
                 
+                //adds all stats of the players together for each team
                 teamKills = kills + teamKills;
                 teamDeaths = deaths + teamDeaths;
                 teamAssists = assists + teamAssists;
@@ -95,6 +112,10 @@ public class Duel extends javax.swing.JFrame {
                 teamLosses = losses + teamLosses;
                 
             }
+            /*
+            If there is more than 0 players on a team is will display the average stats of the team.
+            Else if no stats are found for the team it displays a different message.
+            */
             if(count > 0){
                 statsDisplayer.append("Team Statistics: "
                                      + "Average Kills: " + teamKills/count
@@ -105,6 +126,7 @@ public class Duel extends javax.swing.JFrame {
             }  else {
                 statsDisplayer.append("No Data about " + team + " at this current moment");
             }
+            //catches any errors
         } catch (SQLException ex) {
             System.getLogger(BracketGenerator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             ex.printStackTrace();
@@ -190,7 +212,8 @@ public class Duel extends javax.swing.JFrame {
         this.dispose();
         Tourny.setVisible(true);
     }//GEN-LAST:event_BackToBracketActionPerformed
-
+    
+    //Both of these buttons will add points to the database that holds each teams points
     private void AddPointBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPointBActionPerformed
 
         

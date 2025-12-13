@@ -56,15 +56,23 @@ public class BracketPanel extends JPanel {
                 if(teamB == null){
                     teamB = "";                    
                 }
-                
+               
                 String winnerID = rs.getString("Winner");
                 String teamAID = rs.getString("TeamAID");
+                String teamBID = rs.getString("TeamBID");
 
-                String winner = (winnerID != null && winnerID.equals(teamAID)) ? teamA : teamB;
+                String winner = " ";
+                if(winnerID == teamAID){
+                    winner = teamAID;
+                } else if (winnerID == teamBID){
+                    winner = teamBID;
+                    
+                }
+                
                 
                 int round = rs.getInt("Round");
                 
-                //add data to the array list
+                //add data to the list
                 matchList.add(new Match(teamA, teamB, winner, round, matchID));
             }
             

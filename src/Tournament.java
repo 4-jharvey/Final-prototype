@@ -15,13 +15,17 @@ public class Tournament extends javax.swing.JFrame {
         //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //makes sure it is the correct tournament
         System.out.println("TournamentID = " + this.tournamentID);
         
         try{
+            //generates the database and code side of the tournament bracket
             BracketGenerator.generateBracket(tournamentID);
             
+            //creates the Layout for the JFrame
             getContentPane().setLayout(new BorderLayout());
             
+            //creates a JPanel to add buttons to
             JPanel buttons = new JPanel(new GridLayout(1,5));
             buttons.add(GoToSchedule);
             buttons.add(GoToLeadboard);
@@ -29,27 +33,35 @@ public class Tournament extends javax.swing.JFrame {
             buttons.add(Registrator);
             buttons.add(LeaveTournament);
             
+            //adds button JPanel to the JFrame
             getContentPane().add(buttons, BorderLayout.NORTH);
             
+            //creates the visual side of the bracket
             bracketPanel = BracketPanel.getBracketPanel(tournamentID);
             
+            //Creates a JPanel for the visual bracket panel to be put in
             JPanel box = new JPanel(new BorderLayout());
             box.add(bracketPanel, BorderLayout.CENTER);
             
+            //puts the JPanel into a scroll Pane
             JScrollPane scrollPane = new JScrollPane(box);
             scrollPane.setBorder(null);
             
+            //makes sure the scroll bars are always there
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             
+            //adds the tournament bracket into the JFrame
             getContentPane().add(scrollPane, BorderLayout.CENTER);
             
             bracketPanel.revalidate();
             bracketPanel.repaint();
-
+            
+            //Debugging statements
             System.out.println("Preferred size is: " + bracketPanel.getPreferredSize());
             System.out.println("Tournament Bracket printed for " + tournamentID);
             
+            //catches errors
         }  catch (Exception ex){
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unexpected error " + ex.getMessage());
@@ -141,7 +153,7 @@ public class Tournament extends javax.swing.JFrame {
     }//GEN-LAST:event_RegistratorActionPerformed
 
     private void LeaveTournamentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaveTournamentActionPerformed
-        
+        //sends people back to the main menu
         HomePage home = new HomePage();
         this.dispose();
         home.setVisible(true);

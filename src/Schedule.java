@@ -27,10 +27,11 @@ public class Schedule extends javax.swing.JFrame {
     }
     
     private void showSchedule(){
-        //
+        //Gets the List of matches and uses schedule generator to turn it into a schedule
         List<ScheduleGenerator.matchInfo> matches = ScheduleGenerator.getMatchInfo(tournamentID);
         SchedulePane = ScheduleGenerator.createSchedule(matches);
         
+        //Adds Schedule to JFrame
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(SchedulePane, BorderLayout.CENTER);
         

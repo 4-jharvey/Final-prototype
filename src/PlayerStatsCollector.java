@@ -8,6 +8,7 @@ import org.json.*;
 public class PlayerStatsCollector {
     
     private static String API(String Username, String Game){
+        // goes to different API depending on game
         switch(Game){
             case "Valorant":
                 return "https://api.henrikdev.xyz/valorant/v1/account/" + Username;
@@ -23,11 +24,13 @@ public class PlayerStatsCollector {
         }
     }
     
+    // this read the each line of the website to find the necessary data
     private static JSONObject apiConnector(String api, String game) throws Exception {
         URL apiUrl = new URL(api);
         HttpURLConnection connect = (HttpURLConnection) apiUrl.openConnection();
         connect.setRequestMethod("GET");
         /*
+        Will be available once API key is obtained
         if(game.equals("Rocket League")){
             connect.setRequestProperty("Authorisation", "Bearer " + );
         }
@@ -35,7 +38,8 @@ public class PlayerStatsCollector {
             connect.setRequestProperty("Authorisation", );
         }
         */
-
+        
+        //Necessasry API key to access the data
         if(game.equals("Valorant")){
             connect.setRequestProperty("Authorisation", "HDEV-4878df4d-b931-48bc-9e7b-192ca532324e");
         }
@@ -52,6 +56,7 @@ public class PlayerStatsCollector {
         return new JSONObject(reply.toString());
     }
     
+    //This will read the data obtained and turn it into variables
     private static int[] readStats(JSONObject json, String game){
         int kills = 0;
         int deaths = 0;
@@ -59,6 +64,7 @@ public class PlayerStatsCollector {
         int wins = 0;
         int losses = 0;
         
+        //switches on what data to get depending on game
         switch(game){
             case "Valorant":
                 JSONObject valorantStats = json.getJSONObject("data").getJSONObject("stats");
@@ -89,23 +95,30 @@ public class PlayerStatsCollector {
         
         }
         
+        //returns the variables to be used
         return new int[] {kills, deaths, assists, wins, losses};
     }
     
+    // used to select and input data into the database
     public static void playerStats(Connection connect, int matchID, String Game, int teamID){
         try{
+            //selects a player to collect the data
             String sql = "SELECT PlayerID, Username FROM Player WHERE TeamID = ?";
             PreparedStatement psPlayer = connect.prepareStatement(sql);
             psPlayer.setInt(1, teamID);
             ResultSet rsPlayer = psPlayer.executeQuery();
             
+            //collects data on every player in the table
             while(rsPlayer.next()){
+                //turns gained data into variables
                 int PlayerId = rsPlayer.getInt("PlayerID");
                 String Username = rsPlayer.getString("Username");
                 
+                //Finds the stats of the player through API
                 String api = API(Username, Game);
                 JSONObject json = apiConnector(api, Game);
                 
+                //adds the stats to variables
                 int[] stats = readStats(json, Game);
                 int kills = stats[0];
                 int deaths = stats[1];
@@ -113,6 +126,7 @@ public class PlayerStatsCollector {
                 int wins = stats[3];
                 int losses = stats[4];
                 
+                //insert the stats into the database
                 String statsSQL = "INSERT INTO Player_stats (PlayerID, Kills, Deaths, Assists, Wins, Losses) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement psStats = connect.prepareStatement(statsSQL);
                 psStats.setInt(1, PlayerId);
@@ -123,6 +137,7 @@ public class PlayerStatsCollector {
                 psStats.setInt(6, losses);
                 psStats.executeUpdate();
             }
+            //catches any errors
         } catch (SQLException ex) {
             ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "SQL error " + ex.toString());
