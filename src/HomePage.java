@@ -12,12 +12,12 @@ import javax.swing.*;
  */
 public class HomePage extends javax.swing.JFrame {
 
-    ImageIcon logo = new ImageIcon("NEA Logo.png");
     
     public HomePage() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        ImageIcon logo = new ImageIcon(getClass().getResource("/Images/NEA Logo.png"));
         Logo.setIcon(logo);
     }
 
