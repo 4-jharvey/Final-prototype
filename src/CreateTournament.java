@@ -9,6 +9,7 @@ public class CreateTournament extends javax.swing.JFrame {
  
     public CreateTournament() {
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
        //ALl available games to play
@@ -19,6 +20,7 @@ public class CreateTournament extends javax.swing.JFrame {
             "CSGO"
         };
         
+        //sets the Dropdown to have all the Games
         GamePlayed.setModel(new DefaultComboBoxModel<>(gameName));
     }
     

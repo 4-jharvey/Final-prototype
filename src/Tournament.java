@@ -12,6 +12,7 @@ public class Tournament extends javax.swing.JFrame {
     public Tournament(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         System.out.println("TournamentID = " + this.tournamentID);

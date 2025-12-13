@@ -12,17 +12,22 @@ public class Schedule extends javax.swing.JFrame {
     public Schedule(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //calls upon the method to show the schedule
         showSchedule();
         
+        //adds button to the JPanel format
         JPanel button = new JPanel(new GridLayout(1, 1));
         button.add(BackToBracket);
         
+        // adds button JPanel tp the JFrame
         getContentPane().add(button, BorderLayout.SOUTH);
     }
     
     private void showSchedule(){
+        //
         List<ScheduleGenerator.matchInfo> matches = ScheduleGenerator.getMatchInfo(tournamentID);
         SchedulePane = ScheduleGenerator.createSchedule(matches);
         

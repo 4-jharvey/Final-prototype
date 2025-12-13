@@ -23,6 +23,7 @@ public class Leaderboard extends javax.swing.JFrame {
     public Leaderboard(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         JPanel button = new JPanel(new GridLayout(1, 1));

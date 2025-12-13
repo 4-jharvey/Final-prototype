@@ -20,6 +20,7 @@ public class CompletionScreen extends javax.swing.JFrame {
     public CompletionScreen(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 

@@ -25,6 +25,7 @@ public class LogInScreen extends javax.swing.JFrame {
     String Password = "4572";
     public LogInScreen() {
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
     }

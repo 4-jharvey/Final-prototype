@@ -15,8 +15,10 @@ public class HomePage extends javax.swing.JFrame {
     
     public HomePage() {
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //Adds the Logo of the business
         ImageIcon logo = new ImageIcon(getClass().getResource("/Images/NEA Logo.png"));
         Logo.setIcon(logo);
     }

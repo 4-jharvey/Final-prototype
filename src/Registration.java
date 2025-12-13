@@ -25,8 +25,10 @@ public class Registration extends javax.swing.JFrame {
     public Registration(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        //Adds the additional player boxes to the JFrame
         playerReg.setLayout(new BoxLayout(playerReg, BoxLayout.Y_AXIS));
         getContentPane().add(playerReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 340, 300));
     }
@@ -63,8 +65,8 @@ public class Registration extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 210, 50));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Team name/Username");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 50));
+        jLabel3.setText("Team name");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, 50));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Number of players");
@@ -161,11 +163,13 @@ public class Registration extends javax.swing.JFrame {
             
             ResultSet rs = ps.getGeneratedKeys();
             
+            //sets up Team IDs
             int teamID = 0;
             if(rs.next()){
                 teamID = rs.getInt(1);
             }
             
+            //Checks all player boxes for user names and inserts ir inro the database
             for (Component player : playerReg.getComponents()){
                 if(player instanceof JTextField){
                     JTextField text = (JTextField) player;
@@ -195,13 +199,13 @@ public class Registration extends javax.swing.JFrame {
         playerReg.removeAll();
         
         int Players = 0;
-        
+        //this gets the number inputted into this box
         try{
             Players = Integer.parseInt(NumOfPlayers.getText());
         } catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "please enter valid number");
         }
-        
+        // creates additionalboxes to input Username into
         for(int i = 0; i < Players; i++){
             JTextField player = new JTextField ();
             player.setName("Player" + i);

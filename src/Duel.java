@@ -13,6 +13,7 @@ public class Duel extends javax.swing.JFrame {
     public Duel(int tournamentID) {
         this.tournamentID = tournamentID;
         initComponents();
+        //JFrame fills the screen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         currentMatch();
