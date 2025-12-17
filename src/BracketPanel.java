@@ -56,11 +56,13 @@ public class BracketPanel extends JPanel {
                 if(teamB == null){
                     teamB = "";                    
                 }
-               
+                
+                //gives the recieved data is turned into variables
                 String winnerID = rs.getString("Winner");
                 String teamAID = rs.getString("TeamAID");
                 String teamBID = rs.getString("TeamBID");
-
+                
+                //selects the winner depending on who the winner Id matches to
                 String winner = " ";
                 if(winnerID == teamAID){
                     winner = teamAID;
@@ -87,24 +89,27 @@ public class BracketPanel extends JPanel {
 
     // this is used to draw the bracket
     public static class BracketPane extends JPanel {
-
+        
         private final Map<Integer, List<Match>> winnerRounds = new HashMap<>();
         private final List<Match> finale = new ArrayList<>();
-
+        
         public BracketPane(List<Match> matches) {
-
+            
+            //loops for every match in the list
             for (Match match : matches) {
+                //in case it is the finale round
                 if(match.round == 0 || match.round == 100){                      
                         finale.add(match);
                         
                 }
                 else{
+                    //finds out how many matches there will be per round
                     List<Match> matchesPerRound = winnerRounds.get(match.round);
                     if(matchesPerRound == null){
                         matchesPerRound = new ArrayList<>();
                         winnerRounds.put(match.round, matchesPerRound);
                     }
-                        
+                        //adds the matches to new list
                         matchesPerRound.add(match);
  
                 }
@@ -112,22 +117,24 @@ public class BracketPanel extends JPanel {
             }
         }
 
-        
+        //this is what starts to draw the visual bracket
         @Override
         protected void paintComponent(Graphics graphic) {
             super.paintComponent(graphic);
             Graphics2D graphic2 = (Graphics2D) graphic;
-
+            
+            //size of each box and spacing between boxes
             int boxWidth = 140;
             int boxHeight = 30;
             int horizontalSpacing = 150;
             int verticalSpacing = 60;
             
+            //starting X and Y point
             int startX = 40;
             int startY = 80;
             
             int maxMatches = 1;
-            
+            // finds out how many rounds there will be in the bracket
             for(List<Match> roundList : winnerRounds.values()){
                 int size = roundList.size();
                 if(size > maxMatches){
@@ -136,21 +143,23 @@ public class BracketPanel extends JPanel {
             
             }
             
+            //draws the bracket
             drawBracket(graphic2, winnerRounds, startX, startY, boxWidth, boxHeight, horizontalSpacing, verticalSpacing);
             
-            
+            //draws the final box that shows the final winner
             drawFinale(graphic2, finale, startX, boxWidth, boxHeight, verticalSpacing, horizontalSpacing);
             
         }
         
+        //method draws the bracket
         private void drawBracket(Graphics2D graphic2, Map<Integer, List<Match>> rounds, int startX, int startY, int boxWidth, int boxHeight, int horizontalSpacing, int verticalSpacing){
-            
+            // gets the number of rounds and sorts it
             List<Integer> roundList = new ArrayList<>(rounds.keySet());
             Collections.sort(roundList);
             
             Map<Integer, List<Integer>> matchCentre = new HashMap<>();
             Map<Integer, Integer> roundX = new HashMap<>();
-
+                //loops the code for how many rounds there are
                 for (int roundIndex = 0; roundIndex < roundList.size(); roundIndex++) {
                     int roundKey = roundList.get(roundIndex);
                     List<Match> matchRound = rounds.get(roundKey);
@@ -241,68 +250,83 @@ public class BracketPanel extends JPanel {
                     
                 }                  
         }
-
+        //draws the finale box
         private void drawFinale(Graphics2D graphic2, List<Match> finale, int startX, int boxWidth, int boxHeight, int verticalSpacing, int horizontalSpacing){
             
+            //if there is no final winner yet
             if(finale.isEmpty()){
                 return;
             }
             
+            //gets the panel's measurements
             int screenWidth = getWidth();
             int centreX = screenWidth / 2 - boxWidth / 2;
             int centreY = (getPreferredSize().height / 2) - 700;
             
+            //loops through the code in case the final winner is changed
             for (Match finals : finale){
                 
+                //in case there is no final winner
                 if(finals.winner == null || finals.winner.isEmpty())
                     continue;                
                 
+                //draws the finale box with team name inside
                 graphic2.drawRect(centreX, centreY + boxHeight, boxWidth, boxHeight);
                 graphic2.drawString("Winner: " + finals.winner, centreX + 5, centreY + boxHeight + 18);
                 
             }
             
         }
-        
+        // draw connector lines between boxes
         private void drawConnector(Graphics2D graphic2, int prevY, int prevLeft, int currentLeft, int nextY, int boxWidth) {
             
-            
+            //obtains X values needed to draw connnectors
             int prevRX = prevLeft + boxWidth;
             int midX = (prevRX + currentLeft) / 2;
             
+            //draws the lines for the connector
             graphic2.drawLine(prevRX, prevY, midX, prevY);
             graphic2.drawLine(midX, prevY, midX, nextY);
             graphic2.drawLine(midX, nextY, currentLeft, nextY);
             
+            // debugging statement to make sure connectors go to the right place
             System.out.printf("Connector prevRightX to midX to currLeftX, prevY to nextY", prevRX, midX, currentLeft, prevY, nextY);
 
 
 
         }
         
+        //gets the size for the panel to be
         @Override
         public Dimension getPreferredSize() {
+            //dimensions for boxes
             int boxHeight = 30;
             int verticalSpacing = 60;
             int horizontalSpacing = 150;
             
+            //amount of rounds and matches that will happen
             int roundsMax = winnerRounds.keySet().size() + (finale.isEmpty() ? 0 : 1);
             int matchesMax = getmatchesPerRound();
             
+            //gets the height and width box should be
             int width = roundsMax * horizontalSpacing + 300;
             int height = matchesMax * (boxHeight + verticalSpacing) + 200;
             
+            //debugging statement
             System.out.println("Height = " + height);
             
+            //Dimensions, hardcoded height as height value was not working no matter what
             return new Dimension(width, 2000);
         }
         
+        //get the amount of matches per round
         private int getmatchesPerRound(){
             int maximum = 0;
-            
+            //for the barcket
             for(List<Match> matches : winnerRounds.values()){
                 maximum = Math.max(maximum, matches.size());
             }
+            //for the finale box
             if(finale.isEmpty()){
                 maximum = Math.max(maximum, finale.size());
             }
@@ -314,13 +338,14 @@ public class BracketPanel extends JPanel {
     
     }
 
-
+    //creates the panel that holds the bracket in
     public static JPanel getBracketPanel(int tournamentID) {
 
         BracketPanel tempPanel = new BracketPanel();
         java.util.List<Match> matches = tempPanel.loadMatches(tournamentID);
         return new BracketPane(matches);
     }
-
+    
+    //so the panel an be called upon
     public BracketPanel() {}
 }
