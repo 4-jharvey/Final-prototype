@@ -153,96 +153,109 @@ public class BracketPanel extends JPanel {
         
         //method draws the bracket
         private void drawBracket(Graphics2D graphic2, Map<Integer, List<Match>> rounds, int startX, int startY, int boxWidth, int boxHeight, int horizontalSpacing, int verticalSpacing){
-            // gets the number of rounds and sorts it
+            // gets the all of the rounds and sorts it
             List<Integer> roundList = new ArrayList<>(rounds.keySet());
             Collections.sort(roundList);
             
+            //stores the vertical positions of matches
             Map<Integer, List<Integer>> matchCentre = new HashMap<>();
+            //stores x co-ordinate of each box
             Map<Integer, Integer> roundX = new HashMap<>();
-                //loops the code for how many rounds there are
+                //loops the code for each round
                 for (int roundIndex = 0; roundIndex < roundList.size(); roundIndex++) {
                     int roundKey = roundList.get(roundIndex);
                     List<Match> matchRound = rounds.get(roundKey);
                     int xStartPoint = startX + roundIndex * horizontalSpacing;
                     
+                    //if no matches exist in round go to next
                     if (matchRound == null || matchRound.isEmpty()){
                         matchCentre.put(roundKey, new ArrayList<>());
                         roundX.put(roundKey, startX + roundIndex * horizontalSpacing);
                         continue;
                     }
                     
+                    //sorts matches in round by matchID
                     matchRound.sort(Comparator.comparingInt(match -> match.matchID));
                     
+                    //holds vertical position of matches in specific round
                     List<Integer> centres = new ArrayList<>();                    
                     roundX.put(roundKey, xStartPoint);
-                    
+                    //loops through matches in round
                     for(int i = 0; i < matchRound.size(); i++){
                         Match match = matchRound.get(i);
-                        int y;
-                        int centreY;
-                                                
+                        int y; //top of the match box
+                        int centreY; // vertical centre of the match box
+                        //after first rounds matches are aligned based on previous centres
                         if(roundIndex > 0){
                             int indexA = i * 2;
                             int indexB = i * 2 + 1;
                             
                             List<Integer> prevCentre = matchCentre.get(roundList.get(roundIndex - 1));
-                            
+                            //makes sure both matches exist
                             if(prevCentre != null && indexA < prevCentre.size() && indexB < prevCentre.size()){
+                                //centre match between them
                                 int indexAY = prevCentre.get(indexA);
                                 int indexBY = prevCentre.get(indexB);
                                 centreY = (indexAY + indexBY) / 2;
                                 y = centreY - boxHeight;
-                                 
+                                 //if not it is placed sequentially + spacing
                             } else{
                                 y = startY + i * (boxHeight * 2 + verticalSpacing);
                                 centreY = y + boxHeight;
                             }
                         } else{
+                            //this is when it is the first round, also places them sequentially with spacing
                             y = startY + i * (boxHeight * 2 + verticalSpacing);
                             centreY = y + boxHeight;
                         }
                         
+                        //draws boxes
                         if(match.teamB == null || match.teamB.isEmpty()){
+                            //this is for when there is an odd number of teams
                             graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
                             graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
-                            
+                            // centre is halfway through the box
                             centreY = y + boxHeight / 2;
                             
                         }else{
+                            //draws for when there are two teams
                             graphic2.drawRect(xStartPoint, y, boxWidth, boxHeight);
                             graphic2.drawString(match.teamA, xStartPoint + 5, y + 18);
 
                             graphic2.drawRect(xStartPoint, y + boxHeight, boxWidth, boxHeight);
                             graphic2.drawString(match.teamB, xStartPoint + 5, y + boxHeight + 18);
                             
+                            //centre between boxes
                             centreY = y + boxHeight;
                         }
-                                             
+                        //stores the vertical for the match
                         centres.add(centreY);
                     }
+                    //saves all centres for the matches
                     matchCentre.put(roundKey, centres); 
                 }
-                
+                //this draws the connectors between boxes
                 for(int roundIndex = 1; roundIndex < roundList.size(); roundIndex++){
                     int prevRound = roundList.get(roundIndex - 1);
                     int currentRound = roundList.get(roundIndex);
                     
                     List<Integer> prevCentre = matchCentre.get(prevRound);
                     List<Integer> currentCentre = matchCentre.get(currentRound);
+                    //in case there are no centres
                     if(prevCentre == null || currentCentre == null)
                         continue;
                     
                     int prevLeft = roundX.get(prevRound);
                     int currentLeft = roundX.get(currentRound);
-                        
+                    //connects every current match to its previous match
                     for(int i = 0; i < currentCentre.size(); i++){
                         int nextY = currentCentre.get(i);
                         int indexA = i * 2;
                         int indexB = i * 2 + 1;
-                            
+                        //connect previous match A to current match
                         if(indexA >= 0 && indexA < prevCentre.size()){
                             drawConnector(graphic2, prevCentre.get(indexA), prevLeft, currentLeft, nextY, boxWidth);
-                        }
+                        }//connect previous match B to current match
                         if(indexB >= 0 && indexB < prevCentre.size()){
                             drawConnector(graphic2, prevCentre.get(indexB), prevLeft, currentLeft, nextY, boxWidth);
                         }
