@@ -32,6 +32,9 @@ public class Leaderboard extends javax.swing.JFrame {
         
         //adds the button JPanel to the JFrame
         getContentPane().add(button, BorderLayout.SOUTH);
+        
+        //this calls upon the create leaderboard method
+        createLeaderboard();
     }
     
 
