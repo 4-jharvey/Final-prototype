@@ -51,7 +51,6 @@ public class Leaderboard extends javax.swing.JFrame {
         BackToBracket = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         BackToBracket.setText("Back to Bracket");
         BackToBracket.addActionListener(new java.awt.event.ActionListener() {
@@ -59,7 +58,7 @@ public class Leaderboard extends javax.swing.JFrame {
                 BackToBracketActionPerformed(evt);
             }
         });
-        getContentPane().add(BackToBracket, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, 190, 50));
+        getContentPane().add(BackToBracket, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -100,12 +99,13 @@ public class Leaderboard extends javax.swing.JFrame {
                 teams.putIfAbsent(teamB, teamNames(connect, teamB));
                 
                 //Updates the number of wins depending on who won the match
-                if(winner.equals(teams.get(teamA))){
-                    wins.put(teamA, wins.getOrDefault(teamA, 0) + 1);
-                } else if(winner.equals(teams.get(teamB))){
-                    wins.put(teamB, wins.getOrDefault(teamB, 0) + 1);
-                }    
-                
+                if(winner != null){
+                    if(winner.equals(teams.get(teamA))){
+                        wins.put(teamA, wins.getOrDefault(teamA, 0) + 1);
+                    } else if(winner.equals(teams.get(teamB))){
+                        wins.put(teamB, wins.getOrDefault(teamB, 0) + 1);
+                    }    
+                }
                 //adds the score of each game in case of a tie in wins
                 points.put(teamB, points.getOrDefault(teamB, 0) + scoreB);
                 points.put(teamA, points.getOrDefault(teamA, 0) + scoreA);
@@ -155,7 +155,6 @@ public class Leaderboard extends javax.swing.JFrame {
             
             //Adds the JPanel to a Scroll Pane and the scroll pane to the JFrame
             JScrollPane scroll = new JScrollPane(BoardPanel);
-            getContentPane().setLayout(new BorderLayout());
             getContentPane().add(scroll, BorderLayout.CENTER);
             
             revalidate();
