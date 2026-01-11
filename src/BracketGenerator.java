@@ -64,7 +64,7 @@ public class BracketGenerator {
                     
                     String game = null;
                     if(rsTime.next()){
-                        game = rs.getString("GameTitle");
+                        game = rsTime.getString("GameTitle");
                     }
                     
                     int time = 30;

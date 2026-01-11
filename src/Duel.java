@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDateTime;
 import javax.swing.JFrame;
 
 public class Duel extends javax.swing.JFrame {
@@ -151,6 +152,7 @@ public class Duel extends javax.swing.JFrame {
         TeamB = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         TeamAStats = new javax.swing.JTextArea();
+        endMatch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -202,6 +204,14 @@ public class Duel extends javax.swing.JFrame {
         jScrollPane2.setViewportView(TeamAStats);
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 240, 300));
+
+        endMatch.setText("End Match");
+        endMatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endMatchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(endMatch, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, 280, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -262,6 +272,57 @@ public class Duel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TeamBActionPerformed
 
+    private void endMatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endMatchActionPerformed
+        try (Connection connect = DatabaseConnection.getConnection()){
+            
+            int teamAScore = getScore(connect, matchID, "TeamA_Score");
+            int teamBScore = getScore(connect, matchID, "TeamB_Score");
+            
+            String sqlUpdate = "UPDATE Duel SET Winner = ?, TeamB_Score = ?, TeamA_Score = ? WHERE MatchID = ?";
+            PreparedStatement psUpdate = connect.prepareStatement(sqlUpdate);
+            psUpdate.setInt(1, );
+            psUpdate.setInt(2, teamAScore);
+            psUpdate.setInt(3, teamBScore);
+            psUpdate.setInt(4, matchID);
+            psUpdate.executeUpdate();
+            
+            
+            LocalDateTime current = LocalDateTime.now();
+            updateSchedule(connect, tournamentID, matchID, current);
+            
+            this.dispose();
+            new Duel(tournamentID).setVisible(true);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error has occurred " + ex.getMessage());
+        }
+    }//GEN-LAST:event_endMatchActionPerformed
+    
+    private void updateSchedule (Connection connect, int tournamentID, int matchID, LocalDateTime time) throws SQLException{
+        String sqlMatch = "SELECT MatchID FROM Duel WHERE TournamentID = ? AND MatchID > ? ORDER BY MatchID ASC LIMIT 1";
+        PreparedStatement psMatch = connect.prepareStatement(sqlMatch);
+        psMatch.setInt(1, tournamentID);
+        psMatch.setInt(2, matchID);
+        ResultSet rs = psMatch.executeQuery();
+        
+        if (rs.next()){
+            int nextMatch = rs.getInt("MatchID");
+            
+            String sqlUpdate = "UPDATE Schedule SET Time = ? WHERE MatchID = ?";
+            PreparedStatement psUpdate = connect.prepareStatement(sqlUpdate);
+            psUpdate.setTimestamp(1, Timestamp.valueOf(time));
+            psUpdate.setInt(2, nextMatch);
+            psUpdate.executeUpdate();
+        }
+    }
+    
+   private int getScore(Connection connect, int matchID, String team) throws SQLException{
+       String sqlScore = "SELECT " + team + " FROM Duel WHERE MatchID = ?";
+       PreparedStatement psScore = connect.prepareStatement(sqlScore);
+       psScore.setInt(1, matchID);
+       ResultSet rs = psScore.executeQuery();
+       return rs.next() ? rs.getInt(1) : 0;
+   }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddPointA;
     private javax.swing.JButton AddPointB;
@@ -270,6 +331,7 @@ public class Duel extends javax.swing.JFrame {
     private javax.swing.JTextArea TeamAStats;
     private javax.swing.JTextField TeamB;
     private javax.swing.JTextArea TeamBStats;
+    private javax.swing.JButton endMatch;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
