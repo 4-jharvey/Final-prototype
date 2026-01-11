@@ -109,7 +109,7 @@ public class ScheduleGenerator extends JPanel{
     
     //turn the scheudle into a scroll pane
     public static JScrollPane createSchedule(List<matchInfo> schedule){
-        ScheduleGenerator schedulePane = new ScheduleGenerator(schedule);
+        ScheduleGenerator schedulePane = new ScheduleGenerator(schedule) ;
         return new JScrollPane(schedulePane);
     }
     
