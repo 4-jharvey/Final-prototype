@@ -56,50 +56,8 @@ public class BracketGenerator {
                 if(rsKeys.next()){
                     int matchID = rsKeys.getInt(1);
                     
-                    //changes the timings depending on the game
-                    String sqlTime = "SELECT GameTitle FROM Tournament WHERE TournamentID = ?";
-                    PreparedStatement psTime = connect.prepareStatement(sqlTime);
-                    psTime.setInt(1, tournamentID);
-                    ResultSet rsTime = psTime.executeQuery();
-                    
-                    String game = null;
-                    if(rsTime.next()){
-                        game = rsTime.getString("GameTitle");
-                    }
-                    
-                    int time = 30;
-                    
-                    if (game != null){
-                        switch(game){
-                            case "Valorant":
-                                time = 50;
-                                break;
-                            case "CSGO":
-                                time = 50;
-                                break;
-                            case "Rocket League":
-                                time = 10;
-                                break;
-                            case "Rainbow Six Siege":
-                                time = 40;
-                                break;
-                        }
-                            
-                    }
                     //Timings for the matches
-                    LocalDateTime matchTime = LocalDateTime.now().plusMinutes(time);
-                    //5 minute break between matches
-                    matchTime = matchTime.plusMinutes(5);
-                    
-                    //Timings for a Lunch Break
-                    LocalTime lunchStart = LocalTime.of(12, 0);
-                    LocalTime lunchEnd = LocalTime.of(13, 0);
-                    
-                    LocalTime matchEnd = matchTime.toLocalTime();
-                    //If match is during lunch then it has to start after 13:00
-                    if(matchEnd.isAfter(lunchStart) && matchEnd.isBefore(lunchEnd)){
-                        matchTime = LocalDateTime.of(matchTime.toLocalDate(), lunchEnd);
-                    }
+                    LocalDateTime matchTime = LocalDateTime.now().plusMinutes(30);
                     insertSchedule(connect, tournamentID, matchID, matchTime);
                 }
                 
