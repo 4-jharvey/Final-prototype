@@ -99,6 +99,7 @@ public class Registration extends javax.swing.JFrame {
         });
         getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 340, 70));
 
+        NumOfPlayers.setText("Press Enter once after inputting number");
         NumOfPlayers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NumOfPlayersActionPerformed(evt);
